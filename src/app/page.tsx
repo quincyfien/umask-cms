@@ -1,69 +1,85 @@
-import Image from "next/image";
+import Link from "next/link";
+import { prisma } from "@/lib/db";
+import { getOrganization } from "@/lib/organization";
+import ContentCard from "@/components/public/ContentCard";
+import { formatDateTime } from "@/lib/format";
 
-export default function Home() {
+export default async function Home() {
+  const org = await getOrganization();
+
+  const [programs, events, news] = await Promise.all([
+    prisma.contentItem.findMany({
+      where: { type: "PROGRAM", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      include: { category: true },
+    }),
+    prisma.contentItem.findMany({
+      where: { type: "EVENT", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null, startAt: { gte: new Date() } },
+      orderBy: { startAt: "asc" },
+      take: 3,
+      include: { category: true },
+    }),
+    prisma.contentItem.findMany({
+      where: { type: "NEWS", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      include: { category: true },
+    }),
+  ]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      <section className="bg-charcoal py-20 text-white">
+        <div className="mx-auto max-w-6xl px-4">
+          <h1 className="text-4xl font-bold">{org.name}</h1>
+          <p className="mt-3 text-lg text-brand">{org.description}</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      <div className="mx-auto max-w-6xl space-y-12 px-4 py-12">
+        {programs.length > 0 && (
+          <section>
+            <h2 className="mb-4 text-xl font-semibold">Programs</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {programs.map((p) => (
+                <ContentCard key={p.id} item={p} href={`/programs/${p.slug}`} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {events.length > 0 && (
+          <section>
+            <h2 className="mb-4 text-xl font-semibold">Upcoming Events</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {events.map((e) => (
+                <div key={e.id} className="rounded-lg border border-gray-200 bg-white p-5">
+                  <h3 className="font-semibold">
+                    <Link href={`/events/${e.slug}`} className="hover:text-brand">
+                      {e.title}
+                    </Link>
+                  </h3>
+                  {e.startAt && (
+                    <p className="mt-1 text-xs text-gray-500">{formatDateTime(e.startAt)}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {news.length > 0 && (
+          <section>
+            <h2 className="mb-4 text-xl font-semibold">Latest News</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {news.map((n) => (
+                <ContentCard key={n.id} item={n} href={`/news/${n.slug}`} showDate />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,8 +7,489 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+// ===== Enums =====
+
+enum ContentType {
+  SERVICE
+  PROGRAM
+  PROJECT
+  EVENT
+  NEWS
+  RESOURCE
+  PAGE
+}
+
+enum ContentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentTemplate {
+  DEFAULT
+  FULL_WIDTH
+  LANDING_PAGE
+  NEWS_ARTICLE
+}
+
+enum ProgramStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CLOSED
+}
+
+enum ProjectStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+}
+
+enum EventKind {
+  EVENT
+  WORKSHOP
+}
+
+enum LocationType {
+  PHYSICAL
+  ONLINE
+  HYBRID
+}
+
+enum StaffStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING
+}
+
+enum MediaStatus {
+  PENDING
+  AVAILABLE
+  QUARANTINED
+  SCAN_FAILED
+}
+
+enum MediaAccess {
+  PRIVATE
+  PUBLIC
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  RESOLVED
+}
+
+enum NewsletterStatus {
+  PENDING
+  ACTIVE
+  UNSUBSCRIBED
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  DONE
+  DEAD
+}
+
+enum AuditStatus {
+  SUCCESS
+  DENIED
+  ERROR
+}
+
+enum PrivacyRequestType {
+  ACCESS
+  EXPORT
+  DELETE
+}
+
+enum PrivacyRequestStatus {
+  OPEN
+  DONE
+  REJECTED
+}
+
+// ===== Identity / access =====
+
+model Staff {
+  id                String     @id @default(uuid())
+  email             String     @unique
+  name              String
+  passwordHash      String
+  status            StaffStatus @default(PENDING)
+  isSuperAdmin      Boolean    @default(false)
+  recoveryCodeHash  String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  deletedAt         DateTime?
+
+  sessions          Session[]
+  roles             StaffRole[]
+  permissions       StaffPermission[]
+  authoredContent   ContentItem[] @relation("ContentAuthor")
+  reviewedContent   ContentItem[] @relation("ContentReviewer")
+
+  @@index([status])
+}
+
+model Permission {
+  key         String   @id
+  description String
+  roles       RolePermission[]
+  staff       StaffPermission[]
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  permissions RolePermission[]
+  staff       StaffRole[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [key], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model StaffRole {
+  staffId String
+  roleId  String
+  staff   Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  role    Role  @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, roleId])
+}
+
+model StaffPermission {
+  staffId      String
+  permissionId String
+  staff        Staff      @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [key], onDelete: Cascade)
+
+  @@id([staffId, permissionId])
+}
+
+model Session {
+  id             String   @id @default(uuid())
+  staffId        String
+  tokenHash      String   @unique
+  ip             String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime
+  idleExpiresAt  DateTime
+  lastSeenAt     DateTime @default(now())
+
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId])
+}
+
+model Token {
   id        String   @id @default(uuid())
-  email     String   @unique
+  purpose   String
+  tokenHash String   @unique
+  email     String?
+  staffId   String?
+  payload   String?
+  expiresAt DateTime
+  usedAt    DateTime?
   createdAt DateTime @default(now())
+
+  @@index([purpose, expiresAt])
+}
+
+// ===== Organization =====
+
+model OrganizationSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// ===== Content =====
+
+model Category {
+  id          String      @id @default(uuid())
+  type        ContentType
+  name        String
+  slug        String
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  contents    ContentItem[]
+
+  @@unique([type, slug])
+  @@index([type])
+}
+
+model ContentItem {
+  id             String         @id @default(uuid())
+  type           ContentType
+  title          String
+  slug           String
+  summary        String?
+  body           String?
+  categoryId     String?
+  category       Category?      @relation(fields: [categoryId], references: [id])
+  tags           String[]       @default([])
+  featuredImageId String?
+  attachmentIds  String[]       @default([])
+  status         ContentStatus  @default(DRAFT)
+  publishedAt    DateTime?
+  scheduledAt    DateTime?
+  authorId       String?
+  author         Staff?         @relation("ContentAuthor", fields: [authorId], references: [id])
+  reviewerId     String?
+  reviewer       Staff?         @relation("ContentReviewer", fields: [reviewerId], references: [id])
+  rejectionNotes String?
+  metaTitle      String?
+  metaDescription String?
+  canonicalUrl   String?
+  ogImageId      String?
+  noIndex        Boolean        @default(false)
+  readingTimeMinutes Int        @default(0)
+  isFeatured     Boolean        @default(false)
+  isPinned       Boolean        @default(false)
+  accessLevel    String         @default("STAFF_ONLY")
+  version        Int            @default(1)
+  template       ContentTemplate @default(DEFAULT)
+
+  programStatus  ProgramStatus?
+  projectStatus  ProjectStatus?
+  eventKind      EventKind?
+  startAt        DateTime?
+  endAt          DateTime?
+  locationType   LocationType?
+  venueAddress   String?
+  onlineLink     String?
+  registrationEnabled Boolean @default(false)
+  capacity       Int?
+  excerpt        String?
+
+  details        Json?
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+
+  versions       ContentVersion[]
+
+  @@unique([type, slug])
+  @@index([type, status])
+  @@index([status, publishedAt])
+  @@index([categoryId])
+}
+
+model ContentVersion {
+  id          String   @id @default(uuid())
+  contentId   String
+  content     ContentItem @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  version     Int
+  title       String
+  body        String?
+  summary     String?
+  snapshot    Json
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  @@unique([contentId, version])
+}
+
+// ===== Events =====
+
+model Registration {
+  id        String   @id @default(uuid())
+  eventId   String
+  fullName  String
+  email     String
+  phone     String?
+  consentGiven  Boolean @default(false)
+  consentAt     DateTime?
+  policyVersion String?
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, email])
+  @@index([eventId])
+}
+
+// ===== Applications =====
+
+model Application {
+  id             String            @id @default(uuid())
+  programId      String
+  reference      String            @unique
+  fullName       String
+  email          String
+  phone          String?
+  institution    String?
+  position       String?
+  applicantType  String
+  motivation     String
+  status         ApplicationStatus @default(SUBMITTED)
+  reviewerId     String?
+  reviewNotes    String?
+  consentGiven   Boolean           @default(false)
+  consentAt      DateTime?
+  policyVersion  String?
+  submittedAt    DateTime          @default(now())
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  deletedAt      DateTime?
+
+  documents ApplicationDocument[]
+
+  @@unique([programId, email])
+  @@index([programId, status])
+}
+
+model ApplicationDocument {
+  id            String  @id @default(uuid())
+  applicationId String?
+  application   Application? @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  draftId       String?
+  fileId        String?
+  fileName      String
+  mimeType      String
+  size          Int
+  createdAt     DateTime @default(now())
+
+  @@index([draftId])
+}
+
+// ===== Media =====
+
+model MediaAsset {
+  id            String      @id @default(uuid())
+  key           String      @unique
+  fileName      String
+  mimeType      String
+  size          Int
+  status        MediaStatus @default(PENDING)
+  access        MediaAccess @default(PRIVATE)
+  scanEngine    String?
+  threatName    String?
+  scanTimestamp DateTime?
+  ownerId       String?
+  uploadedAt    DateTime    @default(now())
+  deletedAt     DateTime?
+
+  @@index([status])
+}
+
+// ===== Communication =====
+
+model ContactMessage {
+  id          String        @id @default(uuid())
+  fullName    String
+  email       String
+  subject     String
+  message     String
+  status      ContactStatus @default(NEW)
+  resolvedAt  DateTime?
+  consentGiven Boolean @default(false)
+  consentAt   DateTime?
+  policyVersion String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model NewsletterSubscription {
+  id            String           @id @default(uuid())
+  email         String
+  emailNormalized String
+  status        NewsletterStatus @default(PENDING)
+  consentAt     DateTime?
+  confirmedAt   DateTime?
+  unsubscribedAt DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([emailNormalized])
+  @@index([status])
+}
+
+// ===== Jobs / audit / settings =====
+
+model Job {
+  id        String    @id @default(uuid())
+  type      String
+  payload   Json?
+  runAt     DateTime  @default(now())
+  status    JobStatus @default(PENDING)
+  attempts  Int       @default(0)
+  maxAttempts Int     @default(3)
+  lastError String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([status, runAt])
+}
+
+model AuditLog {
+  id           String      @id @default(uuid())
+  timestamp    DateTime    @default(now())
+  actorId      String?
+  actorIp      String?
+  userAgent    String?
+  action       String
+  targetResource String?
+  status       AuditStatus @default(SUCCESS)
+  metadata     Json?
+
+  @@index([action, timestamp])
+  @@index([actorId, timestamp])
+}
+
+model SystemSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model PrivacyRequest {
+  id        String              @id @default(uuid())
+  type      PrivacyRequestType
+  requesterEmail String
+  reference String
+  status    PrivacyRequestStatus @default(OPEN)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+}
+
+model IdempotencyKey {
+  key       String   @id
+  target    String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model RateLimitBucket {
+  id          String   @id @default(uuid())
+  key         String
+  windowStart DateTime
+  count       Int      @default(0)
+
+  @@unique([key, windowStart])
 }
