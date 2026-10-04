@@ -1,0 +1,770 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Bamenda Tech Research Center (BTRC) | Practical Innovation &amp; Scientific Engineering</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              emerald: '#1da86d',
+              emeraldDark: '#137a4e',
+              emeraldGlow: 'rgba(29, 168, 109, 0.2)',
+              charcoal: '#0c131f',
+              slate: '#475569',
+              cream: '#fbfbfa',
+              bone: '#f4f4f2',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          },
+          letterSpacing: {
+            'super-wide': '0.22em',
+            'editorial': '0.12em',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Layout & Slide Physics Styles -->
+<style data-purpose="scroll-behavior">
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: #0c131f;
+      color: #0c131f;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* SpaceX-style Full Page Snap Container */
+    .snap-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    .snap-slide {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Precision Glassmorphism */
+    .glass-surface {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+    
+    .glass-surface-dark {
+      background: rgba(12, 19, 31, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    /* Minimal Custom Scrollbar */
+    .snap-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    .snap-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    .snap-container::-webkit-scrollbar-thumb {
+      background: rgba(29, 168, 109, 0.4);
+      border-radius: 9999px;
+    }
+  </style>
+<style data-purpose="animations">
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 0.35; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.35); }
+    }
+    .pulse-line {
+      animation: pulseSoft 2.4s ease-in-out infinite;
+    }
+    .hero-glow {
+      box-shadow: 0 0 35px -5px rgba(29, 168, 109, 0.35);
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-emerald selection:text-white antialiased">
+<!-- BEGIN: FixedHeader -->
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-surface-dark text-white" data-purpose="main-navigation" id="site-header">
+<div class="max-w-7xl mx-auto px-6 py-4 lg:py-5 flex items-center justify-between">
+<!-- Brand Identity / Logo -->
+<a class="flex items-center gap-3.5 group" href="#slide-1">
+<img alt="Bamenda Tech Research Center Logo" class="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOLv4jubobln472MCGoFZTgw1WHTKDhb9HRl9LeJoiJccWWoGNbQ4VynJNt7_MEurMSDkMPQVhJmH_Ul6tB4SEuHX6tjjer-tq8smmVdCeuMZV5LqijY5MSgeSwD2XAQedBb_r429Aw7K0mqwCDLW9lOn8szemOuo-lBgHiDWcTf-DInBr5nbAP7C5SJ-ySrl_ky2m5IJWM2l42vT7CBK_9VZQ8wx7m4HjhSC9Y6_d-TIXEU5lTcAclOoK0IG_vYyZ59I">
+<span class="sr-only">Bamenda Tech Research Center (BTRC)</span>
+</a>
+<!-- Center Navigation Links (from wireframe) -->
+<nav aria-label="Main Editorial Navigation" class="hidden lg:flex items-center gap-6 xl:gap-8 text-[11px] font-semibold tracking-super-wide uppercase text-white/90">
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-1">Home</a>
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-4">Services</a>
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-5">Programs</a>
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-5">Projects</a>
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-6">EVENTS &amp; WORKSHOPS</a>
+<a class="hover:text-brand-emerald transition-colors duration-200" href="#slide-6">News</a>
+</nav>
+<!-- Right Action CTAs & Quick Status -->
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-brand-emerald/20 text-brand-emerald text-[10px] font-mono tracking-wider font-semibold">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-emerald animate-ping"></span>
+
+</div>
+<a class="inline-flex items-center justify-center text-[10px] md:text-[11px] tracking-super-wide uppercase font-semibold text-white bg-brand-charcoal hover:bg-brand-emerald px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm border border-white/20 hover:border-brand-emerald" href="#site-footer">
+          Inquire
+        </a>
+<!-- Mobile Menu Toggle Button -->
+<button aria-expanded="false" aria-label="Toggle Navigation Menu" class="lg:hidden p-2 text-white focus:outline-none" id="mobile-nav-toggle">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden lg:hidden glass-surface-dark border-t border-white/10 px-6 py-6 transition-all duration-300 shadow-2xl" id="mobile-menu">
+<nav class="flex flex-col space-y-4 text-xs font-semibold tracking-super-wide uppercase text-white">
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-1">Home</a>
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-2">Mission</a>
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-3">Focus Areas</a>
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-4">Services</a>
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-5">Programs &amp; Projects</a>
+<a class="py-2 hover:text-brand-emerald mobile-nav-link" href="#slide-6">Events &amp; Workshops</a>
+</nav>
+</div>
+</header>
+<!-- END: FixedHeader -->
+<!-- BEGIN: VerticalSlideDeck -->
+<main class="snap-container" data-purpose="fullbleed-editorial-scroller" id="editorial-deck">
+<!-- BEGIN: Slide 1 - Hero -->
+<section class="snap-slide w-full flex items-end justify-center relative overflow-hidden bg-brand-charcoal" data-purpose="hero-cleanroom" id="slide-1">
+<!-- Background Cleanroom Imagery (EXACT same as SCREEN_8: IMAGE_11) -->
+<div class="absolute inset-0 z-0">
+<img alt="High-tech cleanroom engineering lab in Cameroon, African scientists and roboticists working on green circuit boards and telemetry hardware" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000 ease-out" src="https://lh3.googleusercontent.com/aida/AEtjO1WBT-x_CqYJG7-RUC3M_b1ZMXXAUbkOKZYxp_BqHWGBY7XwLz6wt47TyF9MKNcPtPedawwrfirPGcudh4WqCHKvz_BPd-ckeQZ1XypQKLCn9Jt3WwtFMoOVPEU4ARPv_DZulx-1N5L_gr1FVo49_wkAVlnswTPMJ1QJmHT1hQl8rri_VV2fgMbcj17YICtuwt3erqX3H7LUekT_6VRfqLNWYmze0NxMhxjI_QRx2Q1zYjiIkcrCyp4qEg4">
+<!-- Cinematic Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/35"></div>
+<div class="absolute inset-0 bg-brand-emerald/10 mix-blend-color"></div>
+</div>
+<!-- Hero Editorial Body -->
+<div class="relative z-10 max-w-7xl w-full mx-auto px-6 pb-16 md:pb-24 pt-32 flex flex-col justify-end">
+<!-- Eyebrow Meta Tag from Mockup -->
+<div class="flex items-center gap-3 mb-5">
+<span class="inline-block h-px w-8 bg-brand-emerald"></span>
+<span class="text-brand-emerald font-mono text-[11px] md:text-xs tracking-super-wide uppercase font-semibold">
+          Research. Innovate. Build. Sustain.
+        </span>
+</div>
+<!-- Primary Statement Headline -->
+<h1 class="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-5xl leading-[1.08] mb-6 drop-shadow-sm">TURNING IDEAS INTO TECHNOLOGY THAT MATTERS</h1>
+<!-- Hero Copy Verbatim From Mockup -->
+<p class="text-white/80 text-base md:text-lg lg:text-xl font-normal max-w-3xl leading-relaxed mb-10 text-balance">
+        Bamenda Tech Research Center (BTRC) is a technology research and innovation hub dedicated to transforming ideas into practical solutions through research, engineering, and technical training. We empower students, researchers, and innovators to develop skills, build innovative systems, and drive Africa's technological breakthrough.
+      </p>
+<!-- Primary Interaction Pill Buttons -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-14">
+<a class="px-8 py-3.5 rounded-full text-xs font-semibold tracking-super-wide uppercase bg-brand-emerald hover:bg-brand-emeraldDark text-white text-center transition-all duration-300 shadow-lg shadow-brand-emerald/25" href="#slide-5">
+          Explore Our Research Projects
+        </a>
+<a class="px-8 py-3.5 rounded-full text-xs font-semibold tracking-super-wide uppercase text-white/90 border border-white/25 hover:border-white hover:bg-white/10 text-center transition-all duration-300 backdrop-blur-md" href="#slide-6">REQUEST A SERVICE</a>
+</div>
+<!-- Bottom Telemetry Ticker & Scroll Prompt -->
+<div class="flex items-center justify-between border-t border-white/15 pt-6 text-[10px] md:text-xs font-mono text-white/60 tracking-wider">
+<div class="flex items-center gap-6">
+
+
+
+</div>
+<a class="flex items-center gap-3 text-white/80 hover:text-brand-emerald transition-colors duration-200" href="#slide-2">
+<span class="uppercase tracking-super-wide text-[10px]">Scroll To Mission</span>
+<div class="w-px h-5 bg-brand-emerald pulse-line"></div>
+</a>
+</div>
+</div>
+</section>
+<!-- END: Slide 1 - Hero -->
+<!-- BEGIN: Slide 2 - Mission -->
+<section class="snap-slide w-full flex items-center justify-center relative overflow-hidden bg-brand-cream text-brand-charcoal" data-purpose="mission-station" id="slide-2">
+<!-- Ambient High-Altitude Field Background (IMAGE_10) -->
+<div class="absolute inset-0 z-0">
+<img alt="High-tech agricultural telemetry and environmental sensor station in lush Bamenda landscape" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida/AEtjO1UhMWyjdfWJ0mpx0ame0uo-e1hga_GRAhl0C9f0wukrInsiL88e01mPYOEG2xbmvYBYin87DoYHZCsgydZ1hXRnEd4mhiqsuilxjt41syo4aWqbWzOMZctWo2Tv-ZV6zmit8iFizehEN-asK87_9D17VYcMvtuh1aUrP3BmgBXQZft2zRlq6WE5mHgbrlohNtpR9yZbbK7UFzlBQobP_zDTizRaElWXpJMlLP9TPM53BupCJ-jScxGLPBVK">
+<div class="absolute inset-0 bg-brand-cream/85 backdrop-blur-[2px]"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-brand-cream via-brand-cream/95 to-transparent"></div>
+</div>
+<!-- Slide 2 Content Grid -->
+<div class="relative z-10 max-w-7xl w-full mx-auto px-6 py-24 flex flex-col justify-center">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Left Column: Mission & Vision -->
+<div class="lg:col-span-7">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald text-[11px] font-mono tracking-super-wide font-medium mb-6">
+          SECTION 02 / THE PURPOSE
+        </div>
+<h2 class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-charcoal leading-[1.08] mb-6">
+          OUR MISSION: TURNING IDEAS INTO IMPACT.
+        </h2>
+<p class="text-brand-slate text-base md:text-lg leading-relaxed mb-6 font-normal">
+          To advance technology practical research, innovation, and technical capacity building by creating an environment where ideas are transformed into real world solutions.
+        </p>
+<div class="p-5 rounded-xl bg-white/70 border-l-4 border-brand-emerald border-t border-r border-b border-black/5 shadow-sm mb-8">
+<p class="text-sm md:text-base font-medium italic text-brand-charcoal/90">
+            "Vision: To become a leading platform for technology research, innovation, and engineering excellence in Cameroon."
+          </p>
+</div>
+<div>
+<a class="inline-flex items-center gap-3 text-xs uppercase font-bold tracking-super-wide text-brand-charcoal hover:text-brand-emerald transition-colors duration-200 group" href="#slide-3">
+<span class="">Explore Our Focus Areas</span>
+<span class="inline-block transform group-hover:translate-x-1 transition-transform duration-200 text-brand-emerald">→</span>
+</a>
+</div>
+</div>
+<!-- Right Column: Stats Verbatim From Mockup -->
+<div class="lg:col-span-5">
+<div class="glass-surface p-8 sm:p-10 rounded-2xl shadow-xl shadow-black/5 border border-white/60">
+<div class="flex items-center justify-between border-b border-black/10 pb-4 mb-6">
+<span class="text-xs uppercase font-mono tracking-widest text-brand-charcoal/60">Metric Benchmarks</span>
+<span class="text-xs font-mono text-brand-emerald font-semibold">VERIFIED DATA</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-baseline justify-between">
+<div>
+<div class="text-3xl sm:text-4xl font-extrabold text-brand-charcoal tracking-tight">14+</div>
+<div class="text-xs uppercase font-medium text-brand-slate tracking-editorial mt-0.5">Active Research Projects</div>
+</div>
+<span class="text-[11px] font-mono text-brand-emerald font-semibold">Tier-1 Deployment</span>
+</div>
+<div class="h-px bg-black/5"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<div class="text-3xl sm:text-4xl font-extrabold text-brand-charcoal tracking-tight">35+</div>
+<div class="text-xs uppercase font-medium text-brand-slate tracking-editorial mt-0.5">Published Papers</div>
+</div>
+<span class="text-[11px] font-mono text-brand-emerald font-semibold">IEEE &amp; Indexed</span>
+</div>
+<div class="h-px bg-black/5"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<div class="text-3xl sm:text-4xl font-extrabold text-brand-charcoal tracking-tight">1,200+</div>
+<div class="text-xs uppercase font-medium text-brand-slate tracking-editorial mt-0.5">Students &amp; Innovators Trained</div>
+</div>
+<span class="text-[11px] font-mono text-brand-emerald font-semibold">Capacity Building</span>
+</div>
+<div class="h-px bg-black/5"></div>
+<div class="flex items-baseline justify-between">
+<div>
+<div class="text-3xl sm:text-4xl font-extrabold text-brand-charcoal tracking-tight">98.4%</div>
+<div class="text-xs uppercase font-medium text-brand-slate tracking-editorial mt-0.5">Program Completion Rate</div>
+</div>
+<span class="text-[11px] font-mono text-brand-emerald font-semibold">Cohort Resilience</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Slide 2 - Mission -->
+<!-- BEGIN: Slide 3 - Focus Areas -->
+<section class="snap-slide w-full flex items-center justify-center relative overflow-hidden bg-brand-charcoal text-white" data-purpose="focus-areas-grid" id="slide-3">
+<!-- Cinematic backdrop -->
+<div class="absolute inset-0 z-0 opacity-25">
+<img alt="High altitude mesh networking and telecommunications over green Bamenda topography" class="w-full h-full object-cover object-center filter grayscale" src="https://lh3.googleusercontent.com/aida/AEtjO1VhF22f9ZNJ9ZKXVEHJ_x8GeKCVxjpB5011-7Vz7EPIBUaHtP4W9bVDXiotZ5wvfl62b_Qy8DeI7MuuDeU54LSv61iI3yhPRo6C_4mGPUlBYNIv3kDui6pvsK6jsamJlRva8i8cf9DBTtw-p8xXqgrcQCbTTBYdQJt8O1oaPzbo0TYsh-QPm1R15vuGR20npJ2tHs1YMCRCdZFGhzyHuiuxQNrq2W6N_xjfeXjcxx377RxtpGNzBv9f4USg">
+<div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/90 to-brand-charcoal/80"></div>
+</div>
+<div class="relative z-10 max-w-7xl w-full mx-auto px-6 py-20 flex flex-col justify-center">
+<div class="mb-10 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="text-brand-emerald font-mono text-[11px] tracking-super-wide uppercase font-semibold block mb-2">
+          SECTION 03 / SPECIALIZATIONS
+        </span>
+<h2 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          OUR FOCUS AREAS
+        </h2>
+</div>
+<span class="text-xs font-mono text-white/50 tracking-wider">7 CORE SOVEREIGN DOMAINS</span>
+</div>
+<!-- 7 Focus Area Tiles from Mockup -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 01</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">Software Engineering &amp; App Development</h3>
+<p class="text-xs text-white/60 mt-3 font-light">High-availability systems, sovereign cloud backends, and robust mobile applications designed for low-bandwidth networks.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 02</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">Cybersecurity &amp; Digital Infrastructure</h3>
+<p class="text-xs text-white/60 mt-3 font-light">Resilient cryptosystems, threat modeling, decentralized identity, and sovereign infrastructure protection.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 03</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">Networking &amp; Systems Engineering</h3>
+<p class="text-xs text-white/60 mt-3 font-light">Rugged long-range wireless backhauls, mesh routing protocols, and carrier-grade autonomous network architectures.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 04</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">Robotics &amp; Intelligent Systems</h3>
+<p class="text-xs text-white/60 mt-3 font-light">Autonomous navigation, environmental telemetry drones, and mechatronic systems for local agrarian terrains.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 05</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">IoT &amp; Smart Technologies</h3>
+<p class="text-xs text-white/60 mt-3 font-light">Low-power sensor telemetry, ultra-long-battery micro-controllers, and smart solar-powered edge hardware.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 06</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald/50 group-hover:bg-brand-emerald transition-colors"></span>
+</div>
+<h3 class="text-base font-bold text-white tracking-tight leading-snug">Automation &amp; Embedded Systems</h3>
+<p class="text-xs text-white/60 mt-3 font-light">Custom PCB fabrication, firmwares optimized for micro-watt computing, and industrial PLC control units.</p>
+</div>
+<div class="glass-surface-dark p-6 rounded-xl border border-white/10 hover:border-brand-emerald/50 transition-all duration-300 hover:shadow-lg flex flex-col justify-between sm:col-span-2 lg:col-span-2 group">
+<div class="flex items-center justify-between text-xs font-mono text-white/40 mb-4">
+<span class="">DOMAIN 07</span>
+<span class="px-2 py-0.5 rounded bg-brand-emerald/20 text-brand-emerald text-[10px] font-mono font-semibold">FLAGSHIP</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight leading-snug">Artificial Intelligence &amp; Data Systems</h3>
+<p class="text-xs text-white/60 mt-3 font-light max-w-xl">Localized large multimodal models, low-resource African dialect speech models, Bayesian inference, and high-throughput statistical modeling for regional development.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Slide 3 - Focus Areas -->
+<!-- BEGIN: Slide 4 - Services -->
+<section class="snap-slide w-full flex items-center justify-center relative overflow-hidden bg-brand-bone text-brand-charcoal" data-purpose="services-slide" id="slide-4">
+<!-- Subtle Architectural Workspace Background (IMAGE_12) -->
+<div class="absolute inset-0 z-0">
+<img alt="Modern tech research library and study workspace in Bamenda" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida/AEtjO1VaIv4NXjkqjyQOYjjGMM_Md-3uxWFNgXi0LIvypdlSlD_YruMRpZWF-mhL8kLTv4W_nBTY780TJ87EvVHa9GrmKlCxq5CgffqTvqdaCp0sIwZSZVKDWM9Bh00Xxc2jnS1gMARKxlRaD7KtpBbNZ44Y0TcG253n4Z_COnUDSbxlVvgUSu8jt2DSDZYOusi18ZELvipfjtplkjdyasEyTRxRNU85AV0ra__5FqYqwP0k172CLLoBcBAlU00N">
+<div class="absolute inset-0 bg-brand-bone/90 backdrop-blur-[3px]"></div>
+</div>
+<!-- Core Content -->
+<div class="relative z-10 max-w-7xl w-full mx-auto px-6 py-20 flex flex-col justify-center">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-black/10 pb-6 gap-4">
+<div>
+<span class="text-brand-emerald font-mono text-[11px] tracking-super-wide uppercase font-semibold block mb-2">
+          SECTION 04 / INFRASTRUCTURE &amp; SUPPORT
+        </span>
+<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-brand-charcoal">
+          OUR SERVICES
+        </h2>
+</div>
+<a class="text-xs font-mono font-semibold tracking-editorial text-brand-charcoal hover:text-brand-emerald inline-flex items-center gap-2 uppercase" href="#slide-6">
+<span class="">Request Lab / Service Access</span>
+<span class="">→</span>
+</a>
+</div>
+<!-- 4 Services Pillars from Mockup -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Service 1: Mentorship -->
+<article class="glass-surface p-8 rounded-xl border border-black/5 hover:border-brand-emerald/40 transition-all duration-300 hover:shadow-xl flex flex-col justify-between h-full group">
+<div>
+<div class="flex items-center justify-between text-xs font-mono text-brand-slate mb-6">
+<span class="">SRV-01</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+</div>
+<h3 class="text-xl font-bold text-brand-charcoal tracking-tight mb-3">Mentorship</h3>
+<p class="text-xs text-brand-slate leading-relaxed mb-6">
+            Direct guidance from senior African technologists, PhD fellows, and industry veterans in embedded systems, software rigor, and patent formulation.
+          </p>
+</div>
+<ul class="text-[11px] font-mono text-brand-charcoal/75 space-y-2 border-t border-black/5 pt-4">
+<li class="">• 1-on-1 Thesis Reviews</li>
+<li class="">• Code &amp; Hardware Audits</li>
+<li class="">• Career &amp; Spin-off Paths</li>
+</ul>
+</article>
+<!-- Service 2: Workspace Access -->
+<article class="glass-surface p-8 rounded-xl border border-black/5 hover:border-brand-emerald/40 transition-all duration-300 hover:shadow-xl flex flex-col justify-between h-full group">
+<div>
+<div class="flex items-center justify-between text-xs font-mono text-brand-slate mb-6">
+<span class="">SRV-02</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+</div>
+<h3 class="text-xl font-bold text-brand-charcoal tracking-tight mb-3">Workspace Access</h3>
+<p class="text-xs text-brand-slate leading-relaxed mb-6">
+            Quiet, focused co-working spaces, acoustically isolated study carrels, and high-energy collaborative engineering zones designed for deep uninterrupted work.
+          </p>
+</div>
+<ul class="text-[11px] font-mono text-brand-charcoal/75 space-y-2 border-t border-black/5 pt-4">
+<li class="">• 24/7 Fellow Desks</li>
+<li class="">• Ergonomic Lab Stations</li>
+<li class="">• Whiteboard Team Rooms</li>
+</ul>
+</article>
+<!-- Service 3: Free Internet Connection -->
+<article class="glass-surface p-8 rounded-xl border border-black/5 hover:border-brand-emerald/40 transition-all duration-300 hover:shadow-xl flex flex-col justify-between h-full group">
+<div>
+<div class="flex items-center justify-between text-xs font-mono text-brand-slate mb-6">
+<span class="">SRV-03</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+</div>
+<h3 class="text-xl font-bold text-brand-charcoal tracking-tight mb-3">Free Internet Connection</h3>
+<p class="text-xs text-brand-slate leading-relaxed mb-6">
+            High-speed low-latency optical fiber backbone backed by solar UPS energy arrays, ensuring seamless cloud computing, git pipelines, and research access.
+          </p>
+</div>
+<ul class="text-[11px] font-mono text-brand-charcoal/75 space-y-2 border-t border-black/5 pt-4">
+<li class="">• High-Throughput Trunk</li>
+<li class="">• Zero-Downtime Solar Inverters</li>
+<li class="">• Uncapped Academic Repos</li>
+</ul>
+</article>
+<!-- Service 4: Equipment / Lab Access -->
+<article class="glass-surface p-8 rounded-xl border border-black/5 hover:border-brand-emerald/40 transition-all duration-300 hover:shadow-xl flex flex-col justify-between h-full group">
+<div>
+<div class="flex items-center justify-between text-xs font-mono text-brand-slate mb-6">
+<span class="">SRV-04</span>
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+</div>
+<h3 class="text-xl font-bold text-brand-charcoal tracking-tight mb-3">Equipment / Lab Access</h3>
+<p class="text-xs text-brand-slate leading-relaxed mb-6">
+            Bench instrumentation, high-speed oscilloscopes, spectrum analyzers, 3D printers, CNC milling units, and microelectronics SMD pick-and-place tools.
+          </p>
+</div>
+<ul class="text-[11px] font-mono text-brand-charcoal/75 space-y-2 border-t border-black/5 pt-4">
+<li class="">• Clean Micro-Assembly Benches</li>
+<li class="">• Thermal Calibration Chambers</li>
+<li class="">• RF Telemetry Testing Racks</li>
+</ul>
+</article>
+</div>
+</div>
+</section>
+<!-- END: Slide 4 - Services -->
+<!-- BEGIN: Slide 5 - Programs & Projects -->
+<section class="snap-slide w-full flex items-center justify-center relative overflow-hidden bg-brand-charcoal text-white" data-purpose="programs-projects-slide" id="slide-5">
+<!-- Precision Prototyping FabLab Background (IMAGE_9) -->
+<div class="absolute inset-0 z-0">
+<img alt="High precision prototype fabrication lab with robotic pick and place machine" class="w-full h-full object-cover object-center opacity-30 filter grayscale" src="https://lh3.googleusercontent.com/aida/AEtjO1W6NW0Mop1kATWqgtztfpvNSOI32coFS9nGQOzjSAXrdZJpOTH6mowGx6GR4v1bixDau0lSjgWiGBz8hlaopqTBkpg3VhZy7oa7176-VgYGJbGrZ90FYHtcg9Fh8dvYE9ooxjk6pXcXUqvbO2mKrDRkwbOMWOK3B5pN5MITEA2zgroauBzHxIdKj4B1-mqEySXnox3mBUaAODNSUjd6UwgBUPRzUgrUgsiR8gay6J9epmKxpIVodK7_lVk">
+<div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/90 to-brand-charcoal/80"></div>
+</div>
+<div class="relative z-10 max-w-7xl w-full mx-auto px-6 py-20 flex flex-col justify-center">
+<div class="mb-10">
+<span class="text-brand-emerald font-mono text-[11px] tracking-super-wide uppercase font-semibold block mb-2">
+          SECTION 05 / BUILD &amp; ACCELERATE
+        </span>
+<h2 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          PROGRAMS &amp; ACTIVE PROJECTS
+        </h2>
+</div>
+<!-- Two Column Layout from Mockup: Programs (Left) + Projects (Right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- Left Column: Our Programs (7 cols) -->
+<div class="lg:col-span-7 glass-surface-dark p-8 md:p-10 rounded-2xl flex flex-col justify-between border border-white/10">
+<div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold tracking-tight text-white">Our Programs</h3>
+<span class="px-2.5 py-1 rounded bg-brand-emerald/20 text-brand-emerald font-mono text-[10px] font-bold uppercase tracking-wider">
+              Cohort Enrolling
+            </span>
+</div>
+<div class="space-y-4 mb-8">
+<!-- Program 1 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between">
+<h4 class="text-base font-bold text-white">Internships</h4>
+<span class="text-[10px] font-mono text-brand-emerald">3 to 6 Months</span>
+</div>
+<p class="text-xs text-white/70 mt-1.5 leading-relaxed font-light">
+                Immersive industry and laboratory engineering placements for exceptional university students and vocational technologists to gain real-world system design experience.
+              </p>
+</div>
+<!-- Program 2 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between">
+<h4 class="text-base font-bold text-white">Workshops</h4>
+<span class="text-[10px] font-mono text-brand-emerald">Intensive Bootcamps</span>
+</div>
+<p class="text-xs text-white/70 mt-1.5 leading-relaxed font-light">
+                Hands-on weekend masterclasses covering embedded firmware, edge AI inference, PCB layout design, and RF mesh telemetry protocol implementation.
+              </p>
+</div>
+<!-- Program 3 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between">
+<h4 class="text-base font-bold text-white">Research Fellowships</h4>
+<span class="text-[10px] font-mono text-brand-emerald">Fully Funded Residency</span>
+</div>
+<p class="text-xs text-white/70 mt-1.5 leading-relaxed font-light">
+                Advanced academic and practical residencies granting fellows compute clusters, prototyping cleanroom access, and mentorship to deploy peer-reviewed innovations.
+              </p>
+</div>
+</div>
+</div>
+<div>
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold tracking-super-wide uppercase bg-brand-emerald hover:bg-brand-emeraldDark text-white transition-all shadow-md" href="#site-footer">
+<span class="">Browse All Programs →</span>
+</a>
+</div>
+</div>
+<!-- Right Column: Our Projects (5 cols) -->
+<div class="lg:col-span-5 glass-surface-dark p-8 md:p-10 rounded-2xl flex flex-col justify-between border border-white/10">
+<div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold tracking-tight text-white">Our Projects</h3>
+<span class="text-xs font-mono text-white/40">FLAGSHIP INITIATIVES</span>
+</div>
+<div class="space-y-4 mb-8">
+<!-- Project 1 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between text-[10px] font-mono text-brand-emerald mb-1">
+<span class="">PROJ-01</span>
+<span class="">DEPLOYED IN BAMENDA</span>
+</div>
+<h4 class="text-sm font-bold text-white">Solar-Powered IoT Irrigation System</h4>
+<p class="text-xs text-white/60 mt-1">Autonomous soil moisture telemetry using solar micro-nodes for high-altitude hillside farms.</p>
+</div>
+<!-- Project 2 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between text-[10px] font-mono text-brand-emerald mb-1">
+<span class="">PROJ-02</span>
+<span class="">ACTIVE LAB PILOT</span>
+</div>
+<h4 class="text-sm font-bold text-white">Campus Mesh Network Prototype</h4>
+<p class="text-xs text-white/60 mt-1">Decentralized off-grid peer-to-peer data distribution backbone spanning academic halls.</p>
+</div>
+<!-- Project 3 -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-brand-emerald/30 transition-all">
+<div class="flex items-center justify-between text-[10px] font-mono text-brand-emerald mb-1">
+<span class="">PROJ-03</span>
+<span class="">FIELD VALIDATION</span>
+</div>
+<h4 class="text-sm font-bold text-white">Low-Cost Air Quality Sensor</h4>
+<p class="text-xs text-white/60 mt-1">Sub-$25 particulate matter and microclimate logger built with open-source telemetry schematics.</p>
+</div>
+</div>
+</div>
+<div>
+<a class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-editorial text-brand-emerald hover:underline" href="#site-footer">
+<span class="">View All Projects →</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Slide 5 - Programs & Projects -->
+<!-- BEGIN: Slide 6 - Events, Workshops & Footer -->
+<section class="snap-slide w-full flex flex-col justify-between relative overflow-y-auto bg-brand-cream text-brand-charcoal pt-24 pb-8" data-purpose="events-workshops-and-footer" id="slide-6">
+<div class="max-w-7xl w-full mx-auto px-6 mb-16">
+<!-- Header Strip -->
+<div class="border-b border-black/10 pb-6 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="text-brand-emerald font-mono text-[11px] tracking-super-wide uppercase font-semibold block mb-2">
+          SECTION 06 / COMMUNITY CONVERGENCE
+        </span>
+<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-brand-charcoal">
+          EVENTS &amp; WORKSHOPS
+        </h2>
+</div>
+<span class="text-xs font-mono text-brand-slate uppercase tracking-editorial">CALENDAR 2025</span>
+</div>
+<!-- Events & Workshops 2-Column Grid from Mockup -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+<!-- Events Column -->
+<div class="space-y-4">
+<h3 class="text-sm font-mono uppercase tracking-widest text-brand-slate font-bold mb-4 flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+          Events
+        </h3>
+<!-- Event Card 1 -->
+<div class="p-6 rounded-xl bg-white border border-black/5 hover:border-brand-emerald/40 transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h4 class="text-base font-bold text-brand-charcoal">Annual BTRC Tech Innovation Summit</h4>
+<p class="text-xs text-brand-emerald font-mono mt-1">March 25, 2025 · Bambili Campus Auditorium</p>
+<p class="text-xs text-brand-slate mt-1 max-w-sm">Keynotes, live embedded demos, and poster sessions showcasing sovereign technology breakthroughs.</p>
+</div>
+<a class="px-5 py-2.5 rounded-full text-[11px] font-semibold tracking-super-wide uppercase bg-brand-charcoal hover:bg-brand-emerald text-white text-center transition-colors shrink-0" href="#site-footer">
+          RSVP
+        </a>
+</div>
+<!-- Event Card 2 -->
+<div class="p-6 rounded-xl bg-white border border-black/5 hover:border-brand-emerald/40 transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h4 class="text-base font-bold text-brand-charcoal">Pan-African Open Hardware Showcase</h4>
+<p class="text-xs text-brand-emerald font-mono mt-1">May 14, 2025 · Commercial Avenue Tech Hub</p>
+<p class="text-xs text-brand-slate mt-1 max-w-sm">Gathering designers and fabricators from across Central Africa to review ruggedized IoT prototypes.</p>
+</div>
+<a class="px-5 py-2.5 rounded-full text-[11px] font-semibold tracking-super-wide uppercase bg-brand-charcoal hover:bg-brand-emerald text-white text-center transition-colors shrink-0" href="#site-footer">
+          RSVP
+        </a>
+</div>
+</div>
+<!-- Workshops Column -->
+<div class="space-y-4">
+<h3 class="text-sm font-mono uppercase tracking-widest text-brand-slate font-bold mb-4 flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+          Workshops
+        </h3>
+<!-- Workshop Card 1 -->
+<div class="p-6 rounded-xl bg-white border border-black/5 hover:border-brand-emerald/40 transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h4 class="text-base font-bold text-brand-charcoal">Microcontroller Firmware &amp; RTOS Masterclass</h4>
+<p class="text-xs text-brand-emerald font-mono mt-1">April 05–07, 2025 · In-Person Cleanroom B</p>
+<p class="text-xs text-brand-slate mt-1 max-w-sm">Deep dive into low-power C/Rust bare-metal programming and FreeRTOS task scheduling.</p>
+</div>
+<a class="px-5 py-2.5 rounded-full text-[11px] font-semibold tracking-super-wide uppercase bg-brand-emerald hover:bg-brand-emeraldDark text-white text-center transition-colors shrink-0" href="#site-footer">
+          Sign Up
+        </a>
+</div>
+<!-- Workshop Card 2 -->
+<div class="p-6 rounded-xl bg-white border border-black/5 hover:border-brand-emerald/40 transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h4 class="text-base font-bold text-brand-charcoal">Rugged LoRa Mesh Protocols &amp; Antenna Design</h4>
+<p class="text-xs text-brand-emerald font-mono mt-1">April 22–24, 2025 · Hybrid / Field Station</p>
+<p class="text-xs text-brand-slate mt-1 max-w-sm">RF propagation modeling in highland topography, antenna tuning, and packet mesh deployment.</p>
+</div>
+<a class="px-5 py-2.5 rounded-full text-[11px] font-semibold tracking-super-wide uppercase bg-brand-emerald hover:bg-brand-emeraldDark text-white text-center transition-colors shrink-0" href="#site-footer">
+          Sign Up
+        </a>
+</div>
+</div>
+</div>
+</div>
+<!-- BEGIN: Footer Section from Mockup -->
+<footer class="w-full border-t border-black/10 bg-white pt-12 pb-8 text-brand-charcoal" data-purpose="institutional-footer" id="site-footer">
+<div class="max-w-7xl mx-auto px-6">
+<!-- Newsletter Box from Mockup -->
+<div class="p-6 sm:p-8 rounded-2xl bg-brand-charcoal text-white mb-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+<div>
+<h4 class="text-lg font-bold tracking-tight mb-1">Sign up for our newsletter</h4>
+<p class="text-xs text-white/60 font-light">Get periodic updates on new research papers, cohort admissions, and lab workshop schedules.</p>
+</div>
+<form class="flex flex-col sm:flex-row gap-3 w-full md:w-auto min-w-[320px]" onsubmit="event.preventDefault(); alert('Subscribed to BTRC newsletter.');">
+<label class="sr-only" for="newsletter-email">Email address</label>
+<input class="bg-white/10 border border-white/20 rounded-full px-5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-brand-emerald flex-1" id="newsletter-email" placeholder="Enter your email address" required="" type="email">
+<button class="bg-brand-emerald hover:bg-brand-emeraldDark text-white text-xs font-semibold tracking-super-wide uppercase px-6 py-2.5 rounded-full transition-colors shrink-0 shadow-md" type="submit">
+            Submit
+          </button>
+</form>
+</div>
+<!-- Footer Columns from Mockup -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-black/10">
+<!-- Col 1: Quick Links -->
+<div>
+<h4 class="text-xs font-mono uppercase tracking-widest text-brand-slate font-bold mb-4">Quick Links</h4>
+<ul class="space-y-2.5 text-xs font-medium text-brand-charcoal/80">
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-1">Home</a></li>
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-4">Services</a></li>
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-5">Programs</a></li>
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-5">Projects</a></li>
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-6">Events and Workshops</a></li>
+<li class=""><a class="hover:text-brand-emerald transition-colors" href="#slide-6">News</a></li>
+</ul>
+</div>
+<!-- Col 2: Contact Info from Mockup -->
+<div>
+<h4 class="text-xs font-mono uppercase tracking-widest text-brand-slate font-bold mb-4">Contact Info</h4>
+<div class="space-y-2 text-xs text-brand-charcoal/80 font-normal">
+<p class="font-semibold text-brand-charcoal">Bamenda Tech Research Center (BTRC)</p>
+<p class="">Bambili, near University of Bamenda</p>
+<p class="">Northwest Region, Cameroon</p>
+<p class="pt-2 font-mono text-[11px] text-brand-emerald font-semibold">inquiries@btrc-center.org</p>
+<p class="font-mono text-[11px] text-brand-slate">+237 670 00 00 00</p>
+</div>
+</div>
+<!-- Col 3: Follow Us from Mockup -->
+<div>
+<h4 class="text-xs font-mono uppercase tracking-widest text-brand-slate font-bold mb-4">Follow Us</h4>
+<p class="text-xs text-brand-slate mb-4 font-normal">Connect with our scientists, open-source repositories, and symposium updates:</p>
+<div class="flex items-center gap-3">
+<a aria-label="GitHub" class="h-9 w-9 rounded-full bg-brand-charcoal/5 border border-black/10 flex items-center justify-center text-xs font-mono font-bold text-brand-charcoal hover:bg-brand-emerald hover:text-white hover:border-brand-emerald transition-all" href="#">GH</a>
+<a aria-label="X / Twitter" class="h-9 w-9 rounded-full bg-brand-charcoal/5 border border-black/10 flex items-center justify-center text-xs font-mono font-bold text-brand-charcoal hover:bg-brand-emerald hover:text-white hover:border-brand-emerald transition-all" href="#">X</a>
+<a aria-label="LinkedIn" class="h-9 w-9 rounded-full bg-brand-charcoal/5 border border-black/10 flex items-center justify-center text-xs font-mono font-bold text-brand-charcoal hover:bg-brand-emerald hover:text-white hover:border-brand-emerald transition-all" href="#">IN</a>
+<a aria-label="YouTube / Preprints" class="h-9 w-9 rounded-full bg-brand-charcoal/5 border border-black/10 flex items-center justify-center text-xs font-mono font-bold text-brand-charcoal hover:bg-brand-emerald hover:text-white hover:border-brand-emerald transition-all" href="#">YT</a>
+</div>
+</div>
+</div>
+<!-- Footer Bottom -->
+<div class="flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-brand-slate pt-6 gap-4">
+<span class="">© 2025 Bamenda Tech Research Center (BTRC). All rights reserved.</span>
+<div class="flex items-center gap-6">
+<span class="hover:underline cursor-pointer">Privacy Policy</span>
+<span class="hover:underline cursor-pointer">Terms of Service</span>
+<span class="hover:underline cursor-pointer">Open Research Commons</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: Footer Section -->
+</section>
+<!-- END: Slide 6 - Events, Workshops & Footer -->
+</main>
+<!-- END: VerticalSlideDeck -->
+<!-- BEGIN: Header Dynamic Scroll Controller Script -->
+<script data-purpose="navigation-and-header-effects">
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.getElementById('site-header');
+      const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const container = document.getElementById('editorial-deck');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+      // Mobile Drawer Toggle
+      mobileNavToggle.addEventListener('click', () => {
+        const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+        mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Close mobile menu on anchor click
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          mobileNavToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Dynamic header styling according to slide scroll depth
+      // Slide 1 (Dark), Slide 2 (Light), Slide 3 (Dark), Slide 4 (Light), Slide 5 (Dark), Slide 6 (Light)
+      container.addEventListener('scroll', () => {
+        const scrollTop = container.scrollTop;
+        const slideHeight = window.innerHeight;
+        const slideIndex = Math.round(scrollTop / slideHeight);
+
+        if (slideIndex === 0 || slideIndex === 2 || slideIndex === 4) {
+          // Dark backgrounds: White header styling
+          header.classList.add('glass-surface-dark', 'text-white');
+          header.classList.remove('glass-surface', 'text-brand-charcoal');
+        } else {
+          // Light backgrounds: Clean luxury glass styling
+          header.classList.add('glass-surface', 'text-brand-charcoal');
+          header.classList.remove('glass-surface-dark', 'text-white');
+        }
+      });
+    });
+  </script>
+<!-- END: Header Dynamic Scroll Controller Script -->
+
+
+</body></html>
