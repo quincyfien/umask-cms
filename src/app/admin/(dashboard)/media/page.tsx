@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/db";
 import MediaGallery from "@/components/admin/MediaGallery";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function MediaPage() {
+  await requirePagePermission("media.upload");
   const assets = await prisma.mediaAsset.findMany({
     where: { deletedAt: null },
     orderBy: { uploadedAt: "desc" },

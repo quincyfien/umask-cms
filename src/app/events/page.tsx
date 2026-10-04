@@ -1,12 +1,13 @@
 import ContentListPage from "@/components/public/ContentListPage";
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   return (
     <ContentListPage
       title="Events & Workshops"
       type="EVENT"
       hrefPrefix="/events"
-      subtitle="Browse BTRC's schedule of research summits, technical workshops, and innovation showcases. Register or RSVP directly online."
+      subtitle="Browse the schedule of research summits, technical workshops, and innovation showcases."
+      searchParams={searchParams}
     />
   );
 }

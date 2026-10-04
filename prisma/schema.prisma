@@ -43,7 +43,7 @@ enum ProgramStatus {
 
 enum ProjectStatus {
   PLANNED
-  ACTIVE
+  ONGOING
   COMPLETED
 }
 

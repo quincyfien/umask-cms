@@ -1,10 +1,12 @@
 import { prisma } from "@/lib/db";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function AuditLogsPage({
   searchParams,
 }: {
   searchParams?: Promise<{ status?: string }>;
 }) {
+  await requirePagePermission("audit.view");
   const { status } = (await searchParams) ?? {};
 
   const logs = await prisma.auditLog.findMany({

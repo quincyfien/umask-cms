@@ -1,5 +1,6 @@
 import { getOrganization, saveOrganization } from "@/lib/organization";
 import { revalidatePath } from "next/cache";
+import { requirePagePermission } from "@/lib/auth";
 
 async function handleSave(formData: FormData) {
   "use server";
@@ -22,6 +23,7 @@ async function handleSave(formData: FormData) {
 }
 
 export default async function OrgSettingsPage() {
+  await requirePagePermission("settings.manage");
   const org = await getOrganization();
   const socialMap = Object.fromEntries(org.socials.map((s) => [s.label, s.url]));
 

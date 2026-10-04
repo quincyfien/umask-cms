@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function AdminProgramsPage({
   searchParams,
 }: {
   searchParams?: Promise<{ status?: string }>;
 }) {
+  await requirePagePermission("content.create");
   const { status } = (await searchParams) ?? {};
 
   const programs = await prisma.contentItem.findMany({

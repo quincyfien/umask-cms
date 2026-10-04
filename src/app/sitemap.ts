@@ -34,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     });
     for (const item of items) {
+      if (type === "SERVICE") continue; // services have no detail pages
       entries.push({
         url: `${env.siteOrigin}${prefix}/${item.slug}`,
         lastModified: item.publishedAt ?? new Date(),

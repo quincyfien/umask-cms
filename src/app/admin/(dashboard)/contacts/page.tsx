@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function ContactsPage() {
+  await requirePagePermission("contacts.view");
   const messages = await prisma.contactMessage.findMany({ orderBy: { createdAt: "desc" }, take: 100 });
 
   const STATUS_STYLES: Record<string, string> = {

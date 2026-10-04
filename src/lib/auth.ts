@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { prisma } from "./db";
 import { randomToken, sha256 } from "./crypto";
 import { env } from "./env";
@@ -141,5 +142,12 @@ export async function requirePermission(key: string): Promise<SessionUser> {
     });
     throw new ApiError(403, "FORBIDDEN", "You do not have permission to perform this action.");
   }
+  return user;
+}
+
+export async function requirePagePermission(key: string): Promise<SessionUser> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/admin/login");
+  if (!hasPermission(user, key)) redirect("/admin/denied");
   return user;
 }

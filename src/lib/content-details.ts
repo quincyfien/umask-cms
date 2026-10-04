@@ -5,17 +5,44 @@ import type {
   ProjectStatus,
 } from "@prisma/client";
 
+export type ContentPartner = {
+  name: string;
+  logo?: string;
+  url?: string;
+};
+
 export type ContentDetails = {
   programStatus?: ProgramStatus;
+  applicationStartAt?: string;
+  applicationCloseAt?: string;
+  programStartAt?: string;
+  programEndAt?: string;
+  eligibility?: string[];
+  deliveryMode?: LocationType;
+
   projectStatus?: ProjectStatus;
+  doi?: string;
+  objectives?: string[];
+  methodology?: string;
+  findings?: string;
+  partners?: ContentPartner[];
+  leads?: string[];
+  deliverables?: string[];
+  relatedProjectIds?: string[];
+  capabilities?: string[];
+
   eventKind?: EventKind;
   startAt?: string;
   endAt?: string;
   locationType?: LocationType;
   venueAddress?: string;
   onlineLink?: string;
+  organizer?: string;
   registrationEnabled?: boolean;
   capacity?: number;
+
+  byline?: string;
+  publicationDate?: string;
   excerpt?: string;
 };
 

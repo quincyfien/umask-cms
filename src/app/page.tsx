@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-
-const METRICS = [
-  { value: "14+", label: "Active Research Projects", badge: "Tier-1 Deployment" },
-  { value: "35+", label: "Published Papers", badge: "IEEE & Indexed" },
-  { value: "1,200+", label: "Students & Innovators Trained", badge: "Capacity Building" },
-  { value: "98.4%", label: "Verified Project Success Rate", badge: "Scientific Rigor" },
-];
+import { getHeroConfig, getMetrics, resolveMetricValues } from "@/lib/settings";
 
 const FOCUS_AREAS = [
   {
@@ -60,7 +54,7 @@ const FALLBACK_PROJECTS = [
 ];
 
 export default async function Home() {
-  const [events, news] = await Promise.all([
+  const [events, news, hero, metrics] = await Promise.all([
     prisma.contentItem.findMany({
       where: { type: "EVENT", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
       take: 3,
@@ -69,18 +63,20 @@ export default async function Home() {
       where: { type: "NEWS", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
       take: 3,
     }),
+    getHeroConfig(),
+    resolveMetricValues(await getMetrics()),
   ]);
+
+  const heroImage = hero.backgroundImageId
+    ? `/api/media/${hero.backgroundImageId}`
+    : "/images/hero-bg.png";
 
   return (
     <div className="bg-surface text-content">
       {/* Hero — always dark, image clearly visible */}
       <section className="relative flex min-h-[80vh] flex-col justify-end overflow-hidden bg-ink">
         <div className="absolute inset-0 z-0">
-          <img
-            src="/images/hero-bg.png"
-            alt=""
-            className="h-full w-full object-cover object-center"
-          />
+          <img src={heroImage} alt="" className="h-full w-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/30 to-transparent"></div>
         </div>
@@ -89,30 +85,30 @@ export default async function Home() {
           <div className="mb-6 flex items-center gap-3">
             <span className="h-px w-10 bg-brand"></span>
             <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
-              Research. Innovate. Build. Sustain.
+              {hero.tagline}
             </span>
           </div>
 
           <h1 className="mb-6 max-w-5xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Turning Ideas Into Technology That Matters
+            {hero.title}
           </h1>
 
           <p className="mb-10 max-w-3xl text-base leading-relaxed text-gray-200 md:text-xl">
-            A technology research institution dedicated to transforming scientific ideas into practical engineering solutions — empowering researchers, students, and industrial partners across Africa.
+            {hero.subtitle}
           </p>
 
           <div className="mb-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
             <Link
-              href="/projects"
+              href={hero.ctaPrimaryHref}
               className="rounded-full bg-brand px-8 py-4 text-center text-xs font-semibold uppercase tracking-super-wide text-white transition-all duration-300 hover:bg-brand-hover"
             >
-              Explore Research Projects
+              {hero.ctaPrimaryLabel}
             </Link>
             <Link
-              href="/contact"
+              href={hero.ctaSecondaryHref}
               className="rounded-full border border-white/30 px-8 py-4 text-center text-xs font-semibold uppercase tracking-super-wide text-white transition-all duration-300 hover:border-brand hover:text-brand"
             >
-              Request a Service
+              {hero.ctaSecondaryLabel}
             </Link>
           </div>
         </div>
@@ -149,11 +145,11 @@ export default async function Home() {
                 <span className="font-mono text-[10px] font-semibold tracking-wider text-brand">VERIFIED DATA</span>
               </div>
               <div className="space-y-6">
-                {METRICS.map((m) => (
+                {metrics.map((m) => (
                   <div key={m.label} className="border-b border-edge pb-4 last:border-0 last:pb-0">
-                    <div className="flex items-baseline justify-between">
-                      <div className="text-3xl font-extrabold tracking-tight text-content">{m.value}</div>
-                      <span className="font-mono text-[10px] font-semibold text-brand">{m.badge}</span>
+                    <div className="text-3xl font-extrabold tracking-tight text-content">
+                      {m.value}
+                      {m.suffix && <span className="text-brand">{m.suffix}</span>}
                     </div>
                     <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">{m.label}</div>
                   </div>

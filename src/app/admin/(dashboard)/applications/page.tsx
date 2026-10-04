@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function ApplicationsPage() {
+  await requirePagePermission("applications.view");
   const applications = await prisma.application.findMany({
     orderBy: { createdAt: "desc" },
     take: 100,

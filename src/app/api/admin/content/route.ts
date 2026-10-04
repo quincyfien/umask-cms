@@ -60,6 +60,8 @@ export async function POST(request: Request) {
     const words = bodySanitized ? bodySanitized.split(/\s+/).length : 0;
     const readingTime = Math.max(1, Math.ceil(words / 200));
 
+    const publish = (body as { status?: string }).status === "PUBLISHED";
+
     const item = await prisma.contentItem.create({
       data: {
         type: parsed.type,
@@ -77,8 +79,11 @@ export async function POST(request: Request) {
         isFeatured: parsed.isFeatured ?? false,
         isPinned: parsed.isPinned ?? false,
         noIndex: parsed.noIndex ?? false,
-        status: "DRAFT",
+        status: publish ? "PUBLISHED" : "DRAFT",
+        publishedAt: publish ? new Date() : null,
+        accessLevel: publish ? "PUBLIC" : "STAFF_ONLY",
         authorId: user.id,
+        reviewerId: publish ? user.id : null,
         version: 1,
         readingTimeMinutes: readingTime,
         ...detailsToColumns(parsed.details),

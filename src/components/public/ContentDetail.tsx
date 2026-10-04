@@ -1,13 +1,31 @@
 import type { ContentItem } from "@prisma/client";
 import { RichText } from "./RichText";
 import { formatDate, formatDateTime } from "@/lib/format";
-import Link from "next/link";
+import { getProgramBadge } from "@/lib/program";
+import ProgramApply from "./ProgramApply";
 
 export default function ContentDetail({
   item,
 }: {
   item: ContentItem & { category?: { name: string } | null; author?: { name: string } | null };
 }) {
+  const details = (item.details ?? {}) as {
+    eligibility?: string[];
+    deliveryMode?: string;
+    applicationStartAt?: string;
+    applicationCloseAt?: string;
+    programStartAt?: string;
+    programEndAt?: string;
+    doi?: string;
+    objectives?: string[];
+    methodology?: string;
+    findings?: string;
+    partners?: { name: string; url?: string }[];
+    leads?: string[];
+    deliverables?: string[];
+    byline?: string;
+  };
+
   return (
     <div className="min-h-screen bg-surface text-content">
       {/* Header Banner */}
@@ -31,6 +49,9 @@ export default function ContentDetail({
           {item.summary && <p className="mt-4 text-lg leading-relaxed text-muted">{item.summary}</p>}
 
           {item.author && <p className="mt-4 font-mono text-xs text-brand">Authored by {item.author.name}</p>}
+          {item.type === "NEWS" && details.byline && (
+            <p className="mt-2 font-mono text-xs text-muted">By {details.byline}</p>
+          )}
         </div>
       </section>
 
@@ -82,17 +103,84 @@ export default function ContentDetail({
           )}
 
           {item.type === "PROGRAM" && (
-            <div className="aristocratic-card mb-8 flex items-center justify-between rounded-2xl border border-brand/30 p-6">
-              <div>
-                <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">Status</span>
-                <span className="text-base font-bold uppercase text-brand">{item.programStatus || "ENROLLING"}</span>
-              </div>
-              <Link
-                href={`/programs/${item.slug}/apply`}
-                className="rounded-full bg-brand px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-hover"
-              >
-                Apply For Program
-              </Link>
+            <ProgramApply
+              programId={item.id}
+              programTitle={item.title}
+              badgeLabel={getProgramBadge(item.details as never).label}
+              applyOpen={getProgramBadge(item.details as never).applyOpen}
+              closed={getProgramBadge(item.details as never).closed}
+              cta={getProgramBadge(item.details as never).cta}
+            />
+          )}
+
+          {item.type === "PROGRAM" && (details.eligibility?.length || details.deliveryMode) && (
+            <div className="aristocratic-card mb-8 rounded-2xl p-6">
+              <h3 className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Program Details</h3>
+              {details.deliveryMode && <p className="text-sm text-muted">Delivery Mode: {details.deliveryMode}</p>}
+              {details.eligibility && details.eligibility.length > 0 && (
+                <div className="mt-3">
+                  <p className="font-semibold text-content">Eligibility</p>
+                  <ul className="mt-1 list-disc pl-5 text-sm text-muted">
+                    {details.eligibility.map((e) => <li key={e}>{e}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {item.type === "PROJECT" && (
+            <div className="aristocratic-card mb-8 space-y-6 rounded-2xl p-6">
+              {details.doi && <p className="font-mono text-xs text-brand">DOI: {details.doi}</p>}
+              {details.objectives && details.objectives.length > 0 && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Objectives & Scope</h3>
+                  <ul className="list-disc pl-5 text-sm text-muted">
+                    {details.objectives.map((o) => <li key={o}>{o}</li>)}
+                  </ul>
+                </div>
+              )}
+              {details.methodology && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Methodology</h3>
+                  <p className="whitespace-pre-wrap text-sm text-muted">{details.methodology}</p>
+                </div>
+              )}
+              {details.findings && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Key Findings</h3>
+                  <p className="whitespace-pre-wrap text-sm text-muted">{details.findings}</p>
+                </div>
+              )}
+              {details.partners && details.partners.length > 0 && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Partners</h3>
+                  <ul className="space-y-1 text-sm text-muted">
+                    {details.partners.map((p) => (
+                      <li key={p.name}>
+                        {p.url ? <a href={p.url} target="_blank" rel="noreferrer" className="text-brand underline">{p.name}</a> : p.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {details.leads && details.leads.length > 0 && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Research Leads</h3>
+                  <p className="text-sm text-muted">{details.leads.join(", ")}</p>
+                </div>
+              )}
+              {details.deliverables && details.deliverables.length > 0 && (
+                <div>
+                  <h3 className="mb-2 font-mono text-xs font-semibold uppercase tracking-widest text-brand">Deliverables</h3>
+                  <ul className="list-disc pl-5 text-sm text-muted">
+                    {details.deliverables.map((d) => (
+                      <li key={d}>
+                        <a href={d} target="_blank" rel="noreferrer" className="text-brand underline">{d}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
 

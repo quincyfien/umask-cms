@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NewsletterForm from "./NewsletterForm";
+import { getOrganization } from "@/lib/organization";
 
 const NAV_LINKS = [
   { href: "/about", label: "About" },
@@ -22,7 +23,13 @@ const SOCIALS = [
   { label: "YT", href: "https://youtube.com" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const org = await getOrganization();
+  const socials =
+    org.socials.length > 0
+      ? org.socials
+      : SOCIALS.map((s) => ({ label: s.label, url: s.href }));
+
   return (
     <footer className="border-t border-brand/20 bg-card text-content">
       <div className="mx-auto max-w-7xl px-6 py-14">
@@ -82,21 +89,21 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
               Campus
             </h4>
-            <p className="mt-4 text-sm text-muted">Bambili Campus, NW Region, Cameroon</p>
+            <p className="mt-4 text-sm text-muted">{org.address || "Bambili Campus, NW Region, Cameroon"}</p>
             <p className="mt-2 text-sm">
-              <a href="mailto:inquiries@btrc-center.org" className="font-mono text-brand hover:underline">
-                inquiries@btrc-center.org
+              <a href={`mailto:${org.email || "inquiries@btrc-center.org"}`} className="font-mono text-brand hover:underline">
+                {org.email || "inquiries@btrc-center.org"}
               </a>
             </p>
             <div className="mt-5 flex gap-3">
-              {SOCIALS.map((s) => (
+              {socials.map((s) => (
                 <a
                   key={s.label}
-                  href={s.href}
+                  href={s.url}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/30 text-[10px] font-mono font-semibold text-muted transition-all hover:border-brand hover:bg-brand/10 hover:text-brand"
+                  className="flex h-8 min-w-8 items-center justify-center rounded-full border border-brand/30 px-2 text-[10px] font-mono font-semibold text-muted transition-all hover:border-brand hover:bg-brand/10 hover:text-brand"
                 >
                   {s.label}
                 </a>

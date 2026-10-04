@@ -7,12 +7,51 @@ import {
 
 const prisma = new PrismaClient();
 
+const CONTENT_ADMIN_PERMISSIONS = [
+  "content.create",
+  "content.edit.any",
+  "content.review",
+  "content.publish",
+  "content.delete",
+  "media.upload",
+  "media.manage",
+  "media.release",
+  "applications.view",
+  "applications.manage",
+  "contacts.view",
+  "contacts.manage",
+  "registrations.view",
+  "registrations.export",
+  "subscribers.view",
+  "subscribers.export",
+];
+
 async function main() {
   for (const key of PERMISSION_KEYS) {
     await prisma.permission.upsert({
       where: { key },
       create: { key, description: PERMISSION_DESCRIPTIONS[key] ?? "" },
       update: { description: PERMISSION_DESCRIPTIONS[key] ?? "" },
+    });
+  }
+
+  const contentAdmin = await prisma.role.upsert({
+    where: { name: "Content Admin" },
+    create: {
+      name: "Content Admin",
+      description: "Full content CRUD and publishing with no administrative access.",
+      permissions: {
+        create: CONTENT_ADMIN_PERMISSIONS.map((permissionId) => ({ permissionId })),
+      },
+    },
+    update: {},
+  });
+
+  for (const permissionId of CONTENT_ADMIN_PERMISSIONS) {
+    await prisma.rolePermission.upsert({
+      where: { roleId_permissionId: { roleId: contentAdmin.id, permissionId } },
+      create: { roleId: contentAdmin.id, permissionId },
+      update: {},
     });
   }
 
@@ -34,6 +73,8 @@ async function main() {
   } else {
     console.log(`Super Admin already exists: ${email}`);
   }
+
+  console.log("Seeded Content Admin role");
 }
 
 main()

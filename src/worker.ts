@@ -1,6 +1,7 @@
 import type { Job } from "@prisma/client";
 import { prisma } from "./lib/db";
 import { sendMail } from "./lib/mail";
+import { computeProgramStatus } from "./lib/program";
 
 const EMAIL_DELAYS_MIN = [1, 5, 30, 120, 720];
 const DEFAULT_DELAYS_MIN = [1, 2, 4, 8, 16];
@@ -21,10 +22,49 @@ async function runEmail(job: Job): Promise<void> {
   });
 }
 
+async function runProgramStatusUpdate(): Promise<void> {
+  const programs = await prisma.contentItem.findMany({
+    where: { type: "PROGRAM", deletedAt: null },
+    select: { id: true, details: true },
+  });
+  for (const p of programs) {
+    const details = (p.details ?? {}) as {
+      applicationStartAt?: string;
+      applicationCloseAt?: string;
+      programStartAt?: string;
+      programEndAt?: string;
+    };
+    const status = computeProgramStatus(details);
+    await prisma.contentItem.update({
+      where: { id: p.id },
+      data: { programStatus: status },
+    });
+  }
+}
+
+function nextMidnight(): Date {
+  const d = new Date();
+  d.setHours(24, 0, 0, 0);
+  return d;
+}
+
+async function ensureScheduledJobs(): Promise<void> {
+  const existing = await prisma.job.findFirst({
+    where: { type: "program_status_update", status: { in: ["PENDING", "RUNNING"] } },
+  });
+  if (!existing) {
+    await prisma.job.create({ data: { type: "program_status_update", runAt: nextMidnight(), maxAttempts: 3 } });
+  }
+}
+
 async function processJob(job: Job): Promise<void> {
   switch (job.type) {
     case "email":
       await runEmail(job);
+      return;
+    case "program_status_update":
+      await runProgramStatusUpdate();
+      await prisma.job.create({ data: { type: "program_status_update", runAt: nextMidnight(), maxAttempts: 3 } });
       return;
     default:
       throw new Error(`No handler for job type: ${job.type}`);
@@ -77,9 +117,11 @@ async function tick(): Promise<void> {
 
 async function main(): Promise<void> {
   console.log("worker started");
+  await ensureScheduledJobs();
   for (;;) {
     try {
       await tick();
+      await ensureScheduledJobs();
     } catch (err) {
       console.error("worker tick error", err);
     }

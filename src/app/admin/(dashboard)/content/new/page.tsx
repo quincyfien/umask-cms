@@ -1,10 +1,12 @@
 import ContentForm from "@/components/admin/ContentForm";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function NewContentPage({
   searchParams,
 }: {
   searchParams?: Promise<{ type?: string }>;
 }) {
+  await requirePagePermission("content.create");
   const params = await searchParams;
   return (
     <div className="space-y-6">

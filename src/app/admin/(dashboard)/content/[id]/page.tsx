@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import ContentForm from "@/components/admin/ContentForm";
+import { requirePagePermission } from "@/lib/auth";
 
 export default async function EditContentPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requirePagePermission("content.create");
   const { id } = await params;
   const item = await prisma.contentItem.findUnique({ where: { id } });
   if (!item) notFound();
