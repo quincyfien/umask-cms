@@ -20,25 +20,22 @@ export default async function ContentListPage({ title, type, hrefPrefix, subtitl
   });
 
   return (
-    <div className="bg-ink text-paper min-h-screen">
+    <div className="min-h-screen bg-paper text-ink">
       {/* Header Banner */}
-      <section className="relative py-16 border-b border-brand/20 bg-gradient-to-b from-ink-light to-ink">
-        <div className="max-w-7xl mx-auto px-6">
-          <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">
-            RESEARCH COMMONS
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">{title}</h1>
-          {subtitle && <p className="mt-3 text-gray-300 text-base max-w-2xl">{subtitle}</p>}
+      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">{title}</h1>
+          {subtitle && <p className="mt-3 max-w-2xl text-base text-gray-600">{subtitle}</p>}
         </div>
       </section>
 
       {/* Grid Container */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="mx-auto max-w-7xl px-6">
           {items.length === 0 ? (
-            <div className="aristocratic-card p-12 text-center rounded-2xl max-w-xl mx-auto">
-              <span className="text-brand font-mono text-2xl block mb-2">∅</span>
-              <p className="text-gray-300 text-sm">No published {title.toLowerCase()} currently available.</p>
+            <div className="aristocratic-card mx-auto max-w-xl rounded-2xl p-12 text-center">
+              <span className="mb-2 block font-mono text-2xl text-brand">∅</span>
+              <p className="text-sm text-gray-500">No published {title.toLowerCase()} currently available.</p>
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -16,14 +16,25 @@ export async function GET(
     }
 
     if (asset.access === "PRIVATE") {
-      const user = await requireUser();
-      const allowed = hasPermission(user, "media.manage") || hasPermission(user, "applications.view");
-      if (!allowed) return problem(403, "FORBIDDEN", "You do not have access to this file.");
-      await recordAudit({
-        action: "PII_ACCESS_LOGGED",
-        actorId: user.id,
-        targetResource: `media:${id}`,
+      const featured = await prisma.contentItem.findFirst({
+        where: {
+          featuredImageId: id,
+          status: "PUBLISHED",
+          accessLevel: "PUBLIC",
+          deletedAt: null,
+        },
+        select: { id: true },
       });
+      if (!featured) {
+        const user = await requireUser();
+        const allowed = hasPermission(user, "media.manage") || hasPermission(user, "applications.view");
+        if (!allowed) return problem(403, "FORBIDDEN", "You do not have access to this file.");
+        await recordAudit({
+          action: "PII_ACCESS_LOGGED",
+          actorId: user.id,
+          targetResource: `media:${id}`,
+        });
+      }
     }
 
     const body = await storageGet(asset.key);

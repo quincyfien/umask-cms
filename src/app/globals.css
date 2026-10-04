@@ -7,7 +7,7 @@
   --color-brand-emerald-dark: #1b9d63;
   --color-brand-navy: #0a0f1c;
   --color-brand-cream: #f5f5dc;
-  
+
   --color-ink: #0a0f1c;
   --color-ink-light: #121829;
   --color-ink-card: #182035;
@@ -23,20 +23,19 @@
 
 @layer base {
   html, body {
-    background-color: #0a0f1c;
-    color: #f5f5dc;
+    background-color: #f5f5dc;
+    color: #0a0f1c;
     font-family: var(--font-sans);
-    overflow-x: hidden;
     scroll-behavior: smooth;
   }
 }
 
-/* Modern Aristocratic Glassmorphism & Surface Utilities */
+/* Light Aristocratic Card Surfaces */
 .glass-surface {
-  background: rgba(245, 245, 220, 0.92);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(29, 168, 109, 0.18);
 }
 
 .glass-surface-dark {
@@ -47,15 +46,15 @@
 }
 
 .aristocratic-card {
-  background: linear-gradient(135deg, rgba(18, 24, 41, 0.9) 0%, rgba(10, 15, 28, 0.95) 100%);
-  border: 1px solid rgba(29, 168, 109, 0.2);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+  border: 1px solid rgba(29, 168, 109, 0.16);
+  box-shadow: 0 4px 24px -12px rgba(10, 15, 28, 0.12);
   transition: all 0.3s ease;
 }
 
 .aristocratic-card:hover {
   border-color: rgba(29, 168, 109, 0.5);
-  box-shadow: 0 15px 35px -5px rgba(29, 168, 109, 0.15);
+  box-shadow: 0 12px 32px -12px rgba(29, 168, 109, 0.25);
   transform: translateY(-2px);
 }
 
@@ -77,7 +76,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0f1c;
+  background: #f5f5dc;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(29, 168, 109, 0.4);

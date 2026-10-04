@@ -10,13 +10,6 @@ function getMimeIcon(mimeType: string | null) {
   return "📎";
 }
 
-function formatBytes(bytes: number | null) {
-  if (!bytes) return "—";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
 export default async function DownloadsPage() {
   const resources = await prisma.contentItem.findMany({
     where: { type: "RESOURCE", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
@@ -25,51 +18,51 @@ export default async function DownloadsPage() {
   });
 
   return (
-    <div className="bg-ink text-paper min-h-screen">
-      <section className="relative py-16 border-b border-brand/20 bg-gradient-to-b from-ink-light to-ink">
-        <div className="max-w-7xl mx-auto px-6">
-          <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">RESEARCH COMMONS</span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mt-2">Downloads & Resources</h1>
-          <p className="mt-3 text-gray-300 text-base max-w-2xl">
-            Access published research papers, hardware documentation, datasets, and technical manuals from BTRC.
+    <div className="min-h-screen bg-paper text-ink">
+      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">Research Commons</span>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Downloads & Resources</h1>
+          <p className="mt-3 max-w-2xl text-base text-gray-600">
+            Access published research papers, hardware documentation, datasets, and technical manuals.
           </p>
         </div>
       </section>
 
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="mx-auto max-w-7xl px-6">
           {resources.length === 0 ? (
-            <div className="aristocratic-card p-12 text-center rounded-2xl max-w-xl mx-auto">
-              <span className="text-brand font-mono text-2xl block mb-2">∅</span>
-              <p className="text-gray-300 text-sm">No resources published yet. Check back soon.</p>
+            <div className="aristocratic-card mx-auto max-w-xl rounded-2xl p-12 text-center">
+              <span className="mb-2 block font-mono text-2xl text-brand">∅</span>
+              <p className="text-sm text-gray-500">No resources published yet. Check back soon.</p>
             </div>
           ) : (
-            <div className="aristocratic-card rounded-2xl overflow-hidden">
+            <div className="aristocratic-card overflow-hidden rounded-2xl">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-white/10 text-left">
-                    <th className="px-5 py-3 font-mono text-gray-400 uppercase tracking-wider">Resource</th>
-                    <th className="px-5 py-3 font-mono text-gray-400 uppercase tracking-wider">Category</th>
-                    <th className="px-5 py-3 font-mono text-gray-400 uppercase tracking-wider">Summary</th>
-                    <th className="px-5 py-3 font-mono text-gray-400 uppercase tracking-wider">Published</th>
+                  <tr className="border-b border-black/10 text-left">
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Resource</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Category</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Summary</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Published</th>
                   </tr>
                 </thead>
                 <tbody>
                   {resources.map((r) => {
                     const details = r.details as { url?: string; mimeType?: string; size?: number } | null;
                     return (
-                      <tr key={r.id} className="border-b border-white/5 hover:bg-brand/5 transition-colors">
+                      <tr key={r.id} className="border-b border-black/5 transition-colors hover:bg-brand/5">
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
                             <span className="text-2xl">{getMimeIcon(details?.mimeType ?? null)}</span>
                             <div>
-                              <p className="font-semibold text-white">{r.title}</p>
+                              <p className="font-semibold text-ink">{r.title}</p>
                               {details?.url && (
                                 <a
                                   href={details.url}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="text-[10px] font-mono text-brand hover:underline mt-0.5 inline-block"
+                                  className="mt-0.5 inline-block font-mono text-[10px] text-brand hover:underline"
                                 >
                                   Download File →
                                 </a>
@@ -79,12 +72,12 @@ export default async function DownloadsPage() {
                         </td>
                         <td className="px-5 py-4">
                           {r.category ? (
-                            <span className="px-2 py-0.5 rounded-full bg-brand/10 border border-brand/30 text-[10px] font-mono text-brand">
+                            <span className="rounded-full border border-brand/30 bg-brand/10 px-2 py-0.5 font-mono text-[10px] text-brand">
                               {r.category.name}
                             </span>
                           ) : "—"}
                         </td>
-                        <td className="px-5 py-4 text-gray-400 max-w-xs truncate">{r.summary || "—"}</td>
+                        <td className="max-w-xs truncate px-5 py-4 text-gray-500">{r.summary || "—"}</td>
                         <td className="px-5 py-4 font-mono text-gray-500">
                           {r.publishedAt ? r.publishedAt.toISOString().slice(0, 10) : "—"}
                         </td>

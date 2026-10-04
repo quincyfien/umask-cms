@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TiptapEditor from "@/components/admin/TiptapEditor";
 
 const TYPES = ["SERVICE", "PROGRAM", "PROJECT", "EVENT", "NEWS", "RESOURCE", "PAGE"];
+
+type MediaAsset = {
+  id: string;
+  fileName: string;
+  mimeType: string;
+  size: number;
+};
 
 type Props = {
   contentId?: string;
@@ -17,6 +24,7 @@ type Props = {
     categoryId?: string | null;
     metaTitle?: string | null;
     metaDescription?: string | null;
+    featuredImageId?: string | null;
   };
 };
 
@@ -25,6 +33,15 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [body, setBody] = useState(initial?.body ?? "");
+  const [assets, setAssets] = useState<MediaAsset[]>([]);
+  const [featuredImageId, setFeaturedImageId] = useState<string>(initial?.featuredImageId ?? "");
+
+  useEffect(() => {
+    fetch("/api/admin/media")
+      .then((r) => r.json())
+      .then((d) => setAssets((d.assets ?? []).filter((a: MediaAsset) => a.mimeType.startsWith("image/"))))
+      .catch(() => {});
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,6 +56,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
       categoryId: form.get("categoryId") || undefined,
       metaTitle: form.get("metaTitle") || undefined,
       metaDescription: form.get("metaDescription") || undefined,
+      featuredImageId: featuredImageId || undefined,
     };
     try {
       const res = await fetch(contentId ? `/api/admin/content/${contentId}` : "/api/admin/content", {
@@ -65,7 +83,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
       {/* Title & Type */}
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5" htmlFor="title">
+          <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="title">
             Title *
           </label>
           <input
@@ -78,7 +96,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
           />
         </div>
         <div>
-          <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5" htmlFor="type">
+          <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="type">
             Content Type *
           </label>
           <select
@@ -96,7 +114,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
 
       {/* Summary */}
       <div>
-        <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5" htmlFor="summary">
+        <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="summary">
           Summary / Excerpt
         </label>
         <textarea
@@ -109,18 +127,44 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
         />
       </div>
 
+      {/* Featured Image */}
+      <div>
+        <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="featuredImage">
+          Featured Image
+        </label>
+        <select
+          id="featuredImage"
+          name="featuredImage"
+          value={featuredImageId}
+          onChange={(e) => setFeaturedImageId(e.target.value)}
+          className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+        >
+          <option value="">No featured image</option>
+          {assets.map((a) => (
+            <option key={a.id} value={a.id}>
+              {a.fileName}
+            </option>
+          ))}
+        </select>
+        {assets.length === 0 && (
+          <p className="mt-1.5 text-xs text-gray-400">
+            No images available. Upload images in the Media section first.
+          </p>
+        )}
+      </div>
+
       {/* Rich Text Body Editor */}
       <div>
-        <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5">
+        <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand">
           Body Content
         </label>
         <TiptapEditor content={body} onChange={setBody} placeholder="Write full content here using the rich editor..." />
       </div>
 
       {/* SEO Meta */}
-      <div className="grid gap-5 sm:grid-cols-2 border-t border-white/10 pt-5">
+      <div className="grid gap-5 border-t border-white/10 pt-5 sm:grid-cols-2">
         <div>
-          <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5" htmlFor="metaTitle">
+          <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="metaTitle">
             SEO Meta Title
           </label>
           <input
@@ -132,7 +176,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
           />
         </div>
         <div>
-          <label className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5" htmlFor="metaDescription">
+          <label className="mb-1.5 block text-xs font-mono font-semibold uppercase text-brand" htmlFor="metaDescription">
             SEO Meta Description
           </label>
           <input
@@ -146,7 +190,7 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
       </div>
 
       {error && (
-        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-400">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400">
           {error}
         </div>
       )}
@@ -155,14 +199,14 @@ export default function ContentForm({ contentId, defaultType, initial }: Props) 
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-5 py-2.5 rounded-full border border-white/20 text-xs font-semibold uppercase tracking-wider text-gray-300 hover:border-white hover:text-white transition-colors"
+          className="rounded-full border border-white/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-gray-300 transition-colors hover:border-white hover:text-white"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="px-7 py-2.5 rounded-full bg-brand text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors shadow-lg shadow-brand/20 disabled:opacity-50"
+          className="rounded-full bg-brand px-7 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-hover disabled:opacity-50"
         >
           {saving ? "Saving..." : contentId ? "Update Content" : "Publish Content"}
         </button>

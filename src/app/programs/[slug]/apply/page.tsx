@@ -50,49 +50,49 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
   }
 
   return (
-    <div className="bg-ink text-paper min-h-screen py-16">
-      <div className="max-w-3xl mx-auto px-6">
+    <div className="min-h-screen bg-paper py-16 text-ink">
+      <div className="mx-auto max-w-3xl px-6">
         <div className="mb-8">
           <Link
             href={`/programs/${resolvedParams.slug}`}
-            className="text-xs font-mono text-brand hover:underline uppercase tracking-wider inline-flex items-center gap-2 mb-3"
+            className="mb-3 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-brand hover:underline"
           >
             <span>← Back to Program Details</span>
           </Link>
-          <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold block">
-            FELLOWSHIP & RESIDENCY APPLICATION
+          <span className="block font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
+            Fellowship & Residency Application
           </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
+          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             Program Application Form
           </h1>
-          <p className="mt-2 text-xs text-gray-400">
+          <p className="mt-2 text-xs text-gray-500">
             Program Identifier: <span className="font-mono text-brand">{resolvedParams.slug}</span>
           </p>
         </div>
 
         {success ? (
-          <div className="aristocratic-card p-10 rounded-2xl text-center space-y-4 border border-brand/40">
-            <div className="h-14 w-14 rounded-full bg-brand/20 border border-brand text-brand font-mono font-bold text-2xl flex items-center justify-center mx-auto">
+          <div className="aristocratic-card space-y-4 rounded-2xl border border-brand/40 p-10 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-brand bg-brand/20 font-mono text-2xl font-bold text-brand">
               ✓
             </div>
-            <h2 className="text-2xl font-bold text-white">Application Received</h2>
-            <p className="text-sm text-gray-300 max-w-md mx-auto">
-              Your application has been submitted to the BTRC Academic Review Committee. You will receive an automated confirmation email shortly.
+            <h2 className="text-2xl font-bold text-ink">Application Received</h2>
+            <p className="mx-auto max-w-md text-sm text-gray-600">
+              Your application has been submitted to the Academic Review Committee. You will receive an automated confirmation email shortly.
             </p>
             <div className="pt-4">
               <button
                 onClick={() => router.push("/programs")}
-                className="px-8 py-3 rounded-full bg-brand text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors"
+                className="rounded-full bg-brand px-8 py-3 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-hover"
               >
                 Return to Programs
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="aristocratic-card p-8 sm:p-10 rounded-2xl space-y-6">
+          <form onSubmit={handleSubmit} className="aristocratic-card space-y-6 rounded-2xl p-8 sm:p-10">
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="fullName" className="block text-xs font-mono font-semibold uppercase text-brand mb-2">
+                <label htmlFor="fullName" className="mb-2 block font-mono text-xs font-semibold uppercase text-brand">
                   Full Name *
                 </label>
                 <input
@@ -101,12 +101,12 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="fullName"
                   required
                   placeholder="e.g. Dr. Jean Paul"
-                  className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-xs font-mono font-semibold uppercase text-brand mb-2">
+                <label htmlFor="email" className="mb-2 block font-mono text-xs font-semibold uppercase text-brand">
                   Email Address *
                 </label>
                 <input
@@ -115,14 +115,14 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="email"
                   required
                   placeholder="applicant@domain.org"
-                  className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="phone" className="block text-xs font-mono font-semibold uppercase text-brand mb-2">
+                <label htmlFor="phone" className="mb-2 block font-mono text-xs font-semibold uppercase text-brand">
                   Phone Number
                 </label>
                 <input
@@ -130,12 +130,12 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   id="phone"
                   name="phone"
                   placeholder="+237 6xx xxx xxx"
-                  className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
                 />
               </div>
 
               <div>
-                <label htmlFor="institution" className="block text-xs font-mono font-semibold uppercase text-brand mb-2">
+                <label htmlFor="institution" className="mb-2 block font-mono text-xs font-semibold uppercase text-brand">
                   Institution / Organization *
                 </label>
                 <input
@@ -144,13 +144,13 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="institution"
                   required
                   placeholder="University / Company Name"
-                  className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="motivation" className="block text-xs font-mono font-semibold uppercase text-brand mb-2">
+              <label htmlFor="motivation" className="mb-2 block font-mono text-xs font-semibold uppercase text-brand">
                 Statement of Motivation & Background *
               </label>
               <textarea
@@ -158,32 +158,32 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                 name="motivation"
                 rows={5}
                 required
-                placeholder="Describe your technical background, research goals, and motivation for joining this BTRC program..."
-                className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+                placeholder="Describe your technical background, research goals, and motivation for joining this program..."
+                className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
               />
             </div>
 
             {/* Document Upload Box Preview */}
-            <div className="border border-dashed border-brand/40 rounded-xl p-6 text-center bg-ink-light/50">
-              <span className="text-brand font-mono text-sm block mb-1">📄 Supporting Document / CV Upload</span>
-              <p className="text-xs text-gray-400">
+            <div className="rounded-xl border border-dashed border-brand/40 bg-gray-50 p-6 text-center">
+              <span className="mb-1 block font-mono text-sm text-brand">📄 Supporting Document / CV Upload</span>
+              <p className="text-xs text-gray-500">
                 Drag and drop your CV or research proposal PDF (Max 10MB)
               </p>
-              <input type="file" accept=".pdf,.docx" className="mt-3 text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brand/20 file:text-brand hover:file:bg-brand/30" />
+              <input type="file" accept=".pdf,.docx" className="mt-3 text-xs text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-brand/20 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-brand hover:file:bg-brand/30" />
             </div>
 
             {error && (
-              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+              <div className="rounded-xl border border-red-300 bg-red-50 p-4 font-mono text-xs text-red-500">
                 {error}
               </div>
             )}
 
-            <div className="pt-2 flex items-center justify-between">
-              <span className="text-[10px] font-mono text-gray-500 uppercase">* Required fields</span>
+            <div className="flex items-center justify-between pt-2">
+              <span className="font-mono text-[10px] uppercase text-gray-500">* Required fields</span>
               <button
                 type="submit"
                 disabled={submitting}
-                className="px-8 py-3.5 rounded-full bg-brand text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors shadow-lg shadow-brand/25 disabled:opacity-50"
+                className="rounded-full bg-brand px-8 py-3.5 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-hover disabled:opacity-50"
               >
                 {submitting ? "Submitting..." : "Submit Application"}
               </button>

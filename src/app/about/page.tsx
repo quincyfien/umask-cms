@@ -50,45 +50,45 @@ export default async function AboutPage() {
   });
 
   return (
-    <div className="bg-ink text-paper selection:bg-brand selection:text-white min-h-screen">
+    <div className="min-h-screen bg-paper text-ink selection:bg-brand selection:text-white">
       {/* Header Banner */}
-      <section className="relative py-20 border-b border-brand/20 bg-gradient-to-b from-ink-light to-ink overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">
-            INSTITUTIONAL OVERVIEW
+      <section className="relative overflow-hidden border-b border-brand/20 bg-gradient-to-b from-white to-paper py-20">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
+          <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
+            Institutional Overview
           </span>
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mt-2 max-w-4xl leading-tight">
+          <h1 className="mt-2 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-6xl">
             About {org.name}
           </h1>
-          <p className="mt-4 text-gray-300 text-lg max-w-3xl leading-relaxed font-normal">
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-gray-600">
             {org.description ||
-              "Bamenda Tech Research Center (BTRC) is an independent scientific engineering and technology research facility located in Bambili, NW Region, Cameroon."}
+              "An independent scientific engineering and technology research facility located in Bambili, NW Region, Cameroon."}
           </p>
         </div>
       </section>
 
       {/* Purpose & Dynamic Page Content */}
-      <section className="py-20 border-b border-brand/10 bg-ink">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-8 space-y-8">
-            <div className="aristocratic-card p-8 rounded-2xl">
-              <h2 className="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-3">
+      <section className="border-b border-brand/10 py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-12">
+          <div className="space-y-8 lg:col-span-8">
+            <div className="aristocratic-card rounded-2xl p-8">
+              <h2 className="mb-4 border-b border-black/10 pb-3 text-2xl font-bold text-ink">
                 Our Purpose & Operational Mandate
               </h2>
-              <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                Founded to bridge the gap between academic theory and practical engineering output, BTRC maintains state-of-the-art electronics cleanrooms, telemetry test stations, and software innovation labs.
+              <p className="mb-4 text-sm leading-relaxed text-gray-600">
+                Founded to bridge the gap between academic theory and practical engineering output, we maintain state-of-the-art electronics cleanrooms, telemetry test stations, and software innovation labs.
               </p>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-600">
                 We work closely with university researchers, technical institutions, and industrial partners to design, build, and deploy robust hardware and software platforms across Central Africa.
               </p>
             </div>
 
             {page?.body && (
-              <div className="aristocratic-card p-8 rounded-2xl">
-                <h2 className="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-3">
+              <div className="aristocratic-card rounded-2xl p-8">
+                <h2 className="mb-4 border-b border-black/10 pb-3 text-2xl font-bold text-ink">
                   Additional Details
                 </h2>
-                <div className="prose prose-invert max-w-none text-gray-300">
+                <div className="prose max-w-none text-gray-700">
                   <RichText html={page.body} />
                 </div>
               </div>
@@ -96,59 +96,59 @@ export default async function AboutPage() {
 
             {/* Core Values */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-6">Institutional Core Values</h3>
-              <div className="grid sm:grid-cols-2 gap-6">
+              <h3 className="mb-6 text-xl font-bold text-ink">Institutional Core Values</h3>
+              <div className="grid gap-6 sm:grid-cols-2">
                 {CORE_VALUES.map((v) => (
-                  <div key={v.title} className="aristocratic-card p-6 rounded-xl border border-brand/20">
-                    <span className="h-2 w-2 rounded-full bg-brand inline-block mb-3"></span>
-                    <h4 className="text-base font-bold text-white mb-2">{v.title}</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">{v.desc}</p>
+                  <div key={v.title} className="aristocratic-card rounded-xl border border-brand/20 p-6">
+                    <span className="mb-3 inline-block h-2 w-2 rounded-full bg-brand"></span>
+                    <h4 className="mb-2 text-base font-bold text-ink">{v.title}</h4>
+                    <p className="text-xs leading-relaxed text-gray-600">{v.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Sidebar Info & Facility Stats */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="aristocratic-card p-6 rounded-2xl">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-brand border-b border-white/10 pb-3 mb-4">
-                CAMPUS HEADQUARTERS
+          {/* Sidebar Info */}
+          <div className="space-y-6 lg:col-span-4">
+            <div className="aristocratic-card rounded-2xl p-6">
+              <h3 className="mb-4 border-b border-black/10 pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
+                Campus Headquarters
               </h3>
-              <div className="space-y-3 text-xs text-gray-300">
+              <div className="space-y-3 text-sm text-gray-600">
                 <div>
-                  <span className="text-gray-500 uppercase font-mono block">Location</span>
-                  <span className="font-semibold text-white">Bambili Campus, NW Region, Cameroon</span>
+                  <span className="block font-mono uppercase text-gray-400">Location</span>
+                  <span className="font-semibold text-ink">Bambili Campus, NW Region, Cameroon</span>
                 </div>
                 <div>
-                  <span className="text-gray-500 uppercase font-mono block">Primary Email</span>
-                  <span className="font-semibold text-brand font-mono">inquiries@btrc-center.org</span>
+                  <span className="block font-mono uppercase text-gray-400">Primary Email</span>
+                  <span className="font-mono font-semibold text-brand">inquiries@btrc-center.org</span>
                 </div>
                 <div>
-                  <span className="text-gray-500 uppercase font-mono block">Facility Status</span>
-                  <span className="inline-block px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/30 font-mono text-[10px]">
-                    ACTIVE RESIDENCY LABS
+                  <span className="block font-mono uppercase text-gray-400">Facility Status</span>
+                  <span className="inline-block rounded border border-brand/30 bg-brand/10 px-2 py-0.5 font-mono text-[10px] text-brand">
+                    Active Residency Labs
                   </span>
                 </div>
               </div>
               <Link
                 href="/contact"
-                className="mt-6 block w-full text-center rounded-full bg-brand py-2.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors"
+                className="mt-6 block w-full rounded-full bg-brand py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-hover"
               >
                 Get In Touch
               </Link>
             </div>
 
-            <div className="aristocratic-card p-6 rounded-2xl">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-brand border-b border-white/10 pb-3 mb-4">
-                RESEARCH COMMONS
+            <div className="aristocratic-card rounded-2xl p-6">
+              <h3 className="mb-4 border-b border-black/10 pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
+                Research Commons
               </h3>
-              <p className="text-xs text-gray-400 leading-relaxed mb-4">
+              <p className="mb-4 text-xs leading-relaxed text-gray-600">
                 Access open research papers, hardware documentation, software repositories, and dataset downloads.
               </p>
               <Link
                 href="/downloads"
-                className="inline-block text-xs font-mono text-brand hover:underline font-semibold uppercase"
+                className="inline-block font-mono text-xs font-semibold uppercase text-brand hover:underline"
               >
                 Browse Downloads →
               </Link>
@@ -158,31 +158,31 @@ export default async function AboutPage() {
       </section>
 
       {/* Leadership Section */}
-      <section className="py-20 bg-ink-light">
-        <div className="max-w-7xl mx-auto px-6">
-          <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">
-            SCIENTIFIC LEADERSHIP
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
+            Scientific Leadership
           </span>
-          <h2 className="text-3xl font-bold text-white tracking-tight mt-2 mb-10">
+          <h2 className="mb-10 mt-2 text-3xl font-bold tracking-tight text-ink">
             Executive & Research Directorate
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-3">
             {LEADERSHIP.map((m) => (
-              <div key={m.name} className="aristocratic-card p-6 rounded-2xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-full bg-brand/20 border border-brand/40 flex items-center justify-center font-mono font-bold text-brand">
-                    {m.name.charAt(4)}
+              <div key={m.name} className="aristocratic-card rounded-2xl p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-brand/40 bg-brand/20 font-mono font-bold text-brand">
+                    {m.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white">{m.name}</h3>
-                    <p className="text-xs text-brand font-mono">{m.role}</p>
+                    <h3 className="text-base font-bold text-ink">{m.name}</h3>
+                    <p className="font-mono text-xs text-brand">{m.role}</p>
                   </div>
                 </div>
-                <div className="text-[11px] font-mono text-gray-400 bg-black/30 p-2 rounded mb-3 border border-white/5">
+                <div className="mb-3 rounded border border-black/5 bg-gray-50 p-2 font-mono text-[11px] text-gray-500">
                   Focus: {m.focus}
                 </div>
-                <p className="text-xs text-gray-300 leading-relaxed">{m.bio}</p>
+                <p className="text-xs leading-relaxed text-gray-600">{m.bio}</p>
               </div>
             ))}
           </div>

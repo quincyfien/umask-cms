@@ -1,15 +1,18 @@
 import Link from "next/link";
 import NewsletterForm from "./NewsletterForm";
 
-const QUICK_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About BTRC" },
+const NAV_LINKS = [
+  { href: "/about", label: "About" },
   { href: "/services", label: "Services & Labs" },
   { href: "/programs", label: "Programs & Grants" },
   { href: "/projects", label: "Research Projects" },
+];
+
+const RESOURCE_LINKS = [
   { href: "/events", label: "Events & Workshops" },
   { href: "/news", label: "News & Publications" },
   { href: "/downloads", label: "Resources & Docs" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const SOCIALS = [
@@ -21,39 +24,26 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-gray-300 border-t border-brand/20 relative pt-12 pb-8">
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Newsletter Subscription Banner */}
-        <div className="relative -top-16 rounded-2xl aristocratic-card p-8 md:p-10 text-white shadow-2xl overflow-hidden">
-          <div className="absolute top-0 right-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-brand/10 blur-3xl"></div>
-          <div className="grid gap-6 md:grid-cols-2 md:items-center relative z-10">
+    <footer className="border-t border-brand/20 bg-white text-ink">
+      <div className="mx-auto max-w-7xl px-6 py-14">
+        {/* Newsletter */}
+        <div className="mb-14 rounded-2xl border border-brand/20 bg-paper p-8 md:p-10">
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
             <div>
-              <span className="text-[10px] font-mono tracking-super-wide text-brand uppercase font-semibold">
-                STAY INFORMED
-              </span>
-              <h3 className="text-2xl font-bold text-white tracking-tight mt-1">
-                Subscribe to BTRC Research Intelligence
-              </h3>
-              <p className="mt-2 text-sm text-gray-300">
-                Receive curated research briefs, upcoming events, and fellowship opportunities directly in your inbox.
+              <h3 className="text-2xl font-bold tracking-tight">Subscribe to Newsletter</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                Receive research briefs, upcoming events, and fellowship opportunities directly in your inbox.
               </p>
             </div>
             <NewsletterForm />
           </div>
         </div>
 
-        {/* Core Footer Link Columns */}
-        <div className="grid gap-10 pb-12 pt-2 md:grid-cols-4 border-b border-brand/10">
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand/20 border border-brand/40 text-brand font-mono font-bold text-lg">
-                B
-              </div>
-              <span className="font-bold text-white text-sm uppercase tracking-wider">
-                Bamenda Tech Research Center
-              </span>
-            </div>
-            <p className="mt-4 text-xs text-gray-400 leading-relaxed">
+        {/* Link Columns */}
+        <div className="grid gap-10 md:grid-cols-4">
+          <div>
+            <img src="/images/icon.svg" alt="" className="h-10 w-10" />
+            <p className="mt-4 text-xs leading-relaxed text-gray-600">
               Advancing practical scientific engineering, technological research, and innovation in Bamenda, Cameroon.
             </p>
           </div>
@@ -62,10 +52,10 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
               Navigation
             </h4>
-            <ul className="mt-4 space-y-2 text-xs">
-              {QUICK_LINKS.slice(0, 4).map((l) => (
+            <ul className="mt-4 space-y-2 text-sm">
+              {NAV_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-gray-300 hover:text-brand transition-colors">
+                  <Link href={l.href} className="text-gray-600 transition-colors hover:text-brand">
                     {l.label}
                   </Link>
                 </li>
@@ -77,10 +67,10 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
               Research Commons
             </h4>
-            <ul className="mt-4 space-y-2 text-xs">
-              {QUICK_LINKS.slice(4).map((l) => (
+            <ul className="mt-4 space-y-2 text-sm">
+              {RESOURCE_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-gray-300 hover:text-brand transition-colors">
+                  <Link href={l.href} className="text-gray-600 transition-colors hover:text-brand">
                     {l.label}
                   </Link>
                 </li>
@@ -90,14 +80,11 @@ export default function Footer() {
 
           <div>
             <h4 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-              Campus Headquarters
+              Campus
             </h4>
-            <p className="mt-4 text-xs font-semibold text-white">
-              Bamenda Tech Research Center (BTRC)
-            </p>
-            <p className="mt-1 text-xs text-gray-400">Bambili Campus, NW Region, Cameroon</p>
-            <p className="mt-2 text-xs">
-              <a href="mailto:inquiries@btrc-center.org" className="text-brand hover:underline font-mono">
+            <p className="mt-4 text-sm text-gray-600">Bambili Campus, NW Region, Cameroon</p>
+            <p className="mt-2 text-sm">
+              <a href="mailto:inquiries@btrc-center.org" className="font-mono text-brand hover:underline">
                 inquiries@btrc-center.org
               </a>
             </p>
@@ -109,7 +96,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/30 text-[10px] font-mono font-semibold text-gray-300 hover:border-brand hover:bg-brand/10 hover:text-brand transition-all"
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/30 text-[10px] font-mono font-semibold text-gray-600 transition-all hover:border-brand hover:bg-brand/10 hover:text-brand"
                 >
                   {s.label}
                 </a>
@@ -118,17 +105,17 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Sub-footer Copyright */}
-        <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs text-gray-400 md:flex-row">
-          <p>© 2026 Bamenda Tech Research Center (BTRC). All rights reserved.</p>
+        {/* Copyright */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-black/10 pt-6 text-xs text-gray-500 md:flex-row">
+          <p>© 2026 All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-brand transition-colors">
+            <Link href="/privacy" className="transition-colors hover:text-brand">
               Privacy Policy
             </Link>
-            <Link href="/contact" className="hover:text-brand transition-colors">
+            <Link href="/contact" className="transition-colors hover:text-brand">
               Contact Us
             </Link>
-            <Link href="/admin/login" className="hover:text-brand text-gray-500 font-mono transition-colors">
+            <Link href="/admin/login" className="font-mono text-gray-400 transition-colors hover:text-brand">
               Admin Portal
             </Link>
           </div>
