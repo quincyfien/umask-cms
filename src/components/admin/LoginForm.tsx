@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -26,38 +27,63 @@ export default function LoginForm() {
         router.push("/admin");
         router.refresh();
       } else {
-        setError("Invalid email or password.");
+        setError("Invalid credentials or unauthorized staff account.");
         setSubmitting(false);
       }
     } catch {
-      setError("Network error. Please try again.");
+      setError("Network connection error. Please try again.");
       setSubmitting(false);
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-sm space-y-4">
+    <form onSubmit={onSubmit} className="w-full space-y-5">
       <div>
-        <label htmlFor="email" className="block text-sm font-medium">
-          Email
+        <label htmlFor="email" className="block text-xs font-mono font-semibold uppercase text-brand mb-1.5">
+          Staff Email Address
         </label>
-        <input id="email" name="email" type="email" required className="mt-1 w-full rounded border border-gray-300 px-3 py-2" />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          placeholder="staff@btrc-center.org"
+          className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+        />
       </div>
+
       <div>
-        <label htmlFor="password" className="block text-sm font-medium">
-          Password
-        </label>
-        <input id="password" name="password" type="password" required className="mt-1 w-full rounded border border-gray-300 px-3 py-2" />
+        <div className="flex items-center justify-between mb-1.5">
+          <label htmlFor="password" className="block text-xs font-mono font-semibold uppercase text-brand">
+            Password
+          </label>
+          <Link href="/admin/reset-password" className="text-xs font-mono text-gray-400 hover:text-brand transition-colors">
+            Forgot Password?
+          </Link>
+        </div>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          placeholder="••••••••••••"
+          className="w-full rounded-xl border border-brand/30 bg-ink-light px-4 py-3 text-sm text-white focus:border-brand focus:outline-none"
+        />
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button type="submit" disabled={submitting} className="w-full rounded bg-brand px-5 py-2 font-medium text-white hover:bg-brand-dark disabled:opacity-50">
-        {submitting ? "Signing in…" : "Sign in"}
+
+      {error && (
+        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-400">
+          {error}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full rounded-full bg-brand py-3 text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors shadow-lg shadow-brand/25 disabled:opacity-50"
+      >
+        {submitting ? "Authenticating..." : "Sign In to Admin Portal"}
       </button>
-      <p className="text-sm text-gray-500">
-        <a href="/admin/reset-request" className="text-brand underline">
-          Forgot password?
-        </a>
-      </p>
     </form>
   );
 }

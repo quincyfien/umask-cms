@@ -1,15 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #10b981;
-  --color-brand-dark: #059669;
-  --color-ink: #0b0f12;
-  --color-ink-2: #0d1117;
-  --color-ink-card: #111827;
-  --color-paper: #f9fafb;
-  --color-paper-2: #f3f4f6;
+  --color-brand: #1da86d;
+  --color-brand-hover: #1b9d63;
+  --color-brand-emerald: #1da86d;
+  --color-brand-emerald-dark: #1b9d63;
+  --color-brand-navy: #0a0f1c;
+  --color-brand-cream: #f5f5dc;
+  
+  --color-ink: #0a0f1c;
+  --color-ink-light: #121829;
+  --color-ink-card: #182035;
+  --color-paper: #f5f5dc;
+  --color-paper-card: #ffffff;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --tracking-super-wide: 0.22em;
+  --tracking-editorial: 0.12em;
 }
 
-body {
-  font-family: var(--font-sans), system-ui, sans-serif;
+@layer base {
+  html, body {
+    background-color: #0a0f1c;
+    color: #f5f5dc;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Modern Aristocratic Glassmorphism & Surface Utilities */
+.glass-surface {
+  background: rgba(245, 245, 220, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.glass-surface-dark {
+  background: rgba(10, 15, 28, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(29, 168, 109, 0.15);
+}
+
+.aristocratic-card {
+  background: linear-gradient(135deg, rgba(18, 24, 41, 0.9) 0%, rgba(10, 15, 28, 0.95) 100%);
+  border: 1px solid rgba(29, 168, 109, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.aristocratic-card:hover {
+  border-color: rgba(29, 168, 109, 0.5);
+  box-shadow: 0 15px 35px -5px rgba(29, 168, 109, 0.15);
+  transform: translateY(-2px);
+}
+
+.emerald-glow {
+  box-shadow: 0 0 25px -5px rgba(29, 168, 109, 0.4);
+}
+
+.pulse-line {
+  animation: pulseSoft 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 0.35; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.35); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0f1c;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(29, 168, 109, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 168, 109, 0.8);
 }

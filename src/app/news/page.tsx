@@ -1,5 +1,12 @@
 import ContentListPage from "@/components/public/ContentListPage";
 
-export default function Page() {
-  return <ContentListPage title="News" type="NEWS" hrefPrefix="/news" />;
+export default function NewsPage() {
+  return (
+    <ContentListPage
+      title="News & Dispatches"
+      subtitle="Institutional announcements, scientific breakthroughs, fellowship cohorts, and research press releases."
+      type="NEWS"
+      hrefPrefix="/news"
+    />
+  );
 }

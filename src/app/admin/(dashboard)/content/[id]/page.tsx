@@ -12,9 +12,13 @@ export default async function EditContentPage({
   if (!item) notFound();
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Edit content</h1>
-      <div className="mt-6 max-w-2xl">
+    <div className="space-y-6">
+      <div className="border-b border-white/10 pb-5">
+        <span className="text-[10px] font-mono text-brand uppercase tracking-wider">CONTENT EDITOR</span>
+        <h1 className="text-3xl font-bold text-white tracking-tight mt-0.5">Edit Content</h1>
+        <p className="text-xs font-mono text-gray-400 mt-1">ID: {item.id}</p>
+      </div>
+      <div className="max-w-4xl">
         <ContentForm
           contentId={item.id}
           initial={{

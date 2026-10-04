@@ -16,7 +16,7 @@ export default function Shell({
   const isAdmin = pathname.startsWith("/admin");
 
   return (
-    <div className="flex min-h-screen flex-col bg-cream text-gray-900 antialiased">
+    <div className="flex min-h-screen flex-col bg-ink text-paper selection:bg-brand selection:text-white antialiased">
       {!isAdmin && header}
       <main className="flex-1">{children}</main>
       {!isAdmin && footer}

@@ -4,237 +4,180 @@ import { prisma } from "@/lib/db";
 const METRICS = [
   { value: "14+", label: "Active Research Projects", badge: "Tier-1 Deployment" },
   { value: "35+", label: "Published Papers", badge: "IEEE & Indexed" },
-  { value: "1,200+", label: "Students Trained", badge: "National Reach" },
-  { value: "98.4%", label: "Completion Rate", badge: "Verified Outcomes" },
+  { value: "1,200+", label: "Students & Innovators Trained", badge: "Capacity Building" },
+  { value: "98.4%", label: "Verified Project Success Rate", badge: "Scientific Rigor" },
 ];
 
-const SERVICE_IMAGES = ["mentorship", "workspace", "internet", "lab-access"];
-
-type ServiceCard = {
-  id: string;
-  title: string;
-  image: string;
-  description: string;
-  bullets: string[];
-};
-
-type ProgramCard = { title: string; duration: string; description: string };
-type EventCard = { title: string; meta: string; description: string };
-
-const FALLBACK_SERVICES: ServiceCard[] = [
+const FOCUS_AREAS = [
   {
-    id: "SRV-01",
-    title: "Mentorship",
-    image: "/images/services/mentorship.png",
-    description: "One-on-one guidance from industry experts and research mentors.",
-    bullets: ["Career navigation", "Research supervision", "Pitch preparation"],
+    code: "SEC-01",
+    title: "Applied AI & Robotics",
+    desc: "Autonomous systems, localized machine learning models, and computer vision hardware for African agricultural & industrial challenges.",
+    tag: "LABORATORY 01",
   },
   {
-    id: "SRV-02",
-    title: "Workspace Access",
-    image: "/images/services/workspace.png",
-    description: "Dedicated coworking space for innovators and startups.",
-    bullets: ["24/7 secure access", "Meeting rooms", "Community events"],
+    code: "SEC-02",
+    title: "Embedded Systems & IoT",
+    desc: "Low-power microcontrollers, telemetry sensors, and custom PCB hardware prototyping for real-time remote monitoring.",
+    tag: "LABORATORY 02",
   },
   {
-    id: "SRV-03",
-    title: "Free Internet Connection",
-    image: "/images/services/internet.png",
-    description: "Reliable high-speed internet for research and collaboration.",
-    bullets: ["Fiber backbone", "Campus-wide Wi-Fi", "No data caps"],
+    code: "SEC-03",
+    title: "Renewable Energy & Power Systems",
+    desc: "Microgrid telemetry, solar battery management systems, and smart grid automation engineered for regional resilience.",
+    tag: "LABORATORY 03",
   },
   {
-    id: "SRV-04",
-    title: "Equipment / Lab Access",
-    image: "/images/services/lab-access.png",
-    description: "Specialized lab equipment for prototyping and testing.",
-    bullets: ["Prototyping tools", "Measurement instruments", "Safety-first protocols"],
+    code: "SEC-04",
+    title: "Technical Training & Research Commons",
+    desc: "Hands-on residency bootcamps, open access scientific documentation, and academic fellowship supervision.",
+    tag: "ACADEMIC COMMONS",
   },
 ];
 
-const FALLBACK_PROGRAMS: ProgramCard[] = [
+const FALLBACK_PROJECTS = [
   {
-    title: "Internships",
-    duration: "3 to 6 Months",
-    description: "Hands-on placements within active research and engineering projects.",
+    id: "PRJ-01",
+    title: "AgriSense Autonomous Crop Telemetry",
+    category: "IoT & Agriculture",
+    status: "Active Deployment",
+    desc: "Solar-powered sensor array delivering microclimate metrics to local smallholder farms.",
   },
   {
-    title: "Workshops",
-    duration: "Intensive Bootcamps",
-    description: "Focused, practical training across emerging technology domains.",
+    id: "PRJ-02",
+    title: "Micro-Grid Energy Orchestrator",
+    category: "Renewables",
+    status: "Field Testing",
+    desc: "Intelligent battery management unit optimizing hybrid solar-diesel mini grids.",
   },
   {
-    title: "Research Fellowships",
-    duration: "Fully Funded Residency",
-    description: "Immersive residency programs for committed researchers.",
-  },
-];
-
-const FALLBACK_EVENTS: EventCard[] = [
-  {
-    title: "Tech Innovation Summit",
-    meta: "March 25, 2026 · Bambili Campus Auditorium",
-    description: "A convergence of researchers, founders and industry leaders.",
-  },
-  {
-    title: "Research Showcase 2026",
-    meta: "June 12, 2026 · BTRC Innovation Hall",
-    description: "Annual exhibition of published papers and working prototypes.",
-  },
-];
-
-const FALLBACK_WORKSHOPS: EventCard[] = [
-  {
-    title: "Robotics & Embedded Systems",
-    meta: "April 05–07, 2026 · In-Person Cleanroom B",
-    description: "Build and program embedded systems from the ground up.",
-  },
-  {
-    title: "Data Science Bootcamp",
-    meta: "May 18–20, 2026 · Online",
-    description: "End-to-end data analysis and machine learning workflows.",
+    id: "PRJ-03",
+    title: "BTRC Neural Speech Synthesizer",
+    category: "Applied AI",
+    status: "Research Paper Published",
+    desc: "Speech synthesis and speech-to-text models trained on local Cameroonian languages.",
   },
 ];
 
 export default async function Home() {
-  const [services, programs, events] = await Promise.all([
+  const [services, programs, events, news] = await Promise.all([
     prisma.contentItem.findMany({
       where: { type: "SERVICE", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
-      orderBy: { publishedAt: "asc" },
       take: 4,
     }),
     prisma.contentItem.findMany({
       where: { type: "PROGRAM", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
-      orderBy: { publishedAt: "asc" },
       take: 3,
     }),
     prisma.contentItem.findMany({
       where: { type: "EVENT", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
-      orderBy: { startAt: "asc" },
-      take: 4,
+      take: 3,
+    }),
+    prisma.contentItem.findMany({
+      where: { type: "NEWS", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      take: 3,
     }),
   ]);
 
-  const serviceCards: ServiceCard[] = services.length
-    ? services.map((s, i) => ({
-        id: `SRV-0${i + 1}`,
-        title: s.title,
-        image: `/images/services/${SERVICE_IMAGES[i % SERVICE_IMAGES.length]}.png`,
-        description: s.summary ?? "",
-        bullets: ((s.details as { bullets?: string[] } | null)?.bullets ?? []) as string[],
-      }))
-    : FALLBACK_SERVICES;
-
-  const programCards: ProgramCard[] = programs.length
-    ? programs.map((p) => ({
-        title: p.title,
-        duration: ((p.details as { duration?: string } | null)?.duration ?? "Open") as string,
-        description: p.summary ?? "",
-      }))
-    : FALLBACK_PROGRAMS;
-
-  const dbEvents = events.filter((e) => e.eventKind !== "WORKSHOP");
-  const dbWorkshops = events.filter((e) => e.eventKind === "WORKSHOP");
-  const toEventCard = (e: (typeof events)[number]): EventCard => ({
-    title: e.title,
-    meta: e.startAt
-      ? `${e.startAt.toISOString().slice(0, 10)} · ${e.venueAddress ?? "BTRC"}`
-      : "TBA",
-    description: e.summary ?? "",
-  });
-
-  const eventCards = dbEvents.length ? dbEvents.map(toEventCard) : FALLBACK_EVENTS;
-  const workshopCards = dbWorkshops.length ? dbWorkshops.map(toEventCard) : FALLBACK_WORKSHOPS;
-
   return (
-    <div>
-      {/* Section 01 — Hero */}
-      <section className="relative overflow-hidden bg-ink text-white">
-        <img src="/images/hero-bg.png" alt="" className="absolute inset-0 h-full w-full object-cover opacity-50" />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative mx-auto max-w-7xl px-6 py-28">
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-brand" />
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+    <div className="bg-ink text-paper selection:bg-brand selection:text-white">
+      {/* Hero Section — Aristocratic Cleanroom Cleanroom Scroller */}
+      <section className="relative min-h-[90vh] flex flex-col justify-end overflow-hidden border-b border-brand/20 bg-ink">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/hero-bg.png"
+            alt="BTRC Cleanroom and Electronics Engineering Lab"
+            className="w-full h-full object-cover object-center scale-105 opacity-40 mix-blend-luminosity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-transparent"></div>
+          <div className="absolute inset-0 bg-brand/5 mix-blend-overlay"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 pt-36 pb-20 flex flex-col justify-end">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="h-px w-10 bg-brand"></span>
+            <span className="text-brand font-mono text-xs tracking-super-wide uppercase font-semibold">
               Research. Innovate. Build. Sustain.
-            </p>
+            </span>
           </div>
-          <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-            Turning Ideas Into Technology That Matters
+
+          <h1 className="text-white text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-5xl leading-[1.08] mb-6 drop-shadow-sm">
+            TURNING IDEAS INTO TECHNOLOGY THAT MATTERS
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-gray-300">
-            Bamenda Tech Research Center bridges research and real-world impact — equipping
-            innovators, students and industry partners to build technology that matters.
+
+          <p className="text-gray-300 text-base md:text-xl font-normal max-w-3xl leading-relaxed mb-10 text-balance">
+            Bamenda Tech Research Center (BTRC) is a premier technology research institution dedicated to transforming scientific ideas into practical engineering solutions. We empower researchers, students, and industrial partners across Africa.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-16">
             <Link
               href="/projects"
-              className="rounded-full bg-brand px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-brand-dark"
+              className="px-8 py-4 rounded-full text-xs font-semibold tracking-super-wide uppercase bg-brand hover:bg-brand-hover text-white text-center transition-all duration-300 shadow-xl shadow-brand/25"
             >
-              Explore Our Research Projects
+              Explore Research Projects
             </Link>
             <Link
               href="/contact"
-              className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:border-brand hover:text-brand"
+              className="px-8 py-4 rounded-full text-xs font-semibold tracking-super-wide uppercase text-white border border-white/25 hover:border-brand hover:text-brand text-center transition-all duration-300 backdrop-blur-md"
             >
-              Request a Service
+              Request R&D Service
             </Link>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-white/10 pt-6 text-xs font-mono text-gray-400 gap-4">
+            <div className="flex items-center gap-6">
+              <span>FACILITY: BAMBILI R&D LABS</span>
+              <span>OPERATIONAL STATUS: NOMINAL</span>
+            </div>
+            <div className="flex items-center gap-2 text-brand">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand animate-ping"></span>
+              <span>LIVE TELEMETRY FEED</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Section 02 — Purpose & Metrics */}
-      <section className="bg-paper py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-              Section 02 / The Purpose
-            </p>
-            <h2 className="mt-4 text-3xl font-bold text-gray-900 md:text-4xl">
-              Our Mission: Turning Ideas Into Impact
+      {/* Mission & Metrics Benchmarks */}
+      <section className="py-24 border-b border-brand/10 bg-gradient-to-b from-ink to-ink-light">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-brand text-[11px] font-mono tracking-super-wide font-semibold mb-6">
+              SECTION 02 / THE PURPOSE
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight mb-6">
+              OUR MISSION: TURNING IDEAS INTO IMPACT.
             </h2>
-            <p className="mt-6 text-gray-600">
-              We exist to accelerate scientific and engineering excellence in Cameroon by
-              connecting talent, research infrastructure and real-world problems. Through
-              mentorship, accessible workspaces, reliable connectivity and specialized labs,
-              we give innovators the environment to build, test and ship.
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
+              To advance technology research, scientific innovation, and practical capacity building by creating an environment where high-potential ideas are engineered into real-world solutions.
             </p>
-            <div className="mt-8 rounded-xl border-l-4 border-brand bg-white p-6">
-              <p className="italic text-gray-700">
-                Vision: To become a leading platform for technology research, innovation, and
-                engineering excellence in Cameroon.
+            <div className="p-6 rounded-2xl aristocratic-card border-l-4 border-brand mb-8">
+              <p className="text-sm md:text-base font-medium italic text-gray-200">
+                &ldquo;Vision: To become a leading platform for technology research, innovation, and engineering excellence in Cameroon and central Africa.&rdquo;
               </p>
             </div>
             <Link
-              href="/services"
-              className="mt-8 inline-block text-sm font-bold uppercase tracking-widest text-brand hover:text-brand-dark"
+              href="/about"
+              className="inline-flex items-center gap-3 text-xs uppercase font-bold tracking-super-wide text-white hover:text-brand transition-colors"
             >
-              Explore Our Focus Areas →
+              <span>Read Full Institutional Overview</span>
+              <span className="text-brand">→</span>
             </Link>
           </div>
 
-          <div className="lg:col-span-2">
-            <div className="rounded-2xl bg-white p-6 shadow-lg">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900">
-                  Metric Benchmarks
-                </h3>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-brand">
-                  Verified Data
-                </span>
+          <div className="lg:col-span-5">
+            <div className="aristocratic-card p-8 rounded-2xl shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                <span className="text-xs uppercase font-mono tracking-widest text-gray-400">Metric Benchmarks</span>
+                <span className="text-[10px] font-mono text-brand font-semibold tracking-wider">VERIFIED DATA</span>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="space-y-6">
                 {METRICS.map((m) => (
-                  <div key={m.label} className="flex items-center justify-between py-5">
-                    <div>
-                      <p className="text-3xl font-bold text-gray-900">{m.value}</p>
-                      <p className="mt-1 text-xs uppercase tracking-widest text-gray-500">
-                        {m.label}
-                      </p>
+                  <div key={m.label} className="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                    <div className="flex items-baseline justify-between">
+                      <div className="text-3xl font-extrabold text-white tracking-tight">{m.value}</div>
+                      <span className="text-[10px] font-mono text-brand font-semibold">{m.badge}</span>
                     </div>
-                    <span className="rounded-full bg-emerald-50 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-brand-dark">
-                      {m.badge}
-                    </span>
+                    <div className="text-xs uppercase font-medium text-gray-400 tracking-wider mt-1">{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -243,130 +186,172 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Section 03 — Services */}
-      <section className="bg-ink py-20 text-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-            Section 03 / Infrastructure & Support
-          </p>
-          <h2 className="mt-4 text-3xl font-bold md:text-4xl">Our Services</h2>
+      {/* Focus Areas Grid */}
+      <section className="py-24 border-b border-brand/10 bg-ink">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">
+                SECTION 03 / FOCUS AREAS
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mt-2">
+                WHAT BTRC OFFERS
+              </h2>
+            </div>
+            <Link
+              href="/services"
+              className="mt-4 md:mt-0 text-xs font-mono tracking-widest uppercase text-brand hover:underline"
+            >
+              VIEW ALL SERVICES & LABS →
+            </Link>
+          </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {serviceCards.map((s) => (
-              <div key={s.id} className="rounded-xl border border-white/10 bg-ink-card p-5">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-semibold text-brand">{s.id}</span>
-                  <span className="h-2 w-2 rounded-full bg-brand" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {FOCUS_AREAS.map((fa) => (
+              <div key={fa.code} className="aristocratic-card p-6 rounded-2xl flex flex-col justify-between group">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-brand mb-4">
+                    <span>{fa.code}</span>
+                    <span className="text-[10px] bg-brand/10 px-2 py-0.5 rounded text-brand border border-brand/20">
+                      {fa.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-brand transition-colors mb-3">
+                    {fa.title}
+                  </h3>
+                  <p className="text-xs text-gray-400 leading-relaxed mb-6">{fa.desc}</p>
                 </div>
-                <img src={s.image} alt={s.title} className="mt-4 h-40 w-full rounded-md object-cover" />
-                <h3 className="mt-4 text-lg font-bold">{s.title}</h3>
-                <p className="mt-2 text-sm text-gray-400">{s.description}</p>
-                <div className="my-4 border-t border-white/10" />
-                <ul className="space-y-2 font-mono text-xs text-gray-300">
-                  {s.bullets.map((b) => (
-                    <li key={b} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
+                <Link
+                  href="/services"
+                  className="text-[11px] font-mono font-semibold uppercase tracking-wider text-brand flex items-center justify-between border-t border-white/10 pt-4"
+                >
+                  <span>Learn More</span>
+                  <span>→</span>
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Section 04 — Programs */}
-      <section className="bg-paper py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-            Section 04 / Build & Accelerate
-          </p>
-          <h2 className="mt-4 text-3xl font-bold text-gray-900 md:text-4xl">Our Programs</h2>
-
-          <div className="mt-10 rounded-xl border border-gray-200 bg-white p-6">
-            <div className="flex justify-end">
-              <span className="rounded-full bg-emerald-50 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-brand-dark">
-                Cohort Enrolling
+      {/* Featured Research Projects */}
+      <section className="py-24 border-b border-brand/10 bg-ink-light">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span className="text-xs font-mono tracking-super-wide text-brand uppercase font-semibold">
+                SECTION 04 / RESEARCH DISPATCH
               </span>
-            </div>
-            <div className="divide-y divide-gray-100">
-              {programCards.map((p) => (
-                <div key={p.title} className="py-6">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-lg font-semibold text-gray-900">{p.title}</h3>
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gray-600">
-                      {p.duration}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm text-gray-600">{p.description}</p>
-                </div>
-              ))}
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mt-2">
+                FEATURED PROJECTS
+              </h2>
             </div>
             <Link
-              href="/programs"
-              className="mt-6 inline-block rounded-full bg-brand px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-brand-dark"
+              href="/projects"
+              className="mt-4 md:mt-0 text-xs font-mono tracking-widest uppercase text-brand hover:underline"
             >
-              Browse All Programs →
+              BROWSE PROJECT REPOSITORY →
             </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {FALLBACK_PROJECTS.map((p) => (
+              <div key={p.id} className="aristocratic-card p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-gray-400 mb-3">
+                    <span>{p.category}</span>
+                    <span className="text-brand font-semibold text-[10px] uppercase bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-brand/30">
+                      {p.status}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed mb-6">{p.desc}</p>
+                </div>
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-brand hover:text-white transition-colors"
+                >
+                  <span>Explore Case Study</span>
+                  <span>→</span>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Section 05 — Events & Workshops */}
-      <section className="bg-ink py-20 text-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-            Section 05 / Community Convergence
-          </p>
-          <div className="mt-4 flex flex-wrap items-end justify-between">
-            <h2 className="text-3xl font-bold md:text-4xl">Events & Workshops</h2>
-            <span className="font-mono text-sm uppercase tracking-widest text-gray-400">
-              Calendar 2026
-            </span>
-          </div>
+      {/* Upcoming Events & Latest News */}
+      <section className="py-24 bg-ink">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12">
+          {/* Upcoming Events Column */}
+          <div>
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
+              <div>
+                <span className="text-xs font-mono tracking-wider text-brand uppercase font-semibold">CALENDAR</span>
+                <h3 className="text-2xl font-bold text-white mt-1">Upcoming Events</h3>
+              </div>
+              <Link href="/events" className="text-xs font-mono text-brand hover:underline uppercase">
+                ALL EVENTS →
+              </Link>
+            </div>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-2">
-            <div>
-              <h3 className="font-mono text-sm font-semibold uppercase tracking-widest text-brand">
-                • Events
-              </h3>
-              <div className="mt-4 space-y-4">
-                {eventCards.map((e) => (
-                  <div key={e.title} className="rounded-xl border border-white/10 bg-ink-card p-6">
-                    <h4 className="text-lg font-bold">{e.title}</h4>
-                    <p className="mt-1 font-mono text-xs text-brand">{e.meta}</p>
-                    <p className="mt-3 text-sm text-gray-400">{e.description}</p>
+            <div className="space-y-4">
+              {events.length ? (
+                events.map((e) => (
+                  <div key={e.id} className="aristocratic-card p-5 rounded-xl flex items-start justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono text-brand uppercase tracking-wider">
+                        {e.startAt ? new Date(e.startAt).toLocaleDateString() : "UPCOMING"}
+                      </span>
+                      <h4 className="text-base font-bold text-white mt-1">{e.title}</h4>
+                      <p className="text-xs text-gray-400 mt-1">{e.summary || "BTRC Campus Hall"}</p>
+                    </div>
                     <Link
-                      href="/events"
-                      className="mt-4 inline-block rounded-full border border-brand px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand hover:bg-brand hover:text-white"
+                      href={`/events/${e.slug}`}
+                      className="px-4 py-2 rounded-full border border-brand/40 text-[11px] font-mono font-semibold text-brand hover:bg-brand hover:text-white transition-all"
                     >
                       RSVP
                     </Link>
                   </div>
-                ))}
+                ))
+              ) : (
+                <div className="aristocratic-card p-6 rounded-xl text-center text-xs text-gray-400">
+                  No upcoming public events scheduled for this week. Check back soon!
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Latest News Column */}
+          <div>
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
+              <div>
+                <span className="text-xs font-mono tracking-wider text-brand uppercase font-semibold">PUBLICATIONS</span>
+                <h3 className="text-2xl font-bold text-white mt-1">Latest News & Papers</h3>
               </div>
+              <Link href="/news" className="text-xs font-mono text-brand hover:underline uppercase">
+                ALL NEWS →
+              </Link>
             </div>
 
-            <div>
-              <h3 className="font-mono text-sm font-semibold uppercase tracking-widest text-brand">
-                • Workshops
-              </h3>
-              <div className="mt-4 space-y-4">
-                {workshopCards.map((w) => (
-                  <div key={w.title} className="rounded-xl border border-white/10 bg-ink-card p-6">
-                    <h4 className="text-lg font-bold">{w.title}</h4>
-                    <p className="mt-1 font-mono text-xs text-brand">{w.meta}</p>
-                    <p className="mt-3 text-sm text-gray-400">{w.description}</p>
-                    <Link
-                      href="/events"
-                      className="mt-4 inline-block rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-dark"
-                    >
-                      Sign Up
-                    </Link>
+            <div className="space-y-4">
+              {news.length ? (
+                news.map((n) => (
+                  <div key={n.id} className="aristocratic-card p-5 rounded-xl">
+                    <span className="text-[10px] font-mono text-brand uppercase tracking-wider">
+                      {n.publishedAt ? new Date(n.publishedAt).toLocaleDateString() : "RECENT RELEASE"}
+                    </span>
+                    <h4 className="text-base font-bold text-white mt-1 hover:text-brand transition-colors">
+                      <Link href={`/news/${n.slug}`}>{n.title}</Link>
+                    </h4>
+                    <p className="text-xs text-gray-400 mt-2 line-clamp-2">{n.summary || "Read full research article."}</p>
                   </div>
-                ))}
-              </div>
+                ))
+              ) : (
+                <div className="aristocratic-card p-6 rounded-xl text-center text-xs text-gray-400">
+                  Visit our News section to read our latest press releases and scientific reports.
+                </div>
+              )}
             </div>
           </div>
         </div>

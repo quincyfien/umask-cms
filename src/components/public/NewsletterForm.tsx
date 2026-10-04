@@ -32,7 +32,11 @@ export default function NewsletterForm() {
   }
 
   if (status === "success") {
-    return <p className="text-sm text-brand">Check your inbox to confirm.</p>;
+    return (
+      <div className="rounded-xl border border-brand/40 bg-brand/10 p-3 text-xs font-mono text-brand">
+        ✓ Dispatch sent. Check your inbox to confirm your subscription.
+      </div>
+    );
   }
 
   return (
@@ -45,29 +49,34 @@ export default function NewsletterForm() {
           type="email"
           name="email"
           required
-          placeholder="Enter your email address"
-          className="w-full rounded-l-lg border border-white/20 bg-ink-2 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none"
+          placeholder="scientist@institution.org"
+          className="w-full rounded-l-xl border border-brand/30 bg-ink-light px-4 py-3 text-xs text-white placeholder:text-gray-500 focus:border-brand focus:outline-none"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="rounded-r-lg bg-brand px-5 py-3 text-sm font-semibold uppercase tracking-wider text-white hover:bg-brand-dark disabled:opacity-50"
+          className="rounded-r-xl bg-brand px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white hover:bg-brand-hover transition-colors shadow-lg shadow-brand/20 disabled:opacity-50"
         >
-          {status === "submitting" ? "…" : "Submit"}
+          {status === "submitting" ? "…" : "Subscribe"}
         </button>
       </div>
-      <label className="mt-3 flex items-start gap-2 text-xs text-gray-400">
-        <input type="checkbox" name="consentGiven" required className="mt-0.5" />
+      <label className="mt-2.5 flex items-start gap-2 text-[11px] text-gray-400">
+        <input
+          type="checkbox"
+          name="consentGiven"
+          required
+          className="mt-0.5 rounded border-brand/40 bg-ink-light text-brand accent-brand focus:ring-brand"
+        />
         <span>
-          I consent to receiving updates as described in the{" "}
-          <a href="/privacy" className="text-brand underline">
+          I consent to receive scientific dispatches under the{" "}
+          <a href="/privacy" className="text-brand underline hover:text-brand-hover">
             privacy policy
           </a>
           .
         </span>
       </label>
       {status === "error" && (
-        <p className="mt-2 text-xs text-red-400">Something went wrong. Please try again.</p>
+        <p className="mt-2 text-xs font-mono text-red-400">Subscription request could not be processed. Please retry.</p>
       )}
     </form>
   );
