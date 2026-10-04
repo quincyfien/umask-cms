@@ -1,33 +1,34 @@
 import Link from "next/link";
-import { getOrganization } from "@/lib/organization";
 
 const NAV = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/programs", label: "Programs" },
-  { href: "/projects", label: "Projects" },
-  { href: "/events", label: "Events" },
+  { href: "/events", label: "Events & Workshops" },
   { href: "/news", label: "News" },
-  { href: "/downloads", label: "Downloads" },
-  { href: "/contact", label: "Contact" },
 ];
 
-export default async function Header() {
-  const org = await getOrganization();
+export default function Header() {
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link href="/" className="text-lg font-semibold text-brand">
-          {org.name}
+    <header className="sticky top-0 z-50 bg-ink text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <Link href="/" className="flex items-center gap-3">
+          <img src="/images/logo.png" alt="BTRC logo" className="h-9 w-auto" />
+          <span className="text-sm font-semibold">Bamenda Tech Research Center</span>
         </Link>
-        <nav className="hidden flex-wrap gap-x-4 gap-y-1 text-sm md:flex">
+        <nav className="hidden items-center gap-6 text-[11px] font-semibold uppercase tracking-widest text-white/90 lg:flex">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="text-gray-600 hover:text-brand">
+            <Link key={n.href} href={n.href} className="transition-colors hover:text-brand">
               {n.label}
             </Link>
           ))}
         </nav>
+        <Link
+          href="/contact"
+          className="rounded-full border border-white/40 px-5 py-2 text-[11px] font-semibold uppercase tracking-widest transition-colors hover:border-brand hover:text-brand"
+        >
+          Inquire
+        </Link>
       </div>
     </header>
   );
