@@ -35,12 +35,12 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-paper text-ink">
-      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+    <div className="min-h-screen bg-surface text-content">
+      <section className="border-b border-brand/20 bg-gradient-to-b from-card to-surface py-16">
         <div className="mx-auto max-w-4xl px-6">
           <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">Legal Disclosure</span>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Privacy Policy</h1>
-          <p className="mt-3 font-mono text-sm text-gray-500">
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-content sm:text-5xl">Privacy Policy</h1>
+          <p className="mt-3 font-mono text-sm text-muted">
             Effective date: 01 January 2026
           </p>
         </div>
@@ -52,14 +52,14 @@ export default function PrivacyPage() {
             <div key={s.id} className="aristocratic-card rounded-2xl border-l-4 border-brand p-8">
               <div className="mb-3 flex items-center gap-3">
                 <span className="font-mono text-xs font-semibold text-brand">{s.id}</span>
-                <h2 className="text-lg font-bold text-ink">{s.title}</h2>
+                <h2 className="text-lg font-bold text-content">{s.title}</h2>
               </div>
-              <p className="text-sm leading-relaxed text-gray-600">{s.content}</p>
+              <p className="text-sm leading-relaxed text-muted">{s.content}</p>
             </div>
           ))}
 
           <div className="aristocratic-card rounded-2xl p-8 text-center">
-            <p className="mb-4 text-sm text-gray-600">
+            <p className="mb-4 text-sm text-muted">
               For data access requests or privacy-related questions, please use our inquiry form.
             </p>
             <Link

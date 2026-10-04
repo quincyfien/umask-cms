@@ -50,7 +50,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
   }
 
   return (
-    <div className="min-h-screen bg-paper py-16 text-ink">
+    <div className="min-h-screen bg-surface py-16 text-content">
       <div className="mx-auto max-w-3xl px-6">
         <div className="mb-8">
           <Link
@@ -62,10 +62,10 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
           <span className="block font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
             Fellowship & Residency Application
           </span>
-          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-content sm:text-4xl">
             Program Application Form
           </h1>
-          <p className="mt-2 text-xs text-gray-500">
+          <p className="mt-2 text-xs text-muted">
             Program Identifier: <span className="font-mono text-brand">{resolvedParams.slug}</span>
           </p>
         </div>
@@ -75,8 +75,8 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-brand bg-brand/20 font-mono text-2xl font-bold text-brand">
               ✓
             </div>
-            <h2 className="text-2xl font-bold text-ink">Application Received</h2>
-            <p className="mx-auto max-w-md text-sm text-gray-600">
+            <h2 className="text-2xl font-bold text-content">Application Received</h2>
+            <p className="mx-auto max-w-md text-sm text-muted">
               Your application has been submitted to the Academic Review Committee. You will receive an automated confirmation email shortly.
             </p>
             <div className="pt-4">
@@ -101,7 +101,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="fullName"
                   required
                   placeholder="e.g. Dr. Jean Paul"
-                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content focus:border-brand focus:outline-none"
                 />
               </div>
 
@@ -115,7 +115,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="email"
                   required
                   placeholder="applicant@domain.org"
-                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content focus:border-brand focus:outline-none"
                 />
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   id="phone"
                   name="phone"
                   placeholder="+237 6xx xxx xxx"
-                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content focus:border-brand focus:outline-none"
                 />
               </div>
 
@@ -144,7 +144,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                   name="institution"
                   required
                   placeholder="University / Company Name"
-                  className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
+                  className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content focus:border-brand focus:outline-none"
                 />
               </div>
             </div>
@@ -159,17 +159,17 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
                 rows={5}
                 required
                 placeholder="Describe your technical background, research goals, and motivation for joining this program..."
-                className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink focus:border-brand focus:outline-none"
+                className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content focus:border-brand focus:outline-none"
               />
             </div>
 
             {/* Document Upload Box Preview */}
             <div className="rounded-xl border border-dashed border-brand/40 bg-gray-50 p-6 text-center">
               <span className="mb-1 block font-mono text-sm text-brand">📄 Supporting Document / CV Upload</span>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted">
                 Drag and drop your CV or research proposal PDF (Max 10MB)
               </p>
-              <input type="file" accept=".pdf,.docx" className="mt-3 text-xs text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-brand/20 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-brand hover:file:bg-brand/30" />
+              <input type="file" accept=".pdf,.docx" className="mt-3 text-xs text-muted file:mr-4 file:rounded-full file:border-0 file:bg-brand/20 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-brand hover:file:bg-brand/30" />
             </div>
 
             {error && (
@@ -179,7 +179,7 @@ export default function ProgramApplyPage({ params }: { params: Promise<{ slug: s
             )}
 
             <div className="flex items-center justify-between pt-2">
-              <span className="font-mono text-[10px] uppercase text-gray-500">* Required fields</span>
+              <span className="font-mono text-[10px] uppercase text-muted">* Required fields</span>
               <button
                 type="submit"
                 disabled={submitting}

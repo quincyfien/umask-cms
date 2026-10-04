@@ -9,9 +9,9 @@ export default function ContentDetail({
   item: ContentItem & { category?: { name: string } | null; author?: { name: string } | null };
 }) {
   return (
-    <div className="min-h-screen bg-paper text-ink">
+    <div className="min-h-screen bg-surface text-content">
       {/* Header Banner */}
-      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+      <section className="border-b border-brand/20 bg-gradient-to-b from-card to-surface py-16">
         <div className="mx-auto max-w-4xl px-6">
           <div className="mb-4 flex items-center gap-3">
             {item.category && (
@@ -20,15 +20,15 @@ export default function ContentDetail({
               </span>
             )}
             {item.publishedAt && (
-              <span className="font-mono text-xs text-gray-500">Published {formatDate(item.publishedAt)}</span>
+              <span className="font-mono text-xs text-muted">Published {formatDate(item.publishedAt)}</span>
             )}
           </div>
 
-          <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
+          <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-content sm:text-5xl">
             {item.title}
           </h1>
 
-          {item.summary && <p className="mt-4 text-lg leading-relaxed text-gray-600">{item.summary}</p>}
+          {item.summary && <p className="mt-4 text-lg leading-relaxed text-muted">{item.summary}</p>}
 
           {item.author && <p className="mt-4 font-mono text-xs text-brand">Authored by {item.author.name}</p>}
         </div>
@@ -50,28 +50,28 @@ export default function ContentDetail({
               <h3 className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
                 Event Details
               </h3>
-              <div className="grid gap-4 text-sm text-gray-600 sm:grid-cols-2">
+              <div className="grid gap-4 text-sm text-muted sm:grid-cols-2">
                 {item.startAt && (
                   <div>
-                    <span className="block font-mono uppercase text-gray-400">Starts</span>
-                    <span className="font-semibold text-ink">{formatDateTime(item.startAt)}</span>
+                    <span className="block font-mono uppercase text-muted">Starts</span>
+                    <span className="font-semibold text-content">{formatDateTime(item.startAt)}</span>
                   </div>
                 )}
                 {item.endAt && (
                   <div>
-                    <span className="block font-mono uppercase text-gray-400">Ends</span>
-                    <span className="font-semibold text-ink">{formatDateTime(item.endAt)}</span>
+                    <span className="block font-mono uppercase text-muted">Ends</span>
+                    <span className="font-semibold text-content">{formatDateTime(item.endAt)}</span>
                   </div>
                 )}
                 {item.locationType === "PHYSICAL" && item.venueAddress && (
                   <div className="sm:col-span-2">
-                    <span className="block font-mono uppercase text-gray-400">Venue Location</span>
-                    <span className="font-semibold text-ink">{item.venueAddress}</span>
+                    <span className="block font-mono uppercase text-muted">Venue Location</span>
+                    <span className="font-semibold text-content">{item.venueAddress}</span>
                   </div>
                 )}
                 {item.locationType === "ONLINE" && item.onlineLink && (
                   <div className="sm:col-span-2">
-                    <span className="block font-mono uppercase text-gray-400">Online Access URL</span>
+                    <span className="block font-mono uppercase text-muted">Online Access URL</span>
                     <a href={item.onlineLink} target="_blank" rel="noreferrer" className="font-mono text-brand underline">
                       {item.onlineLink}
                     </a>
@@ -84,7 +84,7 @@ export default function ContentDetail({
           {item.type === "PROGRAM" && (
             <div className="aristocratic-card mb-8 flex items-center justify-between rounded-2xl border border-brand/30 p-6">
               <div>
-                <span className="block font-mono text-[10px] uppercase tracking-widest text-gray-400">Status</span>
+                <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">Status</span>
                 <span className="text-base font-bold uppercase text-brand">{item.programStatus || "ENROLLING"}</span>
               </div>
               <Link
@@ -98,12 +98,12 @@ export default function ContentDetail({
 
           {item.body ? (
             <div className="aristocratic-card rounded-2xl p-8 sm:p-10">
-              <div className="prose max-w-none leading-relaxed text-gray-700">
+              <div className="prose max-w-none leading-relaxed text-muted">
                 <RichText html={item.body} />
               </div>
             </div>
           ) : (
-            <div className="aristocratic-card rounded-2xl p-8 text-center text-xs text-gray-500">
+            <div className="aristocratic-card rounded-2xl p-8 text-center text-xs text-muted">
               Detailed documentation will be published shortly.
             </div>
           )}

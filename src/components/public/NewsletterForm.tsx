@@ -50,7 +50,7 @@ export default function NewsletterForm() {
           name="email"
           required
           placeholder="Enter your email address"
-          className="w-full rounded-l-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand focus:outline-none"
+          className="w-full rounded-l-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content placeholder:text-muted focus:border-brand focus:outline-none"
         />
         <button
           type="submit"
@@ -60,7 +60,7 @@ export default function NewsletterForm() {
           {status === "submitting" ? "…" : "Subscribe"}
         </button>
       </div>
-      <label className="mt-2.5 flex items-start gap-2 text-[11px] text-gray-600">
+      <label className="mt-2.5 flex items-start gap-2 text-[11px] text-muted">
         <input
           type="checkbox"
           name="consentGiven"

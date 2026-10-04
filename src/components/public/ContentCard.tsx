@@ -27,20 +27,20 @@ export default function ContentCard({ item, href, showDate }: CardProps) {
               </span>
             )}
             {showDate && item.publishedAt && (
-              <span className="font-mono text-[10px] text-gray-400">{formatDate(item.publishedAt)}</span>
+              <span className="font-mono text-[10px] text-muted">{formatDate(item.publishedAt)}</span>
             )}
           </div>
 
-          <h3 className="text-lg font-bold leading-snug text-ink transition-colors group-hover:text-brand">
+          <h3 className="text-lg font-bold leading-snug text-content transition-colors group-hover:text-brand">
             {item.title}
           </h3>
 
           {item.summary && (
-            <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-gray-600">{item.summary}</p>
+            <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">{item.summary}</p>
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-black/10 px-6 py-4 font-mono text-xs font-semibold uppercase tracking-wider text-brand">
+        <div className="flex items-center justify-between border-t border-edge px-6 py-4 font-mono text-xs font-semibold uppercase tracking-wider text-brand">
           <span>Read Details</span>
           <span className="transition-transform group-hover:translate-x-1">→</span>
         </div>

@@ -72,19 +72,20 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="bg-paper text-ink">
-      {/* Hero */}
-      <section className="relative flex min-h-[70vh] flex-col justify-end overflow-hidden border-b border-brand/20 bg-paper">
+    <div className="bg-surface text-content">
+      {/* Hero — always dark, image clearly visible */}
+      <section className="relative flex min-h-[80vh] flex-col justify-end overflow-hidden bg-ink">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/hero-bg.png"
             alt=""
-            className="h-full w-full object-cover object-center opacity-10"
+            className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/85 to-paper/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-end px-6 pb-20 pt-32">
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-end px-6 pb-20 pt-32 text-white">
           <div className="mb-6 flex items-center gap-3">
             <span className="h-px w-10 bg-brand"></span>
             <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
@@ -92,11 +93,11 @@ export default async function Home() {
             </span>
           </div>
 
-          <h1 className="mb-6 max-w-5xl text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          <h1 className="mb-6 max-w-5xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl">
             Turning Ideas Into Technology That Matters
           </h1>
 
-          <p className="mb-10 max-w-3xl text-base leading-relaxed text-gray-600 md:text-xl">
+          <p className="mb-10 max-w-3xl text-base leading-relaxed text-gray-200 md:text-xl">
             A technology research institution dedicated to transforming scientific ideas into practical engineering solutions — empowering researchers, students, and industrial partners across Africa.
           </p>
 
@@ -109,7 +110,7 @@ export default async function Home() {
             </Link>
             <Link
               href="/contact"
-              className="rounded-full border border-ink/25 px-8 py-4 text-center text-xs font-semibold uppercase tracking-super-wide text-ink transition-all duration-300 hover:border-brand hover:text-brand"
+              className="rounded-full border border-white/30 px-8 py-4 text-center text-xs font-semibold uppercase tracking-super-wide text-white transition-all duration-300 hover:border-brand hover:text-brand"
             >
               Request a Service
             </Link>
@@ -121,20 +122,20 @@ export default async function Home() {
       <section className="border-b border-brand/10 py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <h2 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-ink sm:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-content sm:text-5xl">
               Our Mission: Turning Ideas Into Impact
             </h2>
-            <p className="mb-6 text-base leading-relaxed text-gray-600 md:text-lg">
+            <p className="mb-6 text-base leading-relaxed text-muted md:text-lg">
               To advance technology research, scientific innovation, and practical capacity building by creating an environment where high-potential ideas are engineered into real-world solutions.
             </p>
             <div className="aristocratic-card mb-8 rounded-2xl border-l-4 border-brand p-6">
-              <p className="text-sm font-medium italic text-gray-700 md:text-base">
+              <p className="text-sm font-medium italic text-muted md:text-base">
                 &ldquo;Vision: To become a leading platform for technology research, innovation, and engineering excellence in Cameroon and central Africa.&rdquo;
               </p>
             </div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-super-wide text-ink transition-colors hover:text-brand"
+              className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-super-wide text-content transition-colors hover:text-brand"
             >
               <span>Read Full Institutional Overview</span>
               <span className="text-brand">→</span>
@@ -143,18 +144,18 @@ export default async function Home() {
 
           <div className="lg:col-span-5">
             <div className="aristocratic-card rounded-2xl p-8">
-              <div className="mb-6 flex items-center justify-between border-b border-black/10 pb-4">
-                <span className="font-mono text-xs uppercase tracking-widest text-gray-500">Metric Benchmarks</span>
+              <div className="mb-6 flex items-center justify-between border-b border-edge pb-4">
+                <span className="font-mono text-xs uppercase tracking-widest text-muted">Metric Benchmarks</span>
                 <span className="font-mono text-[10px] font-semibold tracking-wider text-brand">VERIFIED DATA</span>
               </div>
               <div className="space-y-6">
                 {METRICS.map((m) => (
-                  <div key={m.label} className="border-b border-black/5 pb-4 last:border-0 last:pb-0">
+                  <div key={m.label} className="border-b border-edge pb-4 last:border-0 last:pb-0">
                     <div className="flex items-baseline justify-between">
-                      <div className="text-3xl font-extrabold tracking-tight text-ink">{m.value}</div>
+                      <div className="text-3xl font-extrabold tracking-tight text-content">{m.value}</div>
                       <span className="font-mono text-[10px] font-semibold text-brand">{m.badge}</span>
                     </div>
-                    <div className="mt-1 text-xs font-medium uppercase tracking-wider text-gray-500">{m.label}</div>
+                    <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -164,11 +165,11 @@ export default async function Home() {
       </section>
 
       {/* Focus Areas */}
-      <section className="border-b border-brand/10 bg-white py-24">
+      <section className="border-b border-brand/10 bg-card py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
             <div>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-5xl">
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
                 What We Offer
               </h2>
             </div>
@@ -190,14 +191,14 @@ export default async function Home() {
                       {fa.tag}
                     </span>
                   </div>
-                  <h3 className="mb-3 text-lg font-bold text-ink transition-colors group-hover:text-brand">
+                  <h3 className="mb-3 text-lg font-bold text-content transition-colors group-hover:text-brand">
                     {fa.title}
                   </h3>
-                  <p className="mb-6 text-xs leading-relaxed text-gray-600">{fa.desc}</p>
+                  <p className="mb-6 text-xs leading-relaxed text-muted">{fa.desc}</p>
                 </div>
                 <Link
                   href="/services"
-                  className="flex items-center justify-between border-t border-black/10 pt-4 font-mono text-[11px] font-semibold uppercase tracking-wider text-brand"
+                  className="flex items-center justify-between border-t border-edge pt-4 font-mono text-[11px] font-semibold uppercase tracking-wider text-brand"
                 >
                   <span>Learn More</span>
                   <span>→</span>
@@ -213,7 +214,7 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
             <div>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-5xl">
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
                 Featured Projects
               </h2>
             </div>
@@ -229,14 +230,14 @@ export default async function Home() {
             {FALLBACK_PROJECTS.map((p) => (
               <div key={p.id} className="aristocratic-card flex flex-col justify-between rounded-2xl p-6">
                 <div>
-                  <div className="mb-3 flex items-center justify-between font-mono text-xs text-gray-500">
+                  <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted">
                     <span>{p.category}</span>
                     <span className="rounded-full border border-brand/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase text-brand">
                       {p.status}
                     </span>
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-ink">{p.title}</h3>
-                  <p className="mb-6 text-xs leading-relaxed text-gray-600">{p.desc}</p>
+                  <h3 className="mb-3 text-xl font-bold text-content">{p.title}</h3>
+                  <p className="mb-6 text-xs leading-relaxed text-muted">{p.desc}</p>
                 </div>
                 <Link
                   href="/projects"
@@ -255,10 +256,10 @@ export default async function Home() {
       <section className="py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
           <div>
-            <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
+            <div className="mb-8 flex items-center justify-between border-b border-edge pb-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-wider text-brand">Calendar</span>
-                <h3 className="mt-1 text-2xl font-bold text-ink">Upcoming Events</h3>
+                <h3 className="mt-1 text-2xl font-bold text-content">Upcoming Events</h3>
               </div>
               <Link href="/events" className="font-mono text-xs uppercase text-brand hover:underline">
                 All Events →
@@ -273,8 +274,8 @@ export default async function Home() {
                       <span className="font-mono text-[10px] uppercase tracking-wider text-brand">
                         {e.startAt ? new Date(e.startAt).toLocaleDateString() : "UPCOMING"}
                       </span>
-                      <h4 className="mt-1 text-base font-bold text-ink">{e.title}</h4>
-                      <p className="mt-1 text-xs text-gray-600">{e.summary || "BTRC Campus Hall"}</p>
+                      <h4 className="mt-1 text-base font-bold text-content">{e.title}</h4>
+                      <p className="mt-1 text-xs text-muted">{e.summary || "BTRC Campus Hall"}</p>
                     </div>
                     <Link
                       href={`/events/${e.slug}`}
@@ -285,7 +286,7 @@ export default async function Home() {
                   </div>
                 ))
               ) : (
-                <div className="aristocratic-card rounded-xl p-6 text-center text-xs text-gray-500">
+                <div className="aristocratic-card rounded-xl p-6 text-center text-xs text-muted">
                   No upcoming public events scheduled for this week. Check back soon!
                 </div>
               )}
@@ -293,10 +294,10 @@ export default async function Home() {
           </div>
 
           <div>
-            <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
+            <div className="mb-8 flex items-center justify-between border-b border-edge pb-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-wider text-brand">Publications</span>
-                <h3 className="mt-1 text-2xl font-bold text-ink">Latest News &amp; Papers</h3>
+                <h3 className="mt-1 text-2xl font-bold text-content">Latest News &amp; Papers</h3>
               </div>
               <Link href="/news" className="font-mono text-xs uppercase text-brand hover:underline">
                 All News →
@@ -310,14 +311,14 @@ export default async function Home() {
                     <span className="font-mono text-[10px] uppercase tracking-wider text-brand">
                       {n.publishedAt ? new Date(n.publishedAt).toLocaleDateString() : "RECENT RELEASE"}
                     </span>
-                    <h4 className="mt-1 text-base font-bold text-ink transition-colors hover:text-brand">
+                    <h4 className="mt-1 text-base font-bold text-content transition-colors hover:text-brand">
                       <Link href={`/news/${n.slug}`}>{n.title}</Link>
                     </h4>
-                    <p className="mt-2 line-clamp-2 text-xs text-gray-600">{n.summary || "Read full research article."}</p>
+                    <p className="mt-2 line-clamp-2 text-xs text-muted">{n.summary || "Read full research article."}</p>
                   </div>
                 ))
               ) : (
-                <div className="aristocratic-card rounded-xl p-6 text-center text-xs text-gray-500">
+                <div className="aristocratic-card rounded-xl p-6 text-center text-xs text-muted">
                   Visit our News section to read our latest press releases and scientific reports.
                 </div>
               )}

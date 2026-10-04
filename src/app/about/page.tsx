@@ -50,17 +50,17 @@ export default async function AboutPage() {
   });
 
   return (
-    <div className="min-h-screen bg-paper text-ink selection:bg-brand selection:text-white">
+    <div className="min-h-screen bg-surface text-content selection:bg-brand selection:text-white">
       {/* Header Banner */}
-      <section className="relative overflow-hidden border-b border-brand/20 bg-gradient-to-b from-white to-paper py-20">
+      <section className="relative overflow-hidden border-b border-brand/20 bg-gradient-to-b from-card to-surface py-20">
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
             Institutional Overview
           </span>
-          <h1 className="mt-2 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-6xl">
+          <h1 className="mt-2 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-content sm:text-6xl">
             About {org.name}
           </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-gray-600">
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
             {org.description ||
               "An independent scientific engineering and technology research facility located in Bambili, NW Region, Cameroon."}
           </p>
@@ -72,23 +72,23 @@ export default async function AboutPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-12">
           <div className="space-y-8 lg:col-span-8">
             <div className="aristocratic-card rounded-2xl p-8">
-              <h2 className="mb-4 border-b border-black/10 pb-3 text-2xl font-bold text-ink">
+              <h2 className="mb-4 border-b border-edge pb-3 text-2xl font-bold text-content">
                 Our Purpose & Operational Mandate
               </h2>
-              <p className="mb-4 text-sm leading-relaxed text-gray-600">
+              <p className="mb-4 text-sm leading-relaxed text-muted">
                 Founded to bridge the gap between academic theory and practical engineering output, we maintain state-of-the-art electronics cleanrooms, telemetry test stations, and software innovation labs.
               </p>
-              <p className="text-sm leading-relaxed text-gray-600">
+              <p className="text-sm leading-relaxed text-muted">
                 We work closely with university researchers, technical institutions, and industrial partners to design, build, and deploy robust hardware and software platforms across Central Africa.
               </p>
             </div>
 
             {page?.body && (
               <div className="aristocratic-card rounded-2xl p-8">
-                <h2 className="mb-4 border-b border-black/10 pb-3 text-2xl font-bold text-ink">
+                <h2 className="mb-4 border-b border-edge pb-3 text-2xl font-bold text-content">
                   Additional Details
                 </h2>
-                <div className="prose max-w-none text-gray-700">
+                <div className="prose max-w-none text-muted">
                   <RichText html={page.body} />
                 </div>
               </div>
@@ -96,13 +96,13 @@ export default async function AboutPage() {
 
             {/* Core Values */}
             <div>
-              <h3 className="mb-6 text-xl font-bold text-ink">Institutional Core Values</h3>
+              <h3 className="mb-6 text-xl font-bold text-content">Institutional Core Values</h3>
               <div className="grid gap-6 sm:grid-cols-2">
                 {CORE_VALUES.map((v) => (
                   <div key={v.title} className="aristocratic-card rounded-xl border border-brand/20 p-6">
                     <span className="mb-3 inline-block h-2 w-2 rounded-full bg-brand"></span>
-                    <h4 className="mb-2 text-base font-bold text-ink">{v.title}</h4>
-                    <p className="text-xs leading-relaxed text-gray-600">{v.desc}</p>
+                    <h4 className="mb-2 text-base font-bold text-content">{v.title}</h4>
+                    <p className="text-xs leading-relaxed text-muted">{v.desc}</p>
                   </div>
                 ))}
               </div>
@@ -112,20 +112,20 @@ export default async function AboutPage() {
           {/* Sidebar Info */}
           <div className="space-y-6 lg:col-span-4">
             <div className="aristocratic-card rounded-2xl p-6">
-              <h3 className="mb-4 border-b border-black/10 pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
+              <h3 className="mb-4 border-b border-edge pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
                 Campus Headquarters
               </h3>
-              <div className="space-y-3 text-sm text-gray-600">
+              <div className="space-y-3 text-sm text-muted">
                 <div>
-                  <span className="block font-mono uppercase text-gray-400">Location</span>
-                  <span className="font-semibold text-ink">Bambili Campus, NW Region, Cameroon</span>
+                  <span className="block font-mono uppercase text-muted">Location</span>
+                  <span className="font-semibold text-content">Bambili Campus, NW Region, Cameroon</span>
                 </div>
                 <div>
-                  <span className="block font-mono uppercase text-gray-400">Primary Email</span>
+                  <span className="block font-mono uppercase text-muted">Primary Email</span>
                   <span className="font-mono font-semibold text-brand">inquiries@btrc-center.org</span>
                 </div>
                 <div>
-                  <span className="block font-mono uppercase text-gray-400">Facility Status</span>
+                  <span className="block font-mono uppercase text-muted">Facility Status</span>
                   <span className="inline-block rounded border border-brand/30 bg-brand/10 px-2 py-0.5 font-mono text-[10px] text-brand">
                     Active Residency Labs
                   </span>
@@ -140,10 +140,10 @@ export default async function AboutPage() {
             </div>
 
             <div className="aristocratic-card rounded-2xl p-6">
-              <h3 className="mb-4 border-b border-black/10 pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
+              <h3 className="mb-4 border-b border-edge pb-3 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
                 Research Commons
               </h3>
-              <p className="mb-4 text-xs leading-relaxed text-gray-600">
+              <p className="mb-4 text-xs leading-relaxed text-muted">
                 Access open research papers, hardware documentation, software repositories, and dataset downloads.
               </p>
               <Link
@@ -158,12 +158,12 @@ export default async function AboutPage() {
       </section>
 
       {/* Leadership Section */}
-      <section className="bg-white py-20">
+      <section className="bg-card py-20">
         <div className="mx-auto max-w-7xl px-6">
           <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">
             Scientific Leadership
           </span>
-          <h2 className="mb-10 mt-2 text-3xl font-bold tracking-tight text-ink">
+          <h2 className="mb-10 mt-2 text-3xl font-bold tracking-tight text-content">
             Executive & Research Directorate
           </h2>
 
@@ -175,14 +175,14 @@ export default async function AboutPage() {
                     {m.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-ink">{m.name}</h3>
+                    <h3 className="text-base font-bold text-content">{m.name}</h3>
                     <p className="font-mono text-xs text-brand">{m.role}</p>
                   </div>
                 </div>
-                <div className="mb-3 rounded border border-black/5 bg-gray-50 p-2 font-mono text-[11px] text-gray-500">
+                <div className="mb-3 rounded border border-edge bg-gray-50 p-2 font-mono text-[11px] text-muted">
                   Focus: {m.focus}
                 </div>
-                <p className="text-xs leading-relaxed text-gray-600">{m.bio}</p>
+                <p className="text-xs leading-relaxed text-muted">{m.bio}</p>
               </div>
             ))}
           </div>

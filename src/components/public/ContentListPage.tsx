@@ -20,12 +20,12 @@ export default async function ContentListPage({ title, type, hrefPrefix, subtitl
   });
 
   return (
-    <div className="min-h-screen bg-paper text-ink">
+    <div className="min-h-screen bg-surface text-content">
       {/* Header Banner */}
-      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+      <section className="border-b border-brand/20 bg-gradient-to-b from-card to-surface py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">{title}</h1>
-          {subtitle && <p className="mt-3 max-w-2xl text-base text-gray-600">{subtitle}</p>}
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-content sm:text-5xl">{title}</h1>
+          {subtitle && <p className="mt-3 max-w-2xl text-base text-muted">{subtitle}</p>}
         </div>
       </section>
 
@@ -35,7 +35,7 @@ export default async function ContentListPage({ title, type, hrefPrefix, subtitl
           {items.length === 0 ? (
             <div className="aristocratic-card mx-auto max-w-xl rounded-2xl p-12 text-center">
               <span className="mb-2 block font-mono text-2xl text-brand">∅</span>
-              <p className="text-sm text-gray-500">No published {title.toLowerCase()} currently available.</p>
+              <p className="text-sm text-muted">No published {title.toLowerCase()} currently available.</p>
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

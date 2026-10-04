@@ -21,21 +21,48 @@
   --tracking-editorial: 0.12em;
 }
 
+/* Theme tokens that flip with the `.dark` class on <html> */
+:root {
+  --app-bg: #f5f5dc;
+  --app-card: #ffffff;
+  --app-fg: #0a0f1c;
+  --app-muted: #4b5563;
+  --app-edge: rgba(29, 168, 109, 0.16);
+  --app-glass: rgba(255, 255, 255, 0.9);
+}
+
+.dark {
+  --app-bg: #0a0f1c;
+  --app-card: #121829;
+  --app-fg: #f5f5dc;
+  --app-muted: #9ca3af;
+  --app-edge: rgba(29, 168, 109, 0.2);
+  --app-glass: rgba(10, 15, 28, 0.85);
+}
+
+@theme inline {
+  --color-surface: var(--app-bg);
+  --color-card: var(--app-card);
+  --color-content: var(--app-fg);
+  --color-muted: var(--app-muted);
+  --color-edge: var(--app-edge);
+}
+
 @layer base {
   html, body {
-    background-color: #f5f5dc;
-    color: #0a0f1c;
+    background-color: var(--app-bg);
+    color: var(--app-fg);
     font-family: var(--font-sans);
     scroll-behavior: smooth;
   }
 }
 
-/* Light Aristocratic Card Surfaces */
+/* Glassmorphism & Card Surfaces */
 .glass-surface {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--app-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(29, 168, 109, 0.18);
+  border: 1px solid var(--app-edge);
 }
 
 .glass-surface-dark {
@@ -46,15 +73,15 @@
 }
 
 .aristocratic-card {
-  background: #ffffff;
-  border: 1px solid rgba(29, 168, 109, 0.16);
-  box-shadow: 0 4px 24px -12px rgba(10, 15, 28, 0.12);
+  background: var(--app-card);
+  border: 1px solid var(--app-edge);
+  box-shadow: 0 4px 24px -12px rgba(10, 15, 28, 0.14);
   transition: all 0.3s ease;
 }
 
 .aristocratic-card:hover {
   border-color: rgba(29, 168, 109, 0.5);
-  box-shadow: 0 12px 32px -12px rgba(29, 168, 109, 0.25);
+  box-shadow: 0 12px 32px -12px rgba(29, 168, 109, 0.28);
   transform: translateY(-2px);
 }
 
@@ -76,7 +103,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5f5dc;
+  background: var(--app-bg);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(29, 168, 109, 0.4);

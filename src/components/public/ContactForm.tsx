@@ -45,8 +45,8 @@ export default function ContactForm() {
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-xl text-brand">
           ✓
         </div>
-        <h3 className="text-lg font-bold text-ink">Message Received</h3>
-        <p className="mx-auto max-w-md text-xs leading-relaxed text-gray-600">
+        <h3 className="text-lg font-bold text-content">Message Received</h3>
+        <p className="mx-auto max-w-md text-xs leading-relaxed text-muted">
           Thank you for reaching out. Your inquiry has been routed to the relevant department and an officer will respond promptly.
         </p>
       </div>
@@ -74,7 +74,7 @@ export default function ContactForm() {
             minLength={2}
             maxLength={100}
             placeholder="Your full name"
-            className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand focus:outline-none"
+            className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content placeholder:text-muted focus:border-brand focus:outline-none"
           />
         </div>
 
@@ -88,7 +88,7 @@ export default function ContactForm() {
             type="email"
             required
             placeholder="you@example.org"
-            className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand focus:outline-none"
+            className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content placeholder:text-muted focus:border-brand focus:outline-none"
           />
         </div>
       </div>
@@ -104,7 +104,7 @@ export default function ContactForm() {
           minLength={3}
           maxLength={150}
           placeholder="Research Collaboration or General Inquiry"
-          className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand focus:outline-none"
+          className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content placeholder:text-muted focus:border-brand focus:outline-none"
         />
       </div>
 
@@ -120,11 +120,11 @@ export default function ContactForm() {
           maxLength={5000}
           rows={5}
           placeholder="Describe your inquiry, laboratory needs, or research proposal..."
-          className="w-full rounded-xl border border-brand/30 bg-white px-4 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand focus:outline-none"
+          className="w-full rounded-xl border border-brand/30 bg-card px-4 py-3 text-sm text-content placeholder:text-muted focus:border-brand focus:outline-none"
         />
       </div>
 
-      <label className="flex items-start gap-2.5 text-xs text-gray-600">
+      <label className="flex items-start gap-2.5 text-xs text-muted">
         <input
           type="checkbox"
           name="consentGiven"

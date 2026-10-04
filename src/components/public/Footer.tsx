@@ -24,14 +24,14 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-brand/20 bg-white text-ink">
+    <footer className="border-t border-brand/20 bg-card text-content">
       <div className="mx-auto max-w-7xl px-6 py-14">
         {/* Newsletter */}
-        <div className="mb-14 rounded-2xl border border-brand/20 bg-paper p-8 md:p-10">
+        <div className="mb-14 rounded-2xl border border-brand/20 bg-surface p-8 md:p-10">
           <div className="grid gap-6 md:grid-cols-2 md:items-center">
             <div>
               <h3 className="text-2xl font-bold tracking-tight">Subscribe to Newsletter</h3>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-muted">
                 Receive research briefs, upcoming events, and fellowship opportunities directly in your inbox.
               </p>
             </div>
@@ -43,7 +43,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-4">
           <div>
             <img src="/images/icon.svg" alt="" className="h-10 w-10" />
-            <p className="mt-4 text-xs leading-relaxed text-gray-600">
+            <p className="mt-4 text-xs leading-relaxed text-muted">
               Advancing practical scientific engineering, technological research, and innovation in Bamenda, Cameroon.
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 text-sm">
               {NAV_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-gray-600 transition-colors hover:text-brand">
+                  <Link href={l.href} className="text-muted transition-colors hover:text-brand">
                     {l.label}
                   </Link>
                 </li>
@@ -70,7 +70,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 text-sm">
               {RESOURCE_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-gray-600 transition-colors hover:text-brand">
+                  <Link href={l.href} className="text-muted transition-colors hover:text-brand">
                     {l.label}
                   </Link>
                 </li>
@@ -82,7 +82,7 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
               Campus
             </h4>
-            <p className="mt-4 text-sm text-gray-600">Bambili Campus, NW Region, Cameroon</p>
+            <p className="mt-4 text-sm text-muted">Bambili Campus, NW Region, Cameroon</p>
             <p className="mt-2 text-sm">
               <a href="mailto:inquiries@btrc-center.org" className="font-mono text-brand hover:underline">
                 inquiries@btrc-center.org
@@ -96,7 +96,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/30 text-[10px] font-mono font-semibold text-gray-600 transition-all hover:border-brand hover:bg-brand/10 hover:text-brand"
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-brand/30 text-[10px] font-mono font-semibold text-muted transition-all hover:border-brand hover:bg-brand/10 hover:text-brand"
                 >
                   {s.label}
                 </a>
@@ -106,7 +106,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-black/10 pt-6 text-xs text-gray-500 md:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-edge pt-6 text-xs text-muted md:flex-row">
           <p>© 2026 All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="transition-colors hover:text-brand">
@@ -115,7 +115,7 @@ export default function Footer() {
             <Link href="/contact" className="transition-colors hover:text-brand">
               Contact Us
             </Link>
-            <Link href="/admin/login" className="font-mono text-gray-400 transition-colors hover:text-brand">
+            <Link href="/admin/login" className="font-mono text-muted transition-colors hover:text-brand">
               Admin Portal
             </Link>
           </div>

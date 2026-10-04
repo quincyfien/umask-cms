@@ -18,12 +18,12 @@ export default async function DownloadsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-paper text-ink">
-      <section className="border-b border-brand/20 bg-gradient-to-b from-white to-paper py-16">
+    <div className="min-h-screen bg-surface text-content">
+      <section className="border-b border-brand/20 bg-gradient-to-b from-card to-surface py-16">
         <div className="mx-auto max-w-7xl px-6">
           <span className="font-mono text-xs font-semibold uppercase tracking-super-wide text-brand">Research Commons</span>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Downloads & Resources</h1>
-          <p className="mt-3 max-w-2xl text-base text-gray-600">
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-content sm:text-5xl">Downloads & Resources</h1>
+          <p className="mt-3 max-w-2xl text-base text-muted">
             Access published research papers, hardware documentation, datasets, and technical manuals.
           </p>
         </div>
@@ -34,29 +34,29 @@ export default async function DownloadsPage() {
           {resources.length === 0 ? (
             <div className="aristocratic-card mx-auto max-w-xl rounded-2xl p-12 text-center">
               <span className="mb-2 block font-mono text-2xl text-brand">∅</span>
-              <p className="text-sm text-gray-500">No resources published yet. Check back soon.</p>
+              <p className="text-sm text-muted">No resources published yet. Check back soon.</p>
             </div>
           ) : (
             <div className="aristocratic-card overflow-hidden rounded-2xl">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-black/10 text-left">
-                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Resource</th>
-                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Category</th>
-                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Summary</th>
-                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-gray-500">Published</th>
+                  <tr className="border-b border-edge text-left">
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-muted">Resource</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-muted">Category</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-muted">Summary</th>
+                    <th className="px-5 py-3 font-mono uppercase tracking-wider text-muted">Published</th>
                   </tr>
                 </thead>
                 <tbody>
                   {resources.map((r) => {
                     const details = r.details as { url?: string; mimeType?: string; size?: number } | null;
                     return (
-                      <tr key={r.id} className="border-b border-black/5 transition-colors hover:bg-brand/5">
+                      <tr key={r.id} className="border-b border-edge transition-colors hover:bg-brand/5">
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
                             <span className="text-2xl">{getMimeIcon(details?.mimeType ?? null)}</span>
                             <div>
-                              <p className="font-semibold text-ink">{r.title}</p>
+                              <p className="font-semibold text-content">{r.title}</p>
                               {details?.url && (
                                 <a
                                   href={details.url}
@@ -77,8 +77,8 @@ export default async function DownloadsPage() {
                             </span>
                           ) : "—"}
                         </td>
-                        <td className="max-w-xs truncate px-5 py-4 text-gray-500">{r.summary || "—"}</td>
-                        <td className="px-5 py-4 font-mono text-gray-500">
+                        <td className="max-w-xs truncate px-5 py-4 text-muted">{r.summary || "—"}</td>
+                        <td className="px-5 py-4 font-mono text-muted">
                           {r.publishedAt ? r.publishedAt.toISOString().slice(0, 10) : "—"}
                         </td>
                       </tr>

@@ -23,9 +23,14 @@ export const metadata: Metadata = {
   description: "Practical Innovation & Scientific Engineering",
 };
 
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('btrc-theme');if(t==='light'){document.documentElement.classList.remove('dark')}}catch(e){}})();`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+    <html lang="en" className={`dark ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <Shell header={<Header />} footer={<Footer />}>
           {children}
