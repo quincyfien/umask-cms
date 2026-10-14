@@ -48,6 +48,13 @@ const RULES: Omit<Rule, "value">[] = [
     desc: "Number of items per page on Services, Programs, Projects, Events and News.",
   },
   {
+    section: "Content & Publishing",
+    key: "homepage.services_count",
+    label: "Homepage Services Count",
+    type: "number",
+    desc: "Number of recent services displayed on the landing page (multiples of 3, e.g. 3, 6).",
+  },
+  {
     section: "Communications",
     key: "newsletter_enabled",
     label: "Newsletter Signup Enabled",

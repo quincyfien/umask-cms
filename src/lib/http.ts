@@ -1,5 +1,6 @@
 import { ZodError } from "zod";
 import { env } from "./env";
+import { logger } from "./logger";
 
 export type ProblemDetails = {
   code: string;
@@ -55,6 +56,9 @@ export function validationError(
 
 export function toErrorResponse(err: unknown, instance?: string): Response {
   if (err instanceof ApiError) {
+    if (err.status >= 500) {
+      logger.error(`API Error: ${err.message}`, err, { code: err.code, status: err.status, instance });
+    }
     return problem(err.status, err.code, err.message, instance, err.errors);
   }
   if (err instanceof ZodError) {
@@ -63,6 +67,6 @@ export function toErrorResponse(err: unknown, instance?: string): Response {
       instance,
     );
   }
-  console.error(err);
+  logger.error("Unhandled API error", err, { instance });
   return problem(500, "INTERNAL_ERROR", "An unexpected error occurred.", instance);
 }

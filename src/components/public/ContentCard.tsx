@@ -1,48 +1,75 @@
 import Link from "next/link";
 import type { ContentItem } from "@prisma/client";
-import { formatDate } from "@/lib/format";
 
 type CardProps = {
-  item: ContentItem & { category?: { name: string } | null };
+  item: ContentItem;
   href: string;
-  showDate?: boolean;
 };
 
-export default function ContentCard({ item, href, showDate }: CardProps) {
-  return (
-    <Link href={href} className="group block">
-      <div className="aristocratic-card flex h-full flex-col justify-between overflow-hidden rounded-2xl">
-        {item.featuredImageId && (
-          <img
-            src={`/api/media/${item.featuredImageId}`}
-            alt={item.title}
-            className="h-40 w-full object-cover"
-          />
-        )}
-        <div className="p-6">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            {item.category && (
-              <span className="inline-block rounded-full border border-brand/30 bg-brand/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-brand">
-                {item.category.name}
-              </span>
-            )}
-            {showDate && item.publishedAt && (
-              <span className="font-mono text-[10px] text-muted">{formatDate(item.publishedAt)}</span>
-            )}
-          </div>
+export default function ContentCard({ item, href }: CardProps) {
+  const details = (item.details ?? {}) as Record<string, unknown>;
+  
+  // Extract possible lists from details to form two bulleted lists
+  const list1 = (Array.isArray(details.offerings) ? details.offerings : Array.isArray(details.capabilities) ? details.capabilities : Array.isArray(details.objectives) ? details.objectives : []) as string[];
+  const list2 = (Array.isArray(details.parameters) ? details.parameters : Array.isArray(details.requirements) ? details.requirements : Array.isArray(details.eligibility) ? details.eligibility : []) as string[];
 
-          <h3 className="text-lg font-bold leading-snug text-content transition-colors group-hover:text-brand">
+  return (
+    <Link href={href} className="group block h-full">
+      <div className="flex h-full flex-col overflow-hidden bg-card border border-edge transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
+        <div className="h-56 w-full shrink-0 bg-ink overflow-hidden">
+          {item.featuredImageId ? (
+            <img
+              src={`/api/media/${item.featuredImageId}`}
+              alt={item.title}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand/10 to-card">
+              <span className="font-mono text-xs text-muted uppercase tracking-widest">No Image</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex flex-1 flex-col p-8">
+          <h3 className="mb-4 text-2xl font-serif font-bold leading-tight text-content group-hover:text-brand transition-colors">
             {item.title}
           </h3>
 
           {item.summary && (
-            <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">{item.summary}</p>
+            <p className="mb-8 text-sm leading-relaxed text-muted font-light">
+              {item.summary}
+            </p>
           )}
-        </div>
 
-        <div className="flex items-center justify-between border-t border-edge px-6 py-4 font-mono text-xs font-semibold uppercase tracking-wider text-brand">
-          <span>Read Details</span>
-          <span className="transition-transform group-hover:translate-x-1">→</span>
+          <div className="mt-auto grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {Array.isArray(list1) && list1.length > 0 && (
+              <div>
+                <h4 className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-widest text-brand">Core Offerings</h4>
+                <ul className="space-y-2">
+                  {list1.slice(0, 3).map((val: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-2 text-xs text-muted">
+                      <span className="text-brand">✦</span>
+                      <span className="leading-tight">{val}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {Array.isArray(list2) && list2.length > 0 && (
+              <div>
+                <h4 className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-widest text-brand">Access Parameters</h4>
+                <ul className="space-y-2">
+                  {list2.slice(0, 3).map((val: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-2 text-xs text-muted">
+                      <span className="text-brand">✦</span>
+                      <span className="leading-tight">{val}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Link>

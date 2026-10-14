@@ -27,7 +27,7 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function StaffManager({ initialStaff, roles }: { initialStaff: StaffRow[]; roles: Role[] }) {
   const router = useRouter();
-  const [staff, setStaff] = useState(initialStaff);
+  const [staff] = useState(initialStaff);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [busy, setBusy] = useState(false);
 

@@ -17,8 +17,11 @@ export default async function AdminLayout({
     { href: "/admin/applications", label: "Applications", icon: "📝", show: hasPermission(user, "applications.view") },
     { href: "/admin/projects", label: "Projects", icon: "🔬", show: hasPermission(user, "content.create") },
     { href: "/admin/events", label: "Events", icon: "📅", show: hasPermission(user, "content.create") },
+    { href: "/admin/contacts", label: "Contact Inbox", icon: "📬", show: hasPermission(user, "contacts.view") },
     { href: "/admin/content", label: "News & Pages", icon: "📰", show: hasPermission(user, "content.create") },
     { href: "/admin/media", label: "Media Library", icon: "🖼️", show: hasPermission(user, "media.upload") },
+    { href: "/admin/roles", label: "Roles & Perms", icon: "🛡️", show: hasPermission(user, "staff.manage") },
+    { href: "/admin/settings/hero", label: "Hero Banner", icon: "✨", show: user.isSuperAdmin },
     { href: "/admin/settings/business-rules", label: "Business Rules", icon: "⚖️", show: user.isSuperAdmin },
     { href: "/admin/settings/org", label: "Org Info", icon: "🏛️", show: user.isSuperAdmin },
     { href: "/admin/staff", label: "Staff Accounts", icon: "👥", show: hasPermission(user, "staff.manage") },
@@ -32,12 +35,10 @@ export default async function AdminLayout({
         <div>
           {/* Header Brand */}
           <div className="border-b border-brand/20 p-5 flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/20 border border-brand/40 text-brand font-mono font-bold text-base">
-              B
-            </div>
+            <img src="/images/logo.png" alt="UNMASK Logo" className="h-8 w-8 object-contain" />
             <div>
               <Link href="/admin" className="font-bold text-sm text-white tracking-wider uppercase block">
-                BTRC Admin
+                UNMASK Admin
               </Link>
               <span className="text-[10px] font-mono text-brand">CMS CONTROL PANEL</span>
             </div>

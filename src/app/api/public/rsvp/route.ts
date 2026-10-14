@@ -18,6 +18,7 @@ const schema = z.object({
   fullName: z.string().min(2).max(100),
   email: z.string().email().max(254),
   phone: z.string().max(30).optional(),
+  reason: z.string().max(1000).optional(),
   consentGiven: z.boolean(),
   idempotencyKey: z.string().uuid(),
   turnstileToken: z.string().optional(),

@@ -49,9 +49,9 @@ export default async function Footer() {
         {/* Link Columns */}
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <img src="/images/icon.svg" alt="" className="h-10 w-10" />
+            <img src="/images/logo.png" alt="UNMASK" className="h-10 w-auto object-contain" />
             <p className="mt-4 text-xs leading-relaxed text-muted">
-              Advancing practical scientific engineering, technological research, and innovation in Bamenda, Cameroon.
+              Advancing practical scientific engineering, technological research, and innovation .
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export default async function Footer() {
 
         {/* Copyright */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-edge pt-6 text-xs text-muted md:flex-row">
-          <p>© 2026 All rights reserved.</p>
+          <p>© 2026 UNMASK. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="transition-colors hover:text-brand">
               Privacy Policy
@@ -131,3 +131,4 @@ export default async function Footer() {
     </footer>
   );
 }
+

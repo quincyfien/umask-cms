@@ -18,6 +18,7 @@ export default function ResetPasswordPage() {
           <Link href="/admin/login" className="text-xs font-mono text-brand hover:underline uppercase tracking-wider inline-flex items-center gap-1">
             <span>← Back to Sign In</span>
           </Link>
+          <img src="/images/logo.png" alt="UNMASK Logo" className="mx-auto h-16 w-16 object-contain mb-3" />
           <span className="text-[10px] font-mono tracking-super-wide uppercase text-brand font-semibold block mt-4">
             SECURITY RECOVERY
           </span>
@@ -32,7 +33,7 @@ export default function ResetPasswordPage() {
             <span className="text-brand font-mono text-xl block">✉</span>
             <h2 className="text-base font-bold text-white">Reset Link Dispatched</h2>
             <p className="text-xs text-gray-300">
-              If your email is registered in the BTRC Staff Directory, password recovery instructions have been sent.
+              If your email is registered in the UNMASK Staff Directory, password recovery instructions have been sent.
             </p>
           </div>
         ) : (

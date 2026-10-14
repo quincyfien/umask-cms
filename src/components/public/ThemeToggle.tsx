@@ -30,7 +30,7 @@ export default function ThemeToggle() {
     const next = !dark;
     document.documentElement.classList.toggle("dark", next);
     try {
-      localStorage.setItem("btrc-theme", next ? "dark" : "light");
+      localStorage.setItem("unmask-theme", next ? "dark" : "light");
     } catch {
       // ignore storage errors
     }

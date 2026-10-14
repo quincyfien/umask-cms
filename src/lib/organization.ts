@@ -12,7 +12,7 @@ export type Organization = {
 };
 
 const DEFAULT_ORG: Organization = {
-  name: "Bamenda Tech Research Center",
+  name: "UNMASK",
   description: "Practical Innovation & Scientific Engineering",
   address: "",
   phone: "",

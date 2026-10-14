@@ -21,12 +21,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 transition-all duration-300 glass-surface border-b border-brand/20 text-content">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         {/* Brand Logo (home button) */}
-        <Link href="/" className="group flex items-center">
+        <Link href="/" className="group flex items-center gap-3">
           <img
             src="/images/logo.png"
-            alt="Home"
+            alt="UNMASK"
             className="h-11 w-auto object-contain transition-transform group-hover:scale-105"
           />
+          <span className="font-bold text-lg uppercase tracking-super-wide text-brand transition-colors group-hover:text-brand-hover">UNMASK</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -100,3 +101,4 @@ export default function Header() {
     </header>
   );
 }
+

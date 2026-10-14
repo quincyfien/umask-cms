@@ -63,6 +63,10 @@ export async function getPaginationSize(): Promise<number> {
   return getSetting<number>("pagination.items_per_page", 12);
 }
 
+export async function getHomepageServicesCount(): Promise<number> {
+  return getSetting<number>("homepage.services_count", 6);
+}
+
 export async function isTurnstileEnabled(): Promise<boolean> {
   return getSetting<boolean>("turnstile_enabled", false);
 }

@@ -235,7 +235,7 @@ async function main() {
     venueAddress: "Bambili Campus Auditorium",
     registrationEnabled: true,
     capacity: 200,
-    details: { organizer: "BTRC Programs Directorate" },
+    details: { organizer: "UNMASK Programs Directorate" },
   });
   await upsertContent({
     type: "EVENT",
@@ -268,7 +268,7 @@ async function main() {
   // News
   await upsertContent({
     type: "NEWS",
-    title: "BTRC Secures Research Instrumentation Grant",
+    title: "UNMASK Secures Research Instrumentation Grant",
     slug: "instrumentation-grant",
     summary: "New funding expands cleanroom and telemetry instrumentation capacity.",
     details: { byline: "Communications Office", publicationDate: daysFromNow(-2) },
@@ -311,7 +311,7 @@ async function main() {
     create: {
       key: "organization",
       value: {
-        name: "Bamenda Tech Research Center",
+        name: "UNMASK",
         description: "Practical Innovation & Scientific Engineering",
         address: "Bambili Campus, NW Region, Cameroon",
         phone: "+237 6XX XXX XXX",

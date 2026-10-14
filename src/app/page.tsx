@@ -1,71 +1,42 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { getHeroConfig, getMetrics, resolveMetricValues } from "@/lib/settings";
-
-const FOCUS_AREAS = [
-  {
-    code: "SEC-01",
-    title: "Applied AI & Robotics",
-    desc: "Autonomous systems, localized machine learning models, and computer vision hardware for African agricultural & industrial challenges.",
-    tag: "LABORATORY 01",
-  },
-  {
-    code: "SEC-02",
-    title: "Embedded Systems & IoT",
-    desc: "Low-power microcontrollers, telemetry sensors, and custom PCB hardware prototyping for real-time remote monitoring.",
-    tag: "LABORATORY 02",
-  },
-  {
-    code: "SEC-03",
-    title: "Renewable Energy & Power Systems",
-    desc: "Microgrid telemetry, solar battery management systems, and smart grid automation engineered for regional resilience.",
-    tag: "LABORATORY 03",
-  },
-  {
-    code: "SEC-04",
-    title: "Technical Training & Research Commons",
-    desc: "Hands-on residency bootcamps, open access scientific documentation, and academic fellowship supervision.",
-    tag: "ACADEMIC COMMONS",
-  },
-];
-
-const FALLBACK_PROJECTS = [
-  {
-    id: "PRJ-01",
-    title: "AgriSense Autonomous Crop Telemetry",
-    category: "IoT & Agriculture",
-    status: "Active Deployment",
-    desc: "Solar-powered sensor array delivering microclimate metrics to local smallholder farms.",
-  },
-  {
-    id: "PRJ-02",
-    title: "Micro-Grid Energy Orchestrator",
-    category: "Renewables",
-    status: "Field Testing",
-    desc: "Intelligent battery management unit optimizing hybrid solar-diesel mini grids.",
-  },
-  {
-    id: "PRJ-03",
-    title: "Neural Speech Synthesizer",
-    category: "Applied AI",
-    status: "Research Paper Published",
-    desc: "Speech synthesis and speech-to-text models trained on local Cameroonian languages.",
-  },
-];
+import { getHeroConfig, getMetrics, resolveMetricValues, getHomepageServicesCount } from "@/lib/settings";
+import { computeProgramStatus, ProgramDetails } from "@/lib/program";
 
 export default async function Home() {
-  const [events, news, hero, metrics] = await Promise.all([
+  const [events, news, hero, metrics, servicesCount] = await Promise.all([
     prisma.contentItem.findMany({
       where: { type: "EVENT", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: { publishedAt: "desc" },
       take: 3,
     }),
     prisma.contentItem.findMany({
       where: { type: "NEWS", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: { publishedAt: "desc" },
       take: 3,
     }),
     getHeroConfig(),
-    resolveMetricValues(await getMetrics()),
+    getMetrics().then(resolveMetricValues),
+    getHomepageServicesCount(),
   ]);
+
+  const [services, allPrograms] = await Promise.all([
+    prisma.contentItem.findMany({
+      where: { type: "SERVICE", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: [{ isPinned: "desc" }, { publishedAt: "desc" }],
+      take: servicesCount,
+    }),
+    prisma.contentItem.findMany({
+      where: { type: "PROGRAM", status: "PUBLISHED", accessLevel: "PUBLIC", deletedAt: null },
+      orderBy: [{ isPinned: "desc" }, { publishedAt: "desc" }],
+    }),
+  ]);
+
+  // Filter programs to only show upcoming or ongoing (open for application)
+  const activePrograms = allPrograms.filter((p) => {
+    const status = computeProgramStatus(p.details as unknown as ProgramDetails);
+    return status === "UPCOMING" || status === "ONGOING";
+  }).slice(0, 3); // show max 3 on homepage
 
   const heroImage = hero.backgroundImageId
     ? `/api/media/${hero.backgroundImageId}`
@@ -160,93 +131,99 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Focus Areas */}
-      <section className="border-b border-brand/10 bg-card py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
-            <div>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
-                What We Offer
-              </h2>
-            </div>
-            <Link
-              href="/services"
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-brand hover:underline md:mt-0"
-            >
-              View All Services &amp; Labs →
-            </Link>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {FOCUS_AREAS.map((fa) => (
-              <div key={fa.code} className="aristocratic-card group flex flex-col justify-between rounded-2xl p-6">
-                <div>
-                  <div className="mb-4 flex items-center justify-between font-mono text-xs text-brand">
-                    <span>{fa.code}</span>
-                    <span className="rounded border border-brand/20 bg-brand/10 px-2 py-0.5 text-[10px] text-brand">
-                      {fa.tag}
-                    </span>
-                  </div>
-                  <h3 className="mb-3 text-lg font-bold text-content transition-colors group-hover:text-brand">
-                    {fa.title}
-                  </h3>
-                  <p className="mb-6 text-xs leading-relaxed text-muted">{fa.desc}</p>
-                </div>
-                <Link
-                  href="/services"
-                  className="flex items-center justify-between border-t border-edge pt-4 font-mono text-[11px] font-semibold uppercase tracking-wider text-brand"
-                >
-                  <span>Learn More</span>
-                  <span>→</span>
-                </Link>
+      {/* Services Section */}
+      {services.length > 0 && (
+        <section className="border-b border-brand/10 bg-card py-24">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
+              <div>
+                <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
+                  Services We Offer
+                </h2>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Projects */}
-      <section className="border-b border-brand/10 py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
-            <div>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
-                Featured Projects
-              </h2>
+              <Link
+                href="/services"
+                className="mt-4 font-mono text-xs uppercase tracking-widest text-brand hover:underline md:mt-0"
+              >
+                View All Services &amp; Labs →
+              </Link>
             </div>
-            <Link
-              href="/projects"
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-brand hover:underline md:mt-0"
-            >
-              Browse Project Repository →
-            </Link>
-          </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {FALLBACK_PROJECTS.map((p) => (
-              <div key={p.id} className="aristocratic-card flex flex-col justify-between rounded-2xl p-6">
-                <div>
-                  <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted">
-                    <span>{p.category}</span>
-                    <span className="rounded-full border border-brand/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase text-brand">
-                      {p.status}
-                    </span>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {services.map((s) => (
+                <div key={s.id} className="aristocratic-card group flex flex-col justify-between rounded-2xl p-6">
+                  <div>
+                    {s.featuredImageId && (
+                      <img src={`/api/media/${s.featuredImageId}`} alt={s.title} className="mb-4 h-40 w-full rounded-xl object-cover" />
+                    )}
+                    <h3 className="mb-3 text-xl font-bold text-content transition-colors group-hover:text-brand">
+                      {s.title}
+                    </h3>
+                    <p className="mb-6 text-sm leading-relaxed text-muted">{s.summary}</p>
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-content">{p.title}</h3>
-                  <p className="mb-6 text-xs leading-relaxed text-muted">{p.desc}</p>
+                  <Link
+                    href="/services"
+                    className="flex items-center justify-between border-t border-edge pt-4 font-mono text-[11px] font-semibold uppercase tracking-wider text-brand"
+                  >
+                    <span>Contact Us</span>
+                    <span>→</span>
+                  </Link>
                 </div>
-                <Link
-                  href="/projects"
-                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-brand transition-colors hover:text-brand-hover"
-                >
-                  <span>Explore Case Study</span>
-                  <span>→</span>
-                </Link>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Programs Section */}
+      {activePrograms.length > 0 && (
+        <section className="border-b border-brand/10 py-24">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="mb-12 flex flex-col justify-between md:flex-row md:items-end">
+              <div>
+                <h2 className="mt-2 text-3xl font-bold tracking-tight text-content sm:text-5xl">
+                  Programs & Fellowships
+                </h2>
+              </div>
+              <Link
+                href="/programs"
+                className="mt-4 font-mono text-xs uppercase tracking-widest text-brand hover:underline md:mt-0"
+              >
+                View All Programs →
+              </Link>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {activePrograms.map((p) => {
+                const badge = computeProgramStatus(p.details as unknown as ProgramDetails);
+                return (
+                  <div key={p.id} className="aristocratic-card flex flex-col justify-between rounded-2xl p-6">
+                    <div>
+                      {p.featuredImageId && (
+                        <img src={`/api/media/${p.featuredImageId}`} alt={p.title} className="mb-4 h-40 w-full rounded-xl object-cover" />
+                      )}
+                      <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted">
+                        <span className="rounded-full border border-brand/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase text-brand">
+                          {badge}
+                        </span>
+                      </div>
+                      <h3 className="mb-3 text-xl font-bold text-content">{p.title}</h3>
+                      <p className="mb-6 text-xs leading-relaxed text-muted">{p.summary}</p>
+                    </div>
+                    <Link
+                      href={`/programs/${p.slug}`}
+                      className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-brand transition-colors hover:text-brand-hover"
+                    >
+                      <span>Explore Program</span>
+                      <span>→</span>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Events & News */}
       <section className="py-24">
@@ -271,7 +248,7 @@ export default async function Home() {
                         {e.startAt ? new Date(e.startAt).toLocaleDateString() : "UPCOMING"}
                       </span>
                       <h4 className="mt-1 text-base font-bold text-content">{e.title}</h4>
-                      <p className="mt-1 text-xs text-muted">{e.summary || "BTRC Campus Hall"}</p>
+                      <p className="mt-1 text-xs text-muted">{e.summary || "UNMASK Campus Hall"}</p>
                     </div>
                     <Link
                       href={`/events/${e.slug}`}

@@ -25,12 +25,13 @@ export default async function ServicesPage({
   const totalPages = Math.max(1, Math.ceil(total / perPage));
 
   return (
-    <div className="min-h-screen bg-surface text-content">
+    <div className="min-h-screen bg-surface text-content relative">
       <section className="border-b border-edge bg-gradient-to-b from-card to-surface py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">Services & Labs</h1>
-          <p className="mt-3 max-w-2xl text-base text-muted">
-            Research infrastructure, equipment access, mentorship, and technical consulting.
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl font-serif">Services We Offer</h1>
+          <div className="mt-4 h-px w-24 bg-brand/50"></div>
+          <p className="mt-6 max-w-2xl text-base text-muted tracking-wide">
+            Explore our professional services and laboratory offerings. Contact us to initiate an engagement.
           </p>
         </div>
       </section>
@@ -43,54 +44,71 @@ export default async function ServicesPage({
               <p className="text-sm text-muted">No services published yet.</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {services.map((svc) => {
-                const details = (svc.details ?? {}) as { capabilities?: string[] };
+                const details = (svc.details ?? {}) as { capabilities?: string[], requirements?: string[] };
                 return (
-                  <div key={svc.id} className="aristocratic-card flex flex-col gap-6 rounded-2xl p-6 sm:flex-row sm:items-center">
-                    <div className="h-28 w-full shrink-0 overflow-hidden rounded-xl bg-card sm:h-24 sm:w-40">
+                  <div key={svc.id} className="aristocratic-card flex flex-col rounded-xl overflow-hidden bg-card border border-edge">
+                    {/* High-quality representative image */}
+                    <div className="h-48 w-full shrink-0 bg-ink">
                       {svc.featuredImageId ? (
                         <img src={`/api/media/${svc.featuredImageId}`} alt={svc.title} className="h-full w-full object-cover" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand/20 to-card">
-                          <img src="/images/icon.svg" alt="" className="h-10 w-10 opacity-70" />
+                           <span className="text-muted text-xs font-mono">No Image</span>
                         </div>
                       )}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <h2 className="text-lg font-bold">{svc.title}</h2>
-                        {svc.category && (
-                          <span className="rounded-full border border-brand/30 bg-brand/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-brand">
-                            {svc.category.name}
-                          </span>
+                    
+                    <div className="flex-1 p-6 flex flex-col">
+                      <h2 className="text-xl font-bold font-serif mb-2">{svc.title}</h2>
+                      {svc.summary && <p className="text-sm text-muted mb-6 leading-relaxed">{svc.summary}</p>}
+                      
+                      {/* Structured sub-lists */}
+                      <div className="mt-auto space-y-4">
+                        {details.capabilities && details.capabilities.length > 0 && (
+                          <div>
+                            <h4 className="font-mono text-[10px] uppercase tracking-widest text-brand mb-2">Core Offerings</h4>
+                            <ul className="space-y-1">
+                              {details.capabilities.map((c) => (
+                                <li key={c} className="flex items-start gap-2 text-xs text-muted">
+                                  <span className="text-brand mt-0.5">•</span>
+                                  <span>{c}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {details.requirements && details.requirements.length > 0 && (
+                          <div>
+                            <h4 className="font-mono text-[10px] uppercase tracking-widest text-brand mb-2">Access Parameters</h4>
+                            <ul className="space-y-1">
+                              {details.requirements.map((r) => (
+                                <li key={r} className="flex items-start gap-2 text-xs text-muted">
+                                  <span className="text-brand mt-0.5">•</span>
+                                  <span>{r}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
                       </div>
-                      {svc.summary && <p className="mt-2 text-sm text-muted">{svc.summary}</p>}
-                      {details.capabilities && details.capabilities.length > 0 && (
-                        <ul className="mt-3 flex flex-wrap gap-2">
-                          {details.capabilities.map((c) => (
-                            <li key={c} className="flex items-center gap-1.5 rounded-full border border-edge px-2.5 py-1 font-mono text-[11px] text-muted">
-                              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                              {c}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                     </div>
                   </div>
                 );
               })}
             </div>
           )}
-          <Pagination page={page} totalPages={totalPages} basePath="/services" />
+          <div className="mt-12">
+            <Pagination page={page} totalPages={totalPages} basePath="/services" />
+          </div>
         </div>
       </section>
 
       {/* Floating Contact Us */}
       <Link
         href="/contact"
-        className="fixed bottom-6 right-6 z-40 rounded-full bg-brand px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-brand/30 transition-all hover:bg-brand-hover hover:shadow-brand/50"
+        className="fixed bottom-8 right-8 z-50 rounded-full bg-brand px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white shadow-xl shadow-brand/40 transition-all hover:bg-brand-hover hover:scale-105"
       >
         Contact Us
       </Link>

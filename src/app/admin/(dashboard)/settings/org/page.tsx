@@ -5,7 +5,7 @@ import { requirePagePermission } from "@/lib/auth";
 async function handleSave(formData: FormData) {
   "use server";
   await saveOrganization({
-    name: (formData.get("name") as string) || "Bamenda Tech Research Center",
+    name: (formData.get("name") as string) || "UNMASK",
     description: (formData.get("description") as string) || "",
     address: (formData.get("address") as string) || "",
     phone: (formData.get("phone") as string) || "",

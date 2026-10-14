@@ -4,6 +4,7 @@ export default function AccessDeniedPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink px-4 py-12 text-paper">
       <div className="w-full max-w-md rounded-2xl border border-red-500/30 bg-ink-light p-10 text-center">
+        <img src="/images/logo.png" alt="UNMASK Logo" className="mx-auto mb-4 h-16 w-16 object-contain opacity-80" />
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 text-2xl text-red-400">
           ⛔
         </div>

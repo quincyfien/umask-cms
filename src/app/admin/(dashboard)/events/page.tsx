@@ -116,6 +116,9 @@ export default async function AdminEventsPage({
                     </span>
                   </td>
                   <td className="px-5 py-3 text-right space-x-3 font-mono">
+                    <Link href={`/admin/events/${evt.id}/registrations`} className="text-gray-300 hover:text-brand">
+                      RSVPs
+                    </Link>
                     <Link href={`/admin/content/${evt.id}`} className="text-brand hover:underline">
                       Edit
                     </Link>

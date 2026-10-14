@@ -4,6 +4,8 @@ import { requirePermission } from "@/lib/auth";
 import { storagePut } from "@/lib/storage";
 import { toErrorResponse, problem } from "@/lib/http";
 
+import { scanFile } from "@/lib/scanner";
+
 const MAX_SIZE = 10 * 1024 * 1024;
 const ALLOWED_TYPES = [
   "application/pdf",
@@ -46,6 +48,11 @@ export async function POST(request: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
+    const scan = await scanFile(buffer);
+    if (scan.status === "INFECTED") {
+      return problem(422, "FILE_INFECTED", `Malware identified: ${scan.threatName || "Infected payload"}`);
+    }
+
     const key = `clean/${randomUUID()}-${safeName(file.name)}`;
     await storagePut(key, buffer);
 

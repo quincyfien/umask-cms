@@ -55,7 +55,7 @@ async function main() {
     });
   }
 
-  const email = process.env.SUPER_ADMIN_EMAIL ?? "admin@btrc.example";
+  const email = process.env.SUPER_ADMIN_EMAIL ?? "admin@unmask.example";
   const password = process.env.SUPER_ADMIN_PASSWORD ?? "ChangeMe!123";
 
   const existing = await prisma.staff.findUnique({ where: { email } });
